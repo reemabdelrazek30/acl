@@ -20,7 +20,7 @@ app.listen(3001,() => {
 app.get("/", (req, res) => {
   Flight.find({})
    //res.json(users)
-  .then(flights =>  console.log(flights))
+  .then(users =>  res.json(users))
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -65,3 +65,13 @@ app.get("/searchByflightNumber/:flight_Number", (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
   });
   //-----------------// get all flights
+
+  //------ to delete a flight--//
+  app.delete("/delete/:id",async (req,res)=>{
+    const id=req.params.id;
+    
+    await Flight.findByIdAndRemove(id).exec();
+    // res.send("flight deleted");
+  });
+ 
+

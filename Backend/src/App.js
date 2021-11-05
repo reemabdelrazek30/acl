@@ -8,9 +8,9 @@ import Flight from "./Components/Flight";
 function App() {
   return (
     <div className="App">
-     {/*  <Flight/>*/}
+   {    <Flight/> }
 
-  {/*    <Router>
+  {  /*  <Router>
         <Switch>
              <Route exactpath = "/createFlight" component={CreateFlight}/>
           </Switch>
