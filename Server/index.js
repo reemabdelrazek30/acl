@@ -17,10 +17,10 @@ mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
 app.listen(3001,() => {
    console.log("listening..");
 })
-app.get("/", (req, res) => {
+app.get("/allFlights", (req, res) => {
   Flight.find({})
    //res.json(users)
-  .then(flights =>  console.log(flights))
+  .then(users =>  res.send(users))
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
