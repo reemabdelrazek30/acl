@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const Flight = require("./models/Flight")
 const MongoURL = 'mongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const cors = require('cors')
+//const {body-parser} = require('body-parser');
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cors());
@@ -25,16 +26,6 @@ app.get("/", (req, res) => {
 app.post('/addFlight', async (req,res) =>
 {
     const new_flight = new Flight(req.body);
-    /* const Flight_Number=(req.body.Flight_Number)
-    const Departure_Date= Date.parse(req.body.Departure_Date)
-    const Departure_Time=req.body.Departure_Time
-    const Arrival_Date= Date.parse(req.body.Arrival_Date)
-    const Arrival_Time=req.body.Arrival_Time
-    const Departure_Airport=req.body.Departure_Airport
-    const Arrival_Airport=req.body.Arrival_Airport
-    const Number_of_Economy_seats= Number(req.body.Number_of_Economy_seats)
-    const Number_of_Business_seats= Number(req.body.Number_of_Business_seats)*/
-    const new_flight= new Flight({})
     await new_flight.save().then(()=> res.json('flight is added')).catch(err => res.status(400).json('Error: '+err))
 });
 
@@ -43,6 +34,7 @@ app.put('/updateFlight', async (req,res) =>
     const new_flight = new Flight(req.body);
     const id=(req.body.id)
     const Flight_Number=(req.body.Flight_Number)
+    
     const Departure_Date= Date.parse(req.body.Departure_Date)
     const Departure_Time=req.body.Departure_Time
     const Arrival_Date= Date.parse(req.body.Arrival_Date)
@@ -100,3 +92,12 @@ app.get("/searchByflightNumber/:flight_Number", (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
   });
   //-----------------// get all flights
+
+  //------ to delete a flight--//
+  app.delete("/delete/:id",async (req,res)=>{
+    const id=req.params.id;
+    await Flight.findByIdAndRemove(id).exec();
+    // res.send("flight deleted");
+  });
+ 
+
