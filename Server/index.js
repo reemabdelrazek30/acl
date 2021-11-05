@@ -20,7 +20,7 @@ app.listen(3001,() => {
 app.get("/", (req, res) => {
   Flight.find({})
    //res.json(users)
-  .then(flights =>  console.log(flights))
+  .then(flights =>  res.json(flights))
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -64,4 +64,5 @@ app.get("/searchByflightNumber/:flight_Number", (req, res) => {
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
   });
+
   //-----------------// get all flights
