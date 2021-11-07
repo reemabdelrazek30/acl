@@ -11,6 +11,8 @@ app.use(express.urlencoded({extended:false}));
 app.use(cors());
 app.use(express.static("public"))
 app.use(methodOverride('_method'));
+require('dotenv').config();
+MongoURL = process.env.MongoURL;
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
 .catch(err => console.log(err));
@@ -34,37 +36,12 @@ app.post('/addFlight', async (req,res) =>
     await new_flight.save().then(()=> res.json('flight is added')).catch(err => res.status(400).json('Error: '+err))
 });
 
-
-app.get("/searchByflightNumber/:flight_Number", (req, res) => {
-    Flight.find({"Flight_Number":req.params.flight_Number})
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
- });
-  //-----------------//
-  app.get("/searchByDate/:date", (req, res) => {
-    Flight.find({"Flight_Date":req.params.date})
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-  });
+app.get("/schedule", (req, res) => {
+  Flight.find({}).sort("Departure_Date").sort("Departure_Time")
   
-  //------------------//
-  app.get("/searchByDeparture_Time/:Departure_Time", (req, res) => {
-    Flight.find({"Departure_Time":req.params.Departure_Time})
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-  });
-  //--------------------//
-  app.get("/searchByArrival_Time/:Arrival_Time", (req, res) => {
-    Flight.find({"Arrival_Time":req.params.Arrival_Time})
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-  });
-  //---------------//
-  app.get("/searchByAirport/:Airport", (req, res) => {
-    Flight.find({"Airport":req.params.Airport})
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-  });
+  .then(users =>  res.json(users))
+  .catch(err => res.status(400).json('Error: ' + err));
+})
   //-----------------// get all flights
 
   //------ to delete a flight--//

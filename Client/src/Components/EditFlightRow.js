@@ -30,7 +30,7 @@ export const EditFlightRow = ({val,editFormData, handleEditFormChange }) => { //
 
       </td>
       <td>
-        <input type="time" name="Departure_Time" value={editFormData.Departure_Time} onChange={(event) => {
+        <input type="text" name="Departure_Time" value={editFormData.Departure_Time} onChange={(event) => {
           handleEditFormChange(event);
         }} />
       </td>
@@ -45,7 +45,7 @@ export const EditFlightRow = ({val,editFormData, handleEditFormChange }) => { //
         }} />
       </td>
       <td>
-        <input type="time" name="Arrival_Time" placeholder="" value={editFormData.Arrival_Time} onChange={(event) => {
+        <input type="text" name="Arrival_Time" placeholder="" value={editFormData.Arrival_Time} onChange={(event) => {
           handleEditFormChange(event);
         }} />
       </td>
