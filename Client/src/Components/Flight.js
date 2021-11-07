@@ -81,7 +81,7 @@ export default function Flight() {
       {/* <div> <h1> Flights</h1></div> */}
       <table>
         <thead>
-        <Search handlleSearchTermChange={handleSearchTermsChange}/>
+        <Search handlleSearchTermsChange={handleSearchTermsChange}/>
           <tr>
             <th>Flight Number</th>
             <th>Departure Date</th>
