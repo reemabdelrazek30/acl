@@ -1,177 +1,113 @@
-import React,{ useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import './Flight.css'
 import Axios from "axios";
-<<<<<<< HEAD:Client/src/Components/Flight.js
-import UpdateFlight from './EditFlight'
+import { ReadableRow } from './ReadableRow';
+import { EditFlightRow } from './EditFlightRow';
+import { Fragment } from 'react';
+import  {Popup}  from './Popup.js';
+import { Search } from './search_frontend';
 
-const Flight = () => {
-  const[allflights,setAllflights]=useState([])
-=======
-import Popup from  './Popup';
-
-const Flight = () => {
-
- const[popupbutton,setpopupbutton]=useState(false); 
- const[aflight,setaflight]=useState([]);
-
- const[allflights,setAllflights]=useState([]);
- const[searchterm,setsearch]=useState([]);
- const[searchDD,setsearchDD]=useState([]);
- const[searchDT,setsearchDT]=useState([]);
- const[searchDA,setsearchDA]=useState([]);
->>>>>>> origin/esraa:Backend/src/Components/Flight.js
-
-  useEffect(() =>{
-    Axios.get("http://localhost:3001/").then((Response)=> {
-      setAllflights(Response.data)
+export default function Flight() {
+  const [allflights, setAllflights] = useState([]);
+  const [EditedFlightId, setEditingFlightId] = useState(null);
+  const [toBeDeletedFlight, setDeletedFlight] = useState([]);
+  const [popupbutton,setpopupbutton] = useState(false);
+  const [searchActiveTerms,activateSearchTerms] =  
+  useState(
+    {
+      Flight_Number: "",
+      Departure_Date: "",
+      Departure_Time: "",
+      Arrival_Date: "",
+      Arrival_Time: "",
+      Departure_Airport: "",
+      Arrival_Airport: "",
+      Number_of_Economy_Seats: "",
+      Number_of_Business_Seats: ""
     })
-  
-  
-  },[]);
-
-
-
-  const button_action=(value)=>{
-    setpopupbutton(true);
-    setaflight(value);
+    const handleSearchTermsChange = () => 
+    {  
+        // activateSearchTerms(searchFormData);
+         console.log("searching");
+    }
+  const [editFormData, setEditFormData] = useState(
+    {
+      Flight_Number: "",
+      Departure_Date: "",
+      Departure_Time: "",
+      Arrival_Date: "",
+      Arrival_Time: "",
+      Departure_Airport: "",
+      Arrival_Airport: "",
+      Number_of_Economy_Seats: "",
+      Number_of_Business_Seats: ""
+    })
+  const handleEditClick = (event, val) => {
+    //event.preventDefault();
+    setEditingFlightId(val._id);
+    const formValues =
+    {
+      Flight_Number: val.Flight_Number,
+      Departure_Date: val.Departure_Date,
+      Departure_Time: val.Departure_Time,
+      Arrival_Date: val.Arrival_Date,
+      Arrival_Time: val.Arrival_Time,
+      Departure_Airport: val.Departure_Airport,
+      Arrival_Airport: val.Arrival_Airport,
+      Number_of_Economy_Seats: val.Number_of_Economy_seats,
+      Number_of_Business_Seats: val.Number_of_Business_seats
+    }
+    setEditFormData(formValues);
   }
 
- 
+  const handleEditFormChange = (event) => {
+    //event.preventDefault();
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+    const newFormData = { ...editFormData };
+    newFormData[fieldName] = fieldValue;
+    setEditFormData(newFormData);
+  }
+  const handleDeleteClick = (val) => {
+    setpopupbutton(true);
+    setDeletedFlight(val);
+    console.log("I'm here");
+  }
+  
+  useEffect(() => { Axios.get("http://localhost:3001/").then((Response) => setAllflights(Response.data)) }, []);
 
+  return (
+    <div className="app-container">
+      {/* <div> <h1> Flights</h1></div> */}
+      <table>
+        <thead>
+        <Search handlleSearchTermChange={handleSearchTermsChange}/>
+          <tr>
+            <th>Flight Number</th>
+            <th>Departure Date</th>
+            <th>Departure time</th>
+            <th>Departure Airport</th>
+            <th>Arrival Date</th>
+            <th>Arrival time</th>
+            <th>Arrival Airport</th>
+            <th>Economy Class Seats</th>
+            <th>Business Class Seats</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {allflights.map(val => (
+            <Fragment>
+              {(EditedFlightId === val._id) ? (
+                <EditFlightRow editFormData={editFormData} handleEditFormChange={handleEditFormChange} val={val} />) :
+                (<ReadableRow val={val} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick} />)}
+            </Fragment>))}
+        </tbody>
+      </table>
+      <Popup trigger={popupbutton} setTrigger={setpopupbutton} delete_flight={toBeDeletedFlight} ><h2>Are you sure you want to delete the following flight:</h2></Popup>
+    </div>
 
-  return (<div className="app-container">
-    <h1> Flights</h1>
-    <table>
-    <tbody>  
-     <tr>
-<<<<<<< HEAD:Client/src/Components/Flight.js
-       <th>Flight Number</th>
-=======
-       <th>flight Number</th>
->>>>>>> origin/esraa:Backend/src/Components/Flight.js
-       <th>Departure Date</th>
-       <th>Departure time</th>
-       <th>Departure Airport</th>
-       <th>Arrival Date</th>
-       <th>Arrival time</th>
-       <th>Arrival Airport</th>
-       <th>Economy Class Seats</th>
-       <th>Business Class Seats</th>
-       <th>Actions</th>
-       
-       </tr>
-     
-      <tr>
-      <td><input type="Number" placeholder="Flight Number" onChange={(event)=> {setsearch(event.target.value); }} /></td> 
-      <td><input type="Date" placeholder="Departure Date" onChange={(event)=> {setsearchDD(event.target.value); }} /></td> 
-      <td><input type="String" placeholder="Departure Time" onChange={(event)=> {setsearchDT(event.target.value); }} /></td> 
-      <td><input type="String"  placeholder="Departure Airport" onChange={(event)=> {setsearch(event.target.value); }} /></td> 
-      <td><input type="Date"   /></td> 
-      <td><input type="String"/></td> 
-      <td><input type="String"  /></td> 
-      <td></td> 
-      <td></td> 
-
-      <td>
-      {/*<button onClick={()=> filterflights()}>filter</button>*/}
-      </td>
-      
-      
-      </tr>
-    
-      
-<<<<<<< HEAD:Client/src/Components/Flight.js
-   {allflights.map((val,key)=>{
-     return (<tr>
-=======
-   {allflights.filter((val)=> {
-     return val
-    //  if(searchterm == ""  ){
-    //   return val
-    // } else if(val.Flight_Number == searchterm  ){
-    //    return val
-    // }
-     
-    
-{/*   if(searchterm == "" &searchDD=="" &searchDT=="" & searchDA== ""){
-      return val
-    } else if(searchterm==val.Flight_Number &searchDT==""   &searchDD==""  & searchDA== ""   ){
-      return  val
-    }else if(searchterm == "" & val.Departure_Time.includes(searchDT) &searchDD=="" & searchDA== ""  ){
-      return val
-    }else if(searchterm == "" &searchDT==""  & val.Departure_Date.includes(searchDD) & searchDA== ""  ){
-      return val
-    }
-    
-    else if(searchterm == "" &searchDT==""  &searchDD==""&  val.Departure_Airport.includes(searchDA)   ){
-        return val
-    }else if(searchterm==val.Flight_Number  &searchDD==""  &  val.Departure_Airport.includes(searchDA)   ){
-      return val
-    }else if(searchterm =="" &val.Departure_Date.includes(searchDD)  &  val.Departure_Airport.includes(searchDA)   ){
-    return val
-    }else if(searchterm ==val.Flight_Number  &val.Departure_Date.includes(searchDD)  &  val.Departure_Airport.includes(searchDA)   ){
-      return val
-    }
-  */}
-
-
-{ /*   switch(searchterm | searchDA){
-      case ""|"":
-      case val.Flight_Number | "":
-      case "" | val.Departure_Airport:
-      case val.Flight_Number | val.Departure_Airport: return val; break;
-    }
-  */ }
-
-   })
-   .map((val)=>{
-     return (
-        <tr  key={val._id}>  
->>>>>>> origin/esraa:Backend/src/Components/Flight.js
-       <td>{val.Flight_Number }</td> 
-       <td>{val.Departure_Date} </td> 
-       <td>{val.Departure_Time }</td>
-       <td>{val.Departure_Airport} </td>  
-       <td>{val.Arrival_Date} </td> 
-       <td>{val.Arrival_Time} </td> 
-       <td>{val.Arrival_Airport} </td> 
-       <td>{val.Number_of_Economy_seats} </td> 
-<<<<<<< HEAD:Client/src/Components/Flight.js
-       <td>{val.Number_of_Business_seats} </td>
-       <button onClick={() => {UpdateFlight(val._id)}}>Edit</button>
-       <button>Delete</button>
-=======
-       <td>{val.Number_of_Business_seats} </td> 
-       <td>  <button>Edit</button>
-       {/*<button onClick={()=> deleteFlight(val._id)}>Delete</button>*/}
-       <button onClick={()=> button_action(val)}>Delete</button>
-
-       
-       </td> 
->>>>>>> origin/esraa:Backend/src/Components/Flight.js
-       </tr>
-     
-       )
-   })}
-
-   </tbody>
-  </table>
-   
-  <Popup trigger={popupbutton}  setTrigger={setpopupbutton} delete_flight={aflight} >
-         <h2>Are you sure you want to delete the following flight:</h2>
-         <h3>Flight Number:{aflight.Flight_Number }</h3> 
-         <h3>Departure Date: {aflight.Departure_Date}  </h3> 
-         <h3>Departure Time: {aflight.Departure_Date}  </h3>
-         <h3>Departure Airport: {aflight.Departure_Airport}  </h3>
-         <h3>Arrival Date: {aflight.Arrival_Date}  </h3>
-         <h3>Arrival Time: {aflight.Arrival_Time}  </h3>
-         <h3>Arrival Airport: {aflight.Arrival_Airport}  </h3>
-         <h3>Number of Economy seats: {aflight.Number_of_Economy_seats}  </h3>
-         <h3>Number of Business seats: {aflight.Number_of_Business_seats}  </h3>
-       </Popup>
-    
-  </div>
   )
+
 }
 
-export default Flight
