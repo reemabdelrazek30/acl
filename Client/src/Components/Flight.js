@@ -98,10 +98,11 @@ export default function Flight() {
      { console.log("im here 4 ");flag = false;}
     if (searchActiveTerms.Arrival_Time !== "" && val.Arrival_Time !== searchActiveTerms.Arrival_Time)
      { console.log("im here 5 ");flag = false;}
-    if (searchActiveTerms.Departure_Date !== "" && val.Departure_Date !== searchActiveTerms.Departure_Date)
+    if (searchActiveTerms.Departure_Date !== "" && !val.Departure_Date.includes(searchActiveTerms.Departure_Date))
     {console.log("here t 1")
     console.log(val.Flight_Number);
-    console.log(searchActiveTerms.Flight_Number)}
+    console.log(val.Departure_Date);
+    console.log(searchActiveTerms.Departure_Date); flag=false;}
     if (searchActiveTerms.Departure_Time !== "" && val.Departure_Time !== searchActiveTerms.Departure_Time)
       flag = false;
     return flag;

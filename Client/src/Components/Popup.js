@@ -13,7 +13,7 @@ export function Popup(props) {
         {props.children}
         <h3>Flight Number:{props.delete_flight.Flight_Number}</h3>
         <h3>Departure Date: {props.delete_flight.Departure_Date}  </h3>
-        <h3>Departure Time: {props.delete_flight.Departure_Date}  </h3>
+        <h3>Departure Time: {props.delete_flight.Departure_Time}  </h3>
         <h3>Departure Airport: {props.delete_flight.Departure_Airport}  </h3>
         <h3>Arrival Date: {props.delete_flight.Arrival_Date}  </h3>
         <h3>Arrival Time: {props.delete_flight.Arrival_Time}  </h3>
