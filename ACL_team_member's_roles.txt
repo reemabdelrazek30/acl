@@ -1,5 +1,0 @@
-Nouran Khaled : Backend methods
-Salma El-Shafey: Create Flight
-Reem Abd Elrazek: managed overall project(fixed errors and connected backend with frontend and env. file) + search/filter flights
-Islam medhat: Edit Flight and Home page
-Esraa Ahmed: Delete Flight and popup 
