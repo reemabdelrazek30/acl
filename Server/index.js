@@ -2,7 +2,7 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
 const Flight = require("./models/Flight")
-const MongoURL = 'mongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+//const dotenv=require('')
 const cors = require('cors')
 //const {body-parser} = require('body-parser');
 const methodOverride = require('method-override');
@@ -11,8 +11,8 @@ app.use(express.urlencoded({extended:false}));
 app.use(cors());
 app.use(express.static("public"))
 app.use(methodOverride('_method'));
-// require('dotenv').config();
-// MongoURL = process.env.MongoURL;
+require('dotenv').config();
+const MongoURL = process.env.MongoURL;
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
 .catch(err => console.log(err));
