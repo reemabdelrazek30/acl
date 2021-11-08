@@ -4,6 +4,7 @@ Server/.DS_Store
 .env
 .DS_Store
 
+# Logs
 logs
 *.log
 npm-debug.log*
