@@ -11,8 +11,8 @@ app.use(express.urlencoded({extended:false}));
 app.use(cors());
 app.use(express.static("public"))
 app.use(methodOverride('_method'));
-require('dotenv').config();
-MongoURL = process.env.MongoURL;
+// require('dotenv').config();
+// MongoURL = process.env.MongoURL;
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
 .catch(err => console.log(err));

@@ -2,9 +2,11 @@ import React from 'react'
 import { useState } from "react";
 import Axios from "axios";
 import './createFlight.css';
+import { useHistory } from 'react-router';
 
 export default function CreateFlight()
 { 
+    let history = useHistory();
     const [number, setNumber] = useState(0);
     const [depDate, setDDate] = useState("");
     const [depTime, setDTime] = useState("");
@@ -89,6 +91,7 @@ export default function CreateFlight()
         <div class="btn-block">
           <button onClick={addFlight}>Create Flight</button>
         </div>
+        <button onclick={() => {history.push("/")}}>Home Page</button>
     </div>
     </form>
 );}
