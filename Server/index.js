@@ -2,9 +2,12 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
 const Flight = require("./models/Flight")
+const User = require('./models/User');
 const MongoURL = 'mongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const cors = require('cors')
 //const {body-parser} = require('body-parser');
+
+
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cors());
@@ -20,9 +23,28 @@ app.listen(3001,() => {
 app.get("/", (req, res) => {
   Flight.find({})
    //res.json(users)
-  .then(flights =>  console.log(flights))
+  .then(flights =>  res.json(flights))
   .catch(err => res.status(400).json('Error: ' + err));
 });
+app.get("/schedule", (req, res) => {
+  Flight.find({}).sort("Departure_Date").sort("Departure_Time")
+  
+  .then(users =>  res.json(users))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+
+
+app.post('/addUser',  async(req,res) =>
+{
+  const Name=req.body.Name
+  
+
+  const new_user= new User({
+    Name
+  })
+  new_user.save().then(()=> res.json('added')).catch(err => res.status(400).json('Error: '+err))
+})
 
 app.post('/addFlight', async (req,res) =>
 {
@@ -51,10 +73,10 @@ app.put('/updateFlight', async (req,res) =>
 {
     // console.log("here");
     
-    // console.log(req.body);  //Sha8al
+    console.log(req.body);  //Sha8al
     // const new_flight = new Flight(req.body);
     // console.log('passed'); // it never comes here
-    const id=(req.body.id)
+    const id=(req.body._id)
     const Flight_Number=(req.body.Flight_Number)
   const Departure_Date= Date.parse(req.body.Departure_Date)
   const Departure_Time=req.body.Departure_Time
@@ -67,6 +89,47 @@ app.put('/updateFlight', async (req,res) =>
   const Number_of_Business_seats= Number(req.body.Number_of_Business_seats)
 try{
   await Flight.findById(id,(err,newf)=>{
+    console.log("newf");
+    newf.Flight_Number=Flight_Number
+    newf.Departure_Date=Departure_Date
+    newf.Departure_Time=Departure_Time
+    newf.Arrival_Date=Arrival_Date
+    newf.Arrival_Time=Arrival_Time
+    newf.Departure_Airport=Departure_Airport
+    newf.Arrival_Airport=Arrival_Airport
+    newf.Number_of_Economy_seats=Number_of_Economy_seats
+    newf.Number_of_Business_seats=Number_of_Business_seats
+    newf.save()
+    res.send("updated")
+
+  })
+}catch(err){
+  console.log(err)
+}
+  
+   
+});
+app.put('/test/:id', async (req,res) =>
+{
+    // console.log("here");
+    
+    console.log(req.body);  //Sha8al
+    // const new_flight = new Flight(req.body);
+    // console.log('passed'); // it never comes here
+    const id=(req.params.id)
+    const Flight_Number=(req.body.Flight_Number)
+  const Departure_Date= Date.parse(req.body.Departure_Date)
+  const Departure_Time=req.body.Departure_Time
+  const Arrival_Date= Date.parse(req.body.Arrival_Date)
+  const Arrival_Time=req.body.Arrival_Time
+  const Departure_Airport=req.body.Departure_Airport
+  const Arrival_Airport=req.body.Arrival_Airport
+  const Number_of_Economy_seats= Number(req.body.Number_of_Economy_seats)
+  
+  const Number_of_Business_seats= Number(req.body.Number_of_Business_seats)
+try{
+  await Flight.findById(id,(err,newf)=>{
+    console.log("newf");
     newf.Flight_Number=Flight_Number
     newf.Departure_Date=Departure_Date
     newf.Departure_Time=Departure_Time
