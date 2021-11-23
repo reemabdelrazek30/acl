@@ -152,4 +152,3 @@ export default function Flight_schedule() {
   )
 
 }
-

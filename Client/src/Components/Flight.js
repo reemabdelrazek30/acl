@@ -6,8 +6,10 @@ import { EditFlightRow } from './EditFlightRow';
 import { Fragment } from 'react';
 import { Popup } from './Popup.js';
 import { Search } from './search_frontend';
+import { useHistory } from 'react-router';
 
 export default function Flight() {
+  let history = useHistory();
   const [allflights, setAllflights] = useState([]);
   const [EditedFlightId, setEditingFlightId] = useState(null);
   const [toBeDeletedFlight, setDeletedFlight] = useState([]);
@@ -147,6 +149,7 @@ export default function Flight() {
         </tbody>
       </table>
       <Popup trigger={popupbutton} setTrigger={setpopupbutton} delete_flight={toBeDeletedFlight} ><h2>Are you sure you want to delete the following flight:</h2></Popup>
+      <button onClick={() => {history.push('/')}}>Return to Home Page</button>
     </div>
 
   )
