@@ -6,7 +6,6 @@ import Hpage from './Components/Hpage';
 import Flight_schedule from './Components/Flight_schedule';
 
 
-
 function App() {
   return (
     
@@ -16,6 +15,7 @@ function App() {
         <Route exact path="/Flight" component={Flight} />
         <Route exact path="/CreateFlight" component={CreateFlight}/>
         <Route exact path="/Flightschedule" component={Flight_schedule}/>
+        {/* <Route exact path="/SeatsMap" component={SeatsMap}/> */}
       </Switch>
     </Router>
 

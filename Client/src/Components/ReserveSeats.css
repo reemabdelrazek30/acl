@@ -1,0 +1,51 @@
+.sectionLeft
+{
+    background-color: #e8e4da;
+    float: left;
+    border-radius: 5px;
+}
+.sectionRight
+{
+    background-color: #e8e4da;
+    float: right;
+}
+.reserved
+{
+   width:70px;
+   height:70px;
+   margin: 0px 0px;
+   background-color:#929c99;
+   font-size: 20px;
+   color: white;
+   border: none;;
+   border-radius: 5px;
+   box-shadow: 8px 8px 8px #888888;
+}
+.unreserved
+{
+   width:70px;
+   height:70px;
+   margin: 0px 0px;
+   background-color: #43d8a6;
+   font-size: 20px;
+   color: white;
+   border: none;;
+   border-radius: 5px;
+   box-shadow: 8px 8px 8px #888888;
+}
+.selected
+{
+    width: 70px;
+    height: 70px;
+    margin: 0px 0px;
+    background-color: #2ed658;
+    font-size: 20px;
+    color: white;
+    border: none;;
+    border-radius: 5px;
+    box-shadow: 8px 8px 8px #888888;
+}
+.close
+{
+  background-color: red;
+}

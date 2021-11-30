@@ -5,6 +5,7 @@ import { ReadableRow } from './ReadableRow';
 import { EditFlightRow } from './EditFlightRow';
 import { Fragment } from 'react';
 import { Popup } from './Popup.js';
+import { ReserveSeats } from './ReserveSeats';
 import { Search } from './search_frontend';
 import { useHistory } from 'react-router';
 
@@ -13,7 +14,9 @@ export default function Flight() {
   const [allflights, setAllflights] = useState([]);
   const [EditedFlightId, setEditingFlightId] = useState(null);
   const [toBeDeletedFlight, setDeletedFlight] = useState([]);
-  const [popupbutton, setpopupbutton] = useState(false);
+  const [reserveSeatsPopup, setReserveSeatsPopup] = useState(false);
+  const [reserveFlight, setFlight] = useState([]);
+  const [deletepopupbutton, setdeletepopupbutton] = useState(false);
   const [searchActiveTerms, activateSearchTerms] =
     useState(
       {
@@ -80,9 +83,14 @@ export default function Flight() {
     setEditFormData(newFormData);
   }
   const handleDeleteClick = (val) => {
-    setpopupbutton(true);
+    setdeletepopupbutton(true);
     setDeletedFlight(val);
     console.log("I'm here");
+  }
+  const handleReserveClick = (val) => {
+    setFlight(val);
+    setReserveSeatsPopup(true);
+    console.log("SEATS YA MAMA");
   }
   const handleSearchResult = (val) => {
     console.log("here");
@@ -126,8 +134,8 @@ export default function Flight() {
             <th>Arrival Date</th>
             <th>Arrival time</th>
             <th>Arrival Airport</th>
-            <th>Economy Class Seats</th>
-            <th>Business Class Seats</th>
+            <th>Available Economy Class Seats</th>
+            <th>Available Business Class Seats</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -139,7 +147,7 @@ export default function Flight() {
                 {(EditedFlightId === val._id) ?
                   (<EditFlightRow editFormData={editFormData} handleEditFormChange={handleEditFormChange} val={val} />) :
                   (
-                  <ReadableRow val={val} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick} />)}
+                  <ReadableRow val={val} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick} handleReserveClick={handleReserveClick}/>)}
               </Fragment>)
                : (console.log(''))
             )
@@ -148,7 +156,8 @@ export default function Flight() {
 
         </tbody>
       </table>
-      <Popup trigger={popupbutton} setTrigger={setpopupbutton} delete_flight={toBeDeletedFlight} ><h2>Are you sure you want to delete the following flight:</h2></Popup>
+      <Popup trigger={deletepopupbutton} setTrigger={setdeletepopupbutton} delete_flight={toBeDeletedFlight} ><h2>Are you sure you want to delete the following flight:</h2></Popup>
+      <ReserveSeats trigger={reserveSeatsPopup} setTrigger={setReserveSeatsPopup} flight={reserveFlight} ><div><h2>Reserve Your Seats</h2></div></ReserveSeats>
       <button onClick={() => {history.push('/')}}>Return to Home Page</button>
     </div>
 

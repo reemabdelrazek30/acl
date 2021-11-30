@@ -1,0 +1,40 @@
+.unreserved {
+  width: 50px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #43d8a6;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  box-shadow: 0 0 10px 0 #32a780;
+}
+.reserved {
+  width: 50px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #929c99;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  box-shadow: 0 0 10px 0 #32a780;
+}
+.buttonSelected {
+  width: 50px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #2ed658;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  box-shadow: 0 0 10px 0 #3fcc63;
+}
+

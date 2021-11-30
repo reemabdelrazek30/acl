@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+//import Seat from './Seat'
+const Seat = require("./Seat")
 
 const FlightSchema = new Schema({
   Flight_Number: {
@@ -38,8 +40,39 @@ const FlightSchema = new Schema({
     type: Number,
     required: true
   },
+  flightSeats: {
+    type: [{}],
+    required: false
+  },
+  numberOfAvailableEconomySeats: {
+    type: Number,
+    required: false
+  },
+  numberOfAvailableBusinessSeats: {
+    type: Number,
+    required: false
+  }
 }, { timestamps: false});
+
 
 const Flight = mongoose.model('Flight', FlightSchema);
 module.exports = Flight;
 
+// const SeatSchema = new Schema({
+//   seatID: {
+//     type: Number,
+//     required: false
+//   },
+//   seatType: {
+//     type: String,
+//     required: false
+//   },
+//   status: {
+//     type: String,
+//     default: "free",
+//     required: false
+//   }
+// })
+
+// const SeatSchema = mongoose.model('Seat', SeatSchema);
+// module.exports = Seat;

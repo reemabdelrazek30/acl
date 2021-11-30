@@ -1,5 +1,5 @@
 import  React  from "react";
-export const ReadableRow = ({val , handleEditClick , handleDeleteClick}) => 
+export const ReadableRow = ({val , handleEditClick , handleDeleteClick, handleReserveClick}) => 
 {
     return(
     <tr key={val._id}>  
@@ -13,7 +13,9 @@ export const ReadableRow = ({val , handleEditClick , handleDeleteClick}) =>
     <td>{val.Number_of_Economy_seats} </td> 
     <td>{val.Number_of_Business_seats} </td>
     <td> <button onClick={(event) => handleEditClick(event,val)}>Edit</button>
-    <button onClick={() => handleDeleteClick(val)}>Delete</button>  </td> 
+    <button onClick={() => handleDeleteClick(val)}>Delete</button>
+    <button onClick={() => handleReserveClick(val)}>Book Seats</button>
+    </td> 
     </tr>
     )
 }
