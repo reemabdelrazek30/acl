@@ -109,7 +109,7 @@ export default function Flight() {
     return flag;
   }
 
-  useEffect(() => { Axios.get("http://localhost:3001/").then((Response) => setAllflights(Response.data)) }, []);
+  useEffect(() => { Axios.get("http://localhost:3001/Flights").then((Response) => setAllflights(Response.data)) }, []);
 
   return (
     <div className="app-container">

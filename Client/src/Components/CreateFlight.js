@@ -89,7 +89,7 @@ export default function CreateFlight()
       </div>
       <div class="item">
         <div class="btn-block">
-          <button onClick={addFlight}>Create Flight</button>
+          <button onClick={addFlight()}>Create Flight</button>
         </div>
         <button onclick={() => {history.push("/")}}>Home Page</button>
     </div>

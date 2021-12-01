@@ -3,6 +3,7 @@ import {BrowserRouter as Router,Route,Switch,} from "react-router-dom";
 import CreateFlight from "./Components/CreateFlight";
 import Flight from "./Components/Flight";
 import Hpage from './Components/Hpage';
+import Profile from './Components/Profile';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route exact path="/Flight" component={Flight} />
         <Route exact path="/CreateFlight" component={CreateFlight}/>
         {/* <Route exact path="/EditFlight" component={EditFlight}/> */}
+        <Route exact path="/Profile" component={Profile}/>
       </Switch>
     </Router>
 

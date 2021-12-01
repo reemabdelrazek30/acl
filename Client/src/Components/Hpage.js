@@ -1,4 +1,3 @@
-import './Hpage.css';
 import { useHistory } from 'react-router-dom';
 
 function Hpage() {
@@ -6,13 +5,15 @@ function Hpage() {
   let history = useHistory();
 
   return (
-    <div className="Hpage">
-      <div className="Data">
-        <label>Home Page</label>
+    <form action ="/">
+      <div className="banner">
+        <h1>Home Page</h1>
+      </div>
+      <div className="item">
         <button onClick={() => {history.push('/Flight');}}>View Flights</button>
         <button onClick={() =>{history.push('/CreateFlight');}}>Create Flight</button>
-      </div>  
-    </div>
+      </div>
+    </form>
   );
 }
 
