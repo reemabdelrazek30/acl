@@ -4,8 +4,8 @@ import Axios from "axios";
 import { ReadableRow } from './ReadableRow';
 import { EditFlightRow } from './EditFlightRow';
 import { Fragment } from 'react';
-import { Popup } from './Popup.js';
-import { Search } from './search_frontend';
+import { Popup } from './PopUp.js';
+import { Search } from './SearchFlight';
 import { useHistory } from 'react-router';
 
 export default function Flight() {

@@ -24,11 +24,4 @@ return(
   </div>
 );
 
-//     <a href="https://www.example.com">
-//       <h2>
-//         Click me!
-//       </h2>
-//     </a>
-  
-// );
 }

@@ -4,8 +4,8 @@ import Axios from "axios";
 import { ReadableRow } from './ReadableRow';
 import { EditFlightRow } from './EditFlightRow';
 import { Fragment } from 'react';
-import { Popup } from './Popup.js';
-import { Search } from './search_frontend';
+import { Popup } from './PopUp.js';
+import { Search } from './SearchFlight';
 
 export default function Flight_schedule() {
   const [allflights, setAllflights] = useState([]);
