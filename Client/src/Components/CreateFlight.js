@@ -16,6 +16,13 @@ export default function CreateFlight()
     const [arrivalAirport, setAAirport] = useState("");
     const [ecoSeats, setESeats] = useState(0);
     const [businessSeats, setBSeats] = useState(0);
+
+    const [child_price, set_child_price] = useState(0);
+
+    const [adult_price, set_adult_price] = useState(0);
+
+    const [baggage, set_baggage] = useState(0);
+
      
     const addFlight = () =>
     {
@@ -28,7 +35,14 @@ export default function CreateFlight()
         Departure_Airport:depAirport,
         Arrival_Airport:arrivalAirport,
         Number_of_Economy_seats:ecoSeats,
-        Number_of_Business_seats:businessSeats
+        Number_of_Business_seats:businessSeats,
+        numberOfAvailableEconomySeats:ecoSeats,
+        numberOfAvailableBusinessSeats:businessSeats,
+        price_child:child_price,
+        price_adult:adult_price,
+             baggage:baggage
+        
+        
     });
     }
    return (
@@ -56,10 +70,10 @@ export default function CreateFlight()
       </div>
       <div class="item">
         <p>Arrival Date & Time</p>
-        <input type="date" name="arrivalDate" required onChange={(event) => {
+        <input type="date" min={depDate} name="arrivalDate" required onChange={(event) => {
             setADate(event.target.value);
           }}/>
-        <input type="time" name="arrivalTime" required onChange={(event) => {
+        <input type="time"  name="arrivalTime" required onChange={(event) => {
             setATime(event.target.value);
           }}/>
       </div>
@@ -85,6 +99,24 @@ export default function CreateFlight()
         <p>Number of Business Class Seats</p>
         <input type="number" name="businessSeats" placeholder="Number of Business Class Seats" required onChange={(event) => {
             setBSeats(event.target.value);
+          }}/>
+      </div>
+      <div class="item">
+        <p>Ticket price for a child</p>
+        <input type="number" min="0" max={adult_price} name="child" placeholder="Ticket price for a child" required onChange={(event) => {
+            set_child_price(event.target.value);
+          }}/>
+      </div>
+      <div class="item">
+        <p>Ticket price for an adult</p>
+        <input type="number"min={child_price} name="adult" placeholder="Ticket price for an adult" required onChange={(event) => {
+            set_adult_price(event.target.value);
+          }}/>
+      </div>
+      <div class="item">
+        <p>Baggage allowance.</p>
+        <input type="number" name="baggage" min="0" placeholder="Baggage allowance." required onChange={(event) => {
+            set_baggage(event.target.value);
           }}/>
       </div>
       <div class="item">
