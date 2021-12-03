@@ -6,6 +6,8 @@ const Flight = require("./models/Flight")
 const cors = require('cors')
 //const {body-parser} = require('body-parser');
 const methodOverride = require('method-override');
+const User = require('./models/User');
+const { response } = require('express');
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cors());
@@ -19,8 +21,9 @@ mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.listen(3001,() => {
    console.log("listening..");
+
 })
-app.get("/", (req, res) => {
+app.get("/Flights", (req, res) => {
   Flight.find({})
    //res.json(users)
   .then(users =>  res.json(users))
@@ -68,5 +71,28 @@ app.get("/schedule", (req, res) => {
     // .then(res => console.log("filayy"))
     // .catch(err => console.log(err));
   });
+
+  app.get("/viewProfile/:id", async (req, res) => {
+    const passedID = req.params.id;
+    User.find({User_id :passedID})
+    .then(users =>  {console.log(users)
+      res.json(users)})
+    .catch(err => res.status(400).json('Error: ' + err));
+    console.log(res.json);
+  });
+
+  app.put("/editProfile/:id", async (req,res) =>{
+    const passedID = req.params.id;
+    console.log(req.body);
+    if (req.body.First_Name == "" || req.body.Last_Name == "" || req.body.Passport_Number == "" || req.body.Email == ""){
+      res.status(200)
+      return}
+    User.findOneAndUpdate({User_id : passedID},{
+      First_Name: req.body.First_Name,
+      Last_Name: req.body.Last_Name,
+      Passport_Number: req.body.Passport_Number,
+      Email: req.body.Email,
+    }).then(res.status(200))
+  })
  
 
