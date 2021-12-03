@@ -1,26 +1,32 @@
-<<<<<<< HEAD
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  Name: {
+  User_id:{
+    type: Number,
+    required: true,
+  },
+  First_Name: {
     type: String,
     required: true,
-  }
-}, { timestamps: true });
-
-const User = mongoose.model('User', userSchema);
-=======
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema({
-  Name: {
+  },
+  Last_Name:{
     type: String,
     required: true,
-  }
-}, { timestamps: true });
+  },
+  Passport_Number:{
+    type:String,
+    required:true,
+  },
+  Email:{
+    type:String,
+    required:true,
+    //unique:true,
+  },
+
+  Flights:{
+    type:[{}]
+  }}, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
->>>>>>> cab9c52d8ff3e681ac511c1d4f3010d9b7f6feb5
-module.exports = User;
+module.exports = User; 

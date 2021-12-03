@@ -1,7 +1,7 @@
-<<<<<<< HEAD
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+//import Seat from './Seat'
+// const Seat = require("./Seat")
 const FlightSchema = new Schema({
   Flight_Number: {
     type: String,
@@ -39,55 +39,33 @@ const FlightSchema = new Schema({
     type: Number,
     required: true
   },
-}, { timestamps: true });
-
-const Flight = mongoose.model('Flight', FlightSchema);
-module.exports = Flight;
-
-=======
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const FlightSchema = new Schema({
-  Flight_Number: {
-    type: String,
-    required: true,
+  flightSeats: {
+    type: [],
+    required: false
   },
-  Departure_Date :{   
-    type: Date,
-    required: true,
-  },
-  Departure_Time: {
-    type: String ,
-    required: true
-  },
-  Arrival_Date :{
-    type: Date,
-    required: true,
-  },
-  Arrival_Time: {
-    type: String,
-    required: true
-  },
-  Departure_Airport: {
-    type: String,
-    required: true
-  },
-  Arrival_Airport: {
-    type: String,
-    required: true
-  },
-  Number_of_Economy_seats: {
+  numberOfAvailableEconomySeats: {
     type: Number,
-    required: true,
+    required: false
   },
-  Number_of_Business_seats: {
+  numberOfAvailableBusinessSeats: {
     type: Number,
-    required: true
+    required: false
   },
+  price_child:{
+    type:Number,
+    require:true
+  },
+  price_adult:{
+    type:Number,
+    require:true
+  },
+  baggage:{
+    type:Number,
+    require:true
+  }
 }, { timestamps: false});
 
+
 const Flight = mongoose.model('Flight', FlightSchema);
 module.exports = Flight;
 
->>>>>>> cab9c52d8ff3e681ac511c1d4f3010d9b7f6feb5

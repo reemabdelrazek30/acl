@@ -1,10 +1,13 @@
-import React from 'react'
-import { useState } from "react";
-import Axios from "axios";
-export default
- function test()
-{ 
-    return (
-    <div>test page</div>
-    )
-;}
+export default function User (){
+    // let history = useHistory();
+    // const [clicked,setClicked]=useState(false)
+    // function clickHandeler(){
+    //     <Reserve_FLight/>
+    // }
+   
+return(
+    
+    < >
+<h2>ddddddddddd</h2>
+    </>
+)}
