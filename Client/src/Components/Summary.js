@@ -1,31 +1,8 @@
 import { useState } from "react";
 import Axios from "axios";
-
 export default function Summary (props){
 
-//   const handle_final_booking=()=>{
 
-// Axios.post("http://localhost:3001/confirm_booking",{
-
-//   Departure_flight:props.Dflight,
-//   Arrival_flight:props.Aflight,
-
-// Total_price:(props.Aflight.Price+props.Dflight.Price),
-// Class:props.Aflight.Class,
-// Departure_seats:props.Dflight.Seats,
-// Arrival_seats:props.Aflight.Seats
-
-
-
-//   }).then((Response) => 
-//   console.log("enterd front  3"+"  axios"+JSON.stringify(props.Dflight) )) 
-
-
-
-
-
-
-//   }
 
     return( props.trigger?
 

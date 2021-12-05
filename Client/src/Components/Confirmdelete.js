@@ -1,8 +1,13 @@
 import React from 'react'
 import './Popup.css'
 import Axios from "axios";
-
+import emailjs from 'emailjs';
 export function Confirmdelete(props) {
+  const sendEmail =(input) =>
+{
+   //e.preventDefault();
+   emailjs.sendForm('service_3h110wr','template_ln34t48',input,'user_apzwfvITShEvLYpHTpF5s')
+}
     const deleteTicket = (confirmation_number, user_id, departure_flight_id, return_flight_id, seatsAID, seatsDID) => {
         console.log(confirmation_number);
         Axios.delete(`http://localhost:3001/deleteticket/${confirmation_number}/${user_id}`);
@@ -23,7 +28,7 @@ export function Confirmdelete(props) {
           flightID:return_flight_id
             })
         )};
-     
+        sendEmail(confirmation_number);
       };
     
 
