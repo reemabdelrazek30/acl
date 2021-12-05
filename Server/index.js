@@ -13,36 +13,37 @@ const bcrypt = require('bcrypt');
 const cookieParser = require("cookie-parser");
 //const { sign, verify } = require('jsonwebtoken');
 const session = require("express-session");
-//const MongoURL = Process.env.MongoURL;
-const MongoURL = "mongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
 const saltRounds = 10;
-// app.use(
-//   cors({
-//     origin: ["http://localhost:3001"],
-//     methods: ["GET", "POST", "DELETE", "PUT"],
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-//app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"))
 app.use(methodOverride('_method'));
-//app.use(cookieParser());
+app.use(cookieParser());
 require('dotenv').config();
-// app.use(
-//   session({
-//     key: "userId",
-//     secret: "subscribe",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       expires: 60 * 60 * 24,
-//     },
-//   })
-// );
+app.use(
+  session({
+    key: "userId",
+    secret: "subscribe",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 60 * 60 * 24,
+    },
+  })
+);
 
+
+const MongoURL = process.env.MongoURL;
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => console.log("MongoDB is now connected"))
   .catch(err => console.log(err));
@@ -51,15 +52,42 @@ app.listen(3001, () => {
   console.log("listening..");
 
 })
-
-// app.post("/register", (req, res) => {
-//   const { First_Name, Last_Name, Passport_Number, Email, password } = req.body;
-//   bcrypt.hash(password, 10).then((hash) => {
-//     const newUser = new User({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email });
-//     User.insertOne(newUser);
-//   }).then(() => console.log("user registered"))
-//     .catch(err => console.log(err));
-// });
+app.get("/login", (req, res) => {
+  if (req.session.user) {
+    res.send({ loggedIn: true, user: req.session.user });
+  } else {
+    res.send({ loggedIn: false });
+  }
+});
+app.post("/login", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const user = await User.find({ 'Email': username });
+  if (user) {
+    bcrypt.compare(password, user.password, (error, response) => {
+      if (response) {
+        req.session.user = result;
+        console.log(req.session.user);
+        res.send(user);
+      } else 
+        res.send({ message: "Wrong username/password combination!" });
+    });
+  } else {
+    res.send({ message: "User doesn't exist" });
+  }
+});
+app.post("/register", async (req, res) => {
+  const { First_Name, Last_Name, Passport_Number, Email, password } = req.body;
+  bcrypt.hash(password, saltRounds).then(async(hash) => {
+    const newUser = await new User({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email , "Password":hash });
+    // User.
+    // User.insert({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email , "Password":hash },{ writeConcern: { w: "majority" , wtimeout: 5000 } })
+    await newUser.save();
+    //.then(() => console.log("inserted").catch(err => console.log(err)));
+    }).then(() => console.log("user registered"))
+    .catch(err => console.log(err));
+  
+});
 
 // const createTokens = (user) => {
 //   const accessToken = sign({ email: user.Email, id: user._id }, Process.env.AccessToken);
@@ -231,7 +259,7 @@ app.put("/reserveSeat", (async (req, res) => {
   const flightID = req.body.flightID;
   const flight = await Flight.findById(flightID);
   const seatsList = flight.flightSeats;
-  let sclass ;
+  let sclass;
   seatsList.map(val => { if ((val._id) == seatID) { val.status = "reserved"; sclass = val.seatType } });
   if (sclass === "Economy")
     Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableEconomySeats: -1 } })
@@ -246,7 +274,7 @@ app.put("/deleteReservedSeat", async (req, res) => {
   const seatID = req.body.seatID;
   const flight = await Flight.findById(flightID);
   const seatsList = flight.flightSeats;
-  let sclass ;
+  let sclass;
   seatsList.map(val => { if ((val._id) == seatID) { val.status = "free"; sclass = val.seatType } });
   if (seat.seatType === "Economy")
     Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableEconomySeats: 1 } })

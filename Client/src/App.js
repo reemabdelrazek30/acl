@@ -13,6 +13,8 @@ import payment from './Components/Payment';
 // import ReserveSeats from './Components/ReserveSeats';
 import Salma from './Components/salma';
 import Summary from './Components/Summary';
+import { Login } from './Components/Login';
+import { Register } from './Components/Register';
 
 
 
@@ -37,6 +39,8 @@ function App() {
          <Route exact path="/salma" component={Salma}/>
          <Route exact path = "/Summary" component={Summary}/>
          <Route exact path = "/payment" component={payment}/>
+         <Route exact path = "/Login" component={Login}/>
+         <Route exact path = "/Register" component={Register}/>
          
 
 
