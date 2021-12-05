@@ -2,10 +2,11 @@ import { useState, useEffect } from "react"
  import Axios from "axios";
  import { useHistory } from 'react-router-dom';
  import { useLocation } from "react-router-dom";
+ import ReserveSeats from './ReserveSeats'
 
 
  import  './Nstyle.css'
-//import Summary from "./Summary_reserved_flights";
+import Summary from "./Summary";
 import ReserveSeatsN from "./ReserveSeatsN";
 
  export default function View_FLight(props){
@@ -33,6 +34,8 @@ const [checkClickedButton,setCheckClickedButton]=useState({})
 
 const [id_duration,setId_duration]=useState({})
 
+const [seatsAID,setSeatsAID]=useState([])
+const [seatsDID,setSeatsDID]=useState([])
 
 const [depatureFlight,setDepatureFlight]=useState({})
 const [arrivalFlight,setArrivalFlight]=useState({})
@@ -51,6 +54,9 @@ const [show_departure_button,setshow_departure_button]=useState(false)
 
 const [show_return_button,setshow_return_button]=useState(false)
 const [button_content,setButton_content] = useState('Proceed')
+const [seatsD,setSeatsD]=useState([]);
+const [seatsA,setSeatsA]=useState([]);
+
 ///////////////////////////////////////////////////////////////////////////////
 
 const [border_color,setBorder_color]=useState("white")
@@ -62,8 +68,10 @@ const [con_Number,setCon_Number]=useState('')
 const [show_buttons,setShow_buttons]=useState(true)
 
 const[show_book_seat,setShow_book_seat]=useState(false)
+const [mess,setMess] = useState("")
 
 let id= "";
+console.log("entered view flight page")
 // useEffect(()=>{
 //   if(query.get("SD")){
 //     console.log("return button:"+show_return_button)
@@ -148,7 +156,7 @@ new_value=true;
       ["flight_Arrival_Airport"]:flight_Arrival_Airport,
       ["Class"]:prop.Class,
       ["Price"]:((cprice*prop.N_childern)+(aprice*prop.N_adult)),
-      ["Seats"]:[1,2]
+      ["Seats"]:seatsD
     }))}
     else{
       setArrivalFlight(()=>({
@@ -163,7 +171,7 @@ new_value=true;
         ["flight_Arrival_Airport"]:flight_Arrival_Airport,
         ["Class"]:prop.Class,
         ["Price"]:((cprice*prop.N_childern)+(aprice*prop.N_adult)),
-        ["Seats"]:[1,3]
+        ["Seats"]:seatsA
       }))
     }
     setshow_return_button(true)
@@ -283,11 +291,11 @@ const goToReturnFlights=()=>{
   }
 
     
-    else if(button_content ==='Confirm booking'){
+else if(button_content ==='Confirm booking'){
 
       set_clicked_confirm(true)
 
-      if(prop.user==="true")
+      if(props.user==="true")
      
      {
         let c;
@@ -305,9 +313,11 @@ const goToReturnFlights=()=>{
       
       Total_price:(arrivalFlight["Price"]+depatureFlight["Price"]),
       Class:arrivalFlight["Class"],
-      Departure_seats:depatureFlight["Seats"],
-      Arrival_seats:arrivalFlight["Seats"],
-      Confirmation_number:con_Number
+      Departure_seats:seatsD,
+      Arrival_seats:seatsA,
+      Confirmation_number:con_Number,
+      seatsAID:seatsAID,
+      seatsDID:seatsDID
           
       
       
@@ -324,7 +334,7 @@ const goToReturnFlights=()=>{
       }
     
     }
-    else if (button_content==='Proceed to payment'){
+else if (button_content==='Proceed to payment'){
       
     {history.push({
         pathname: '/Payment',
@@ -333,44 +343,50 @@ const goToReturnFlights=()=>{
       set_clicked_confirm(true)
     //  { history.push('/Payment');}
     }
-    else{
-      console.log("nourannnnnnnnn")
-        history.push({
-      pathname: '/salma',
-      search:'?Did=' + depatureFlight["id"]+'&Aid=' + arrivalFlight["id"]+ '&class='+prop.Class +'&number='+ (props.info.N_childern+props.info.N_adult)+
-      '&priceD='+depatureFlight["Price"] +'&priceA='+arrivalFlight["Price"]
+else{ //review booking or select seats
+
+      // console.log("nourannnnnnnnn")
+      //   history.push({
+      // pathname: '/salma',
+      // search:'?Did=' + depatureFlight["id"]+'&Aid=' + arrivalFlight["id"]+ '&class='+prop.Class +'&number='+ (props.info.N_childern+props.info.N_adult)+
+      // '&priceD='+depatureFlight["Price"] +'&priceA='+arrivalFlight["Price"]
       //+'&props='+JSON.stringify(prop)+'&clicked='+clicked
-  });
-      // // means review booking
-      // if(prop.user==="false"){
-      //   setshow_departure_component(false)
-      // setshow_return_component(false)
-      // setshow_return_button(false)
-      // setshow_departure_button(true)
-      // // setButton_content('Select Seats')}
+      if(props.user==="false"){
+        setshow_departure_component(false)
+      setshow_return_component(false)
+      setshow_return_button(false)
+      setshow_departure_button(true)
+      setShow_buttons(false)
+      // setButton_content('Select Seats')}
       // setShow_summary(true)
-      // setButton_content('Confirm booking')
-      // }
-      // else{
-      // setshow_departure_component(false)
-      // setshow_return_component(false)
-      // setshow_return_button(true)
-      // setshow_departure_button(true)
-      // // setButton_content('Select Seats')}
+      setMess("Please, choose your departure flight's seats")
+      setButton_content('Confirm booking')
+      }
+      else{
+      setshow_departure_component(false)
+      setshow_return_component(false)
+      setshow_return_button(true)
+      setshow_departure_button(true)
+      setShow_buttons(false)
+      // setButton_content('Select Seats')}
+      setMess("Please, choose your departure flight's seats")
       // setShow_summary(true)
-      // setButton_content('Confirm booking')}
-      // Axios.get("http://localhost:3001/confirmition_number",{
-      // }).then((Response) => {
-      //   setCon_Number(Response.data);
-      //   // setPop(true)
-      //        console.log("enterd confirmation number"+"  axios"+JSON.stringify(con_Number)+JSON.stringify(Response.data)) })
+      setButton_content('Confirm booking')}
+      Axios.get("http://localhost:3001/confirmition_number",{
+      }).then((Response) => {
+        setCon_Number(Response.data);
+        // setPop(true)
+             console.log("enterd confirmation number"+"  axios"+JSON.stringify(con_Number)+JSON.stringify(Response.data)) })
              
             
 
     }
+  };
+      // means review booking
+     
     // setshow_return_component(faltrse)
 
-}
+
 // useEffect(()=>{
 //   window.localStorage.setItem("nouran",JSON.stringify(depatureFlight,arrivalFlight,showMoreInfo,show_book_seat,show_buttons))
 // })
@@ -448,6 +464,14 @@ setId_duration((prev)=>(
 // (returnFlights.length>0?(
      return(
       <div>
+        {/* <p>clicked_confirm {clicked_confirm}</p>
+        <p>show_summery {show_summery}</p>
+        <p>button_content {button_content}</p> */}
+{console.log(clicked_confirm+""+show_summery+""+button_content+""+props.user)}
+{console.log("seat content"+button_content)}
+{console.log("setSeatsD  "+seatsD)}
+
+
 <div  id="view_flight" > 
 {show_departure_component?(
   
@@ -455,14 +479,14 @@ setId_duration((prev)=>(
 ):(show_return_component?(
   
   returnFlights.length>0?(<h1>Choose Arrival Flight</h1>):<h1>Sorry, no available return flights for the selected departure flight try choose another one</h1>
-):(clicked_confirm?(((show_summery &&prop.user==="true"&& button_content==='Proceed to payment')?( <h1> Your Confirmation code is {con_Number}</h1>):<h1>You have to login first to confirm your reservation</h1>)
+):(clicked_confirm?(((show_summery &&props.user==="true"&& button_content==='Proceed to payment')?( <h1> Your Confirmation code is {con_Number}</h1>):<h1>You have to login first to confirm your reservation</h1>)
 ):"")
 )
 }
 <br/>
 <br/>
-<p>{JSON.stringify( depatureFlight["id"]) +"id   d     "}</p>
-<p>{JSON.stringify( pop) +"     pop     "}</p>
+{/* <p>{JSON.stringify( depatureFlight["id"]) +"id   d     "}</p>
+<p>{JSON.stringify( pop) +"     pop     "}</p> */}
 <br/>
 {/* <p>{JSON.stringify( depatureFlight["id"])) }</p>
 <br/>
@@ -651,7 +675,18 @@ setId_duration((prev)=>(
     
 </div>
 {/* <ReserveSeatsN trigger={pop} setTrigger={setPop} id={choosenFlight} Class={prop.Class}/> */}
-{/* <Summary trigger={show_summery} button_content={button_content} Dflight={depatureFlight} con={con_Number} Aflight={arrivalFlight}/> */}
+<Summary trigger={show_summery} button_content={button_content} Dflight={depatureFlight} con={con_Number} seatsA={seatsA} seatsD={seatsD} Aflight={arrivalFlight}/>
+{(mess==="Please, choose your departure flight's seats"||mess==="Please, choose your return flight's seats")?(<ReserveSeats Did={depatureFlight["id"]} Aid={arrivalFlight["id"]}  
+flightClass={depatureFlight["Class"]} number={prop.N_childern+prop.N_adult} setSeatsAID={setSeatsAID} setSeatsDID={setSeatsDID} setSeatsD={setSeatsD} setSeatsA={setSeatsA} setB={setShow_buttons} set={setShow_summary} mess={mess} setM={setMess}/>):
+ (
+    // <ReserveSeats Did={Did} Aid={Aid} priceD={priceD} priceA={priceA} 
+    // flightClass={flightClass} number={number} set={setTrigger} 
+    //  setT2={setTrigger2}  setT3={setTrigger3} mess={mess} setM={setMess}/>
+    // <Summary info={info}/>  //  const [trigger2,setTrigger2]=useState(false)
+""
+ )
+ }
+
 </div>
 
      )

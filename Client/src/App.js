@@ -17,6 +17,7 @@ import { Login } from './Components/Login';
 import { Register } from './Components/Register';
 
 
+import ViewFlights from './Components/ViewFlights';
 
 
 // <Route exactpath = "/CreateFlight" component={CreateFlight}/>
@@ -36,8 +37,10 @@ function App() {
          <Route exact path = "/ViewFlight" component={View_FLight}/>
          <Route exact path="/FlightSchedule" component={Flight_schedule}/>
          <Route exact path="/Profile" component={Profile}/>
-         <Route exact path="/salma" component={Salma}/>
          <Route exact path = "/Summary" component={Summary}/>
+         <Route exact path = "/ViewFlights" component={ViewFlights}/>
+         {/* <Route exact path="/ReserveSeats" component={ReserveSeats}/> */}
+         {/* <Route exact path = "/View_FLight" component={View_FLight}/> */}
          <Route exact path = "/payment" component={payment}/>
          <Route exact path = "/Login" component={Login}/>
          <Route exact path = "/Register" component={Register}/>
