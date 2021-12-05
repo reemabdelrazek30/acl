@@ -107,7 +107,7 @@ export default function Flight_schedule() {
       flag = false;
     return flag;
   }
-
+  Axios.defaults.withCredentials = true;
   useEffect(() => { Axios.get("http://localhost:3001/schedule").then((Response) => setAllflights(Response.data)) }, []);
 
   return (

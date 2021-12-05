@@ -9,7 +9,7 @@ import Axios from "axios";
 
 export default function View_schedule() {
   const [allflights, setAllflights] = useState([]);
-  
+  Axios.defaults.withCredentials = true;
   useEffect(() => { Axios.get("http://localhost:3001/schedule").then((Response) => setAllflights(Response.data)) }, []);
 
   return (

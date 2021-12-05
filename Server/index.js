@@ -5,16 +5,42 @@ const Flight = require("./models/Flight")
 const User = require("./models/User")
 const Confirmation_number = require("./models/Confirmation_numbers")
 const cors = require('cors')
-//const {body-parser} = require('body-parser');
+const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const { response } = require('express');
+const bcrypt = require('bcrypt');
+const cookieParser = require("cookie-parser");
+//const { sign, verify } = require('jsonwebtoken');
+const session = require("express-session");
+const MongoURL = process.env.MongoURL;
+const saltRounds = 10;
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true,
+  })
+);
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+//app.use(express.urlencoded({ extended: false }));
+//app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"))
 app.use(methodOverride('_method'));
+app.use(cookieParser());
 require('dotenv').config();
-const MongoURL = process.env.MongoURL;
+app.use(
+  session({
+    key: "userId",
+    secret: "subscribe",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 60 * 60 * 24,
+    },
+  })
+);
+
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => console.log("MongoDB is now connected"))
   .catch(err => console.log(err));
@@ -23,6 +49,65 @@ app.listen(3001, () => {
   console.log("listening..");
 
 })
+
+app.post("/register", (req, res) => {
+  const { First_Name, Last_Name, Passport_Number, Email, password } = req.body;
+  bcrypt.hash(password, 10).then((hash) => {
+    const newUser = new User({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email });
+    User.insertOne(newUser);
+  }).then(() => console.log("user registered"))
+    .catch(err => console.log(err));
+});
+
+// const createTokens = (user) => {
+//   const accessToken = sign({ email: user.Email, id: user._id }, Process.env.AccessToken);
+//   return accessToken;
+// }
+
+// const validateToken = (req, res, next) => {
+//   const accessToken = req.cookies("access-token");
+//   if (!accessToken)
+//     return res.status(400).json({error:"User not Auth"});
+//   try 
+//   {
+//     const validToken = verify(accessToken,Process.env.AccessToken)
+//     if (validToken)
+//     {
+//       req.authenticated = true;
+//       return next();
+//     }
+//   }
+//   catch(err) {res.status(400).json({error:err})}
+// }
+
+
+app.get("/login", (req, res) => {
+  if (req.session.user) {
+    res.send({ loggedIn: true, user: req.session.user });
+  } else {
+    res.send({ loggedIn: false });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ "Email": email });
+  if (!user)
+    res.status(400).json({ error: "User doesn't exist" });
+  else {
+    const dbPassword = user.Password;
+    bcrypt.compare(password, dbPassword, (error, response) => {
+      if (response) {
+        req.session.user = user;
+        console.log(req.session.user);
+
+      } else 
+        res.send({ message: "Wrong username/password combination!" }); 
+    });
+}})
+
+
+
 app.get("/Flights", (req, res) => {
   Flight.find({})
     //res.json(flights)
@@ -231,7 +316,7 @@ app.put("/updateFlight/:id", async (req, res) => {
   // .catch(err => console.log(err));
 });
 
-app.get("/viewProfile/:id", async (req, res) => {
+app.get("/viewProfile/:id", validateToken, async (req, res) => {
   const passedID = req.params.id;
   User.find({ User_id: passedID })
     .then(users => {

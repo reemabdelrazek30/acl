@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import './Nstyle.css'
 import Summary from "./Summary";
-
+Axios.defaults.withCredentials = true;
 export default function View_FLight(props) {
 
 

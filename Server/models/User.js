@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  User_id:{
-    type: Number,
-    required: true,
-  },
+  // User_id:{
+  //   type: Number,
+  //   required: true,
+  // },
   First_Name: {
     type: String,
     required: true,
@@ -23,7 +23,11 @@ const userSchema = new Schema({
     required:true,
     //unique:true,
   },
-
+  Password :
+  {
+   type : String,
+   //required : true
+  },
   Flights:{
     type:[{}]
   }}, { timestamps: true });

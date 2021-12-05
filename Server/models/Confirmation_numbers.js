@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const confirmation_number = new Schema({
-  
-
   numbers:{
     type:['']
   }}, { timestamps: true });

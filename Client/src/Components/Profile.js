@@ -13,7 +13,7 @@ export default function Profile(){
     const [Last_Name , setLast_Name] = useState("");
     const [Passport_Number , setPassport_Number] = useState("");
     const [Email , setEmail] = useState("");
-
+    Axios.defaults.withCredentials = true;
     const getProfile = () => {
         axios.get(`http://localhost:3001/viewProfile/${id}`).then((response => {
             setProfile(response.data);

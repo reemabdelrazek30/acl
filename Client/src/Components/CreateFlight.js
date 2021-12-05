@@ -23,7 +23,7 @@ export default function CreateFlight()
 
     const [baggage, set_baggage] = useState(0);
 
-     
+    Axios.defaults.withCredentials = true;
     const addFlight = () =>
     {
         Axios.post("http://localhost:3001/addFlight", {

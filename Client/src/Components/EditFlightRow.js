@@ -1,7 +1,7 @@
 import React from 'react'
 import Axios from "axios";
 export const EditFlightRow = ({val,editFormData, handleEditFormChange }) => { //  const [newNumber, handleEditFormChangeNumber] = useState("");
-  
+  Axios.defaults.withCredentials = true;
   const UpdateFlight = (id) => {
     Axios.put(`http://localhost:3001/updateFlight/${id}`, {
       Flight_Number: editFormData.Flight_Number,
