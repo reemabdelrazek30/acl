@@ -1,7 +1,7 @@
 import React from 'react'
 import './Popup.css'
 import Axios from "axios";
-Axios.defaults.withCredentials = true;
+//Axios.defaults.withCredentials = true;
 export function Popup(props) {
   const deleteFlight = (id) => {
     Axios.delete(`http://localhost:3001/delete/${id}`);

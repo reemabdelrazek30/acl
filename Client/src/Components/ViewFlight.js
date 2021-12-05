@@ -1,11 +1,11 @@
- import { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
  import Axios from "axios";
  import { useHistory } from 'react-router-dom';
  import { useLocation } from "react-router-dom";
 
 
  import  './Nstyle.css'
-import Summary from "./Summary_reserved_flights";
+//import Summary from "./Summary_reserved_flights";
 import ReserveSeatsN from "./ReserveSeatsN";
 
  export default function View_FLight(props){

@@ -7,8 +7,8 @@ import Profile from './Components/Profile';
 import Home_page from "./Components/Hpage"
 import Home from './Components/Home';
 import User from './Components/User';
-import Reserve_FLight from './Components/ReserveFLight';
-import View_FLight from './Components/View_FLight';
+import Reserve_FLight from './Components/ReserveFlight';
+import View_FLight from './Components/ViewFlight';
 import payment from './Components/Payment';
 // import ReserveSeats from './Components/ReserveSeats';
 import Salma from './Components/salma';

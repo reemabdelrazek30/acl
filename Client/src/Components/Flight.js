@@ -109,7 +109,7 @@ export default function Flight() {
       flag = false;
     return flag;
   }
-  Axios.defaults.withCredentials = true;
+  //Axios.defaults.withCredentials = true;
   useEffect(() => { Axios.get("http://localhost:3001/Flights").then((Response) => setAllflights(Response.data)) }, []);
 
   return (
