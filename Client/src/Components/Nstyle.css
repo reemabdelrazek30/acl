@@ -103,6 +103,13 @@ font-size: medium;
     
     
   }
+  #payment h1{
+   text-align: center !important;
+   width: 100%;
+   color: navy;
+    
+
+  }
  /* #diplay_flight_info p{
    display: block ;
    width: 100%;

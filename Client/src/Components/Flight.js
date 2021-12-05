@@ -149,7 +149,7 @@ export default function Flight() {
         </tbody>
       </table>
       <Popup trigger={popupbutton} setTrigger={setpopupbutton} delete_flight={toBeDeletedFlight} ><h2>Are you sure you want to delete the following flight:</h2></Popup>
-      <button onClick={() => {history.push('/')}}>Return to Home Page</button>
+      <button onClick={() => {history.push('/Hpage')}}>Return to Home Page</button>
     </div>
 
   )

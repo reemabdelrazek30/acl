@@ -2,7 +2,7 @@
 import { useState } from "react";
 import View_FLight from "./View_FLight";
 export default function Reserve_FLight (){
-const [currentDate,setCurrentDate]=useState('')
+// const [currentDate,setCurrentDate]=useState('')
 const current = new Date();
 let date ;
   // const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
@@ -29,6 +29,7 @@ let date ;
    
   });
 const [showComponent,setShowComponent]=useState(false)
+const [show,setShow]=useState(true)
 
 const [clicked,setClicked] = useState(false)
 
@@ -46,15 +47,16 @@ const [clicked,setClicked] = useState(false)
    setClicked((prev)=> prev? false :true)
     setShowComponent(true)
     setInfoS(info);
+    setShow(false)
     alert(JSON.stringify(info, '', 2));
   };
 
 return(
     <div  >
          <br/>
-         <p>{showComponent}</p>
+         {/* <p>{showComponent}</p> */}
          <br/>
-   <div className=" form">
+  {show?( <div className=" form">
    <form onSubmit={handleSubmit}>
    <label  for="Departure_airport">Departure airport</label>
       <input id="Departure_airport"
@@ -93,13 +95,13 @@ return(
            <br/>
       <br/>
 
-      <label for="N_childern">Number of Childern</label>
+      <label for="N_childern">Number of children</label> 
       <input id="N_childern"
         value={info.N_childern } min="0"
         onChange={handleChange}
         type="number"
         name="N_childern"
-        placeholder="Number of Childern"
+        placeholder="Number of children"
         
       />
       <label for="N_adult">Number of adults </label>
@@ -127,10 +129,10 @@ return(
       <button type="submit">See  available flights</button>
     </form> 
     </div>
-          <br/>
+  ):""}        <br/>
          
      
-      {showComponent? <View_FLight info={infoS} clicked={clicked}/>:null}
+      {showComponent? <View_FLight user="true" show={show} set={setShow} info={infoS} clicked={clicked}/>:null}
       {/* {setShowComponent(false)} */}
   
   </div>

@@ -10,9 +10,10 @@ import User from './Components/User';
 import Reserve_FLight from './Components/Reserve_FLight';
 
 import View_FLight from './Components/View_FLight';
-import test from './Components/test';
-
-
+import payment from './Components/Payment';
+// import ReserveSeats from './Components/ReserveSeats';
+import Salma from './Components/salma';
+import Summary from './Components/Summary_reserved_flights';
 
 
 
@@ -32,9 +33,13 @@ function App() {
          <Route exact path = "/Flight" component={Flight}/>
          <Route exact path = "/User" component={User}/>
          <Route exact path = "/Reserve_FLight" component={Reserve_FLight}/>
-         <Route exact path = "/View_FLight" component={View_FLight}/>
-         <Route exact path = "/test" component={test}/>
+         {/* <Route exact path="/ReserveSeats" component={ReserveSeats}/> */}
+         <Route exact path="/salma" component={Salma}/>
+         {/* <Route exact path = "/View_FLight" component={View_FLight}/> */}
+         <Route exact path = "/Summary_reserved_flights" component={Summary}/>
 
+         <Route exact path = "/payment" component={payment}/>
+         
 
 
         

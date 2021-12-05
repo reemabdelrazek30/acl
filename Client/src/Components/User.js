@@ -25,7 +25,7 @@ return(
           </div>
           <br/>
          <div><button onClick={() => {history.push('/Reserve_FLight');}}>Reserve FLight</button>
-        <button onClick={() => {history.push('/test');}}>test</button>
+        {/* <button onClick={() => {history.push('/test');}}>test</button> */}
          {/* <div><button onClick={ clickHandeler }>Reserve FLight</button> */}
         <br/>
       

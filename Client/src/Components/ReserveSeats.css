@@ -1,0 +1,118 @@
+.sectionLeft
+{
+    background-color: #e8e4da;
+    float: left;
+    border-radius: 5px;
+    margin-left: 300px;
+    float: left;
+    width: 305px
+}
+.sectionRight
+{
+    background-color: #e8e4da;
+    margin-right: 300px;
+    border-radius: 5px;
+    float: right;
+    width: 305px
+}
+.economyReserved
+{
+   opacity: 1;
+   width:70px;
+   height:70px;
+   margin: 20px 3px;
+   background-color:#929c99;
+   font-size: 20px;
+   color: white;
+   border: none;;
+   border-radius: 5px;
+   box-shadow: 8px 8px 8px #888888;
+}
+.businessReserved
+{
+   opacity: 1;
+   width:80px;
+   height:80px;
+   margin: 50px 10px;
+   background-color:#929c99;
+   font-size: 20px;
+   color: white;
+   border: none;;
+   border-radius: 5px;
+   box-shadow: 8px 8px 8px #888888;
+}
+.economyUnreserved
+{
+   opacity: 1;
+   width:70px;
+   height:70px;
+   margin: 20px 3px;
+   background-color: #1d009c;
+   font-size: 20px;
+   color: white;
+   border: none;;
+   border-radius: 5px;
+   box-shadow: 8px 8px 8px #888888;
+}
+.businessUnreserved
+{
+   opacity: 1;
+   width:80px;
+   height:80px;
+   margin: 50px 10px;
+   background-color: #1d009c;
+   font-size: 20px;
+   color: white;
+   border: none;;
+   border-radius: 5px;
+   box-shadow: 8px 8px 8px #888888;
+}
+.economySelected
+{
+    opacity: 1;
+    width: 70px;
+    height: 70px;
+    margin: 20px 3px;
+    background-color: #2ed658;
+    font-size: 20px;
+    color: white;
+    border: none;;
+    border-radius: 5px;
+    box-shadow: 8px 8px 8px #888888;
+}
+.businessSelected
+{
+    opacity: 1;
+    width: 80px;
+    height: 80px;
+    margin: 50px 10px;
+    background-color: #2ed658;
+    font-size: 20px;
+    color: white;
+    border: none;;
+    border-radius: 5px;
+    box-shadow: 8px 8px 8px #888888;
+}
+h1{
+   text-align: center !important;
+   width: 100%;
+   color: navy;
+}
+.reserve
+{
+  opacity: 1;
+  position: relative;
+  margin-top: 75%;
+  background-color: #2ed658;
+}
+.popup
+{  
+   opacity: 0.7;
+   /* position: fixed; */
+   /* //top: 50%;
+   //left: 50%;
+  // transform: translate(-50%, -50%);
+   //width: 95%; */
+   /* height: 150px; */
+   overflow:auto;
+}

@@ -8,7 +8,8 @@ function Hpage() {
   return (
     <div className="Hpage">
       <div className="Data">
-        <label>Home Page</label>
+        <br/>
+        <label>Admin Home Page</label>
         <button onClick={() => {history.push('/Flight');}}>View Flights</button>
         <button onClick={() =>{history.push('/CreateFlight');}}>Create Flight</button>
       </div>  
