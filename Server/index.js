@@ -104,15 +104,15 @@ app.get("/user", (req, res) => {
 
 app.post("/get_available_flights", (req, res) => {
   console.log("entered..");
-  console.log(JSON.stringify(req.body));
+  //console.log(JSON.stringify(req.body));
   const Departure_Date = req.body.Departure_Date
   //  const Arrival_Date = req.body.Arrival_Date
   const Departure_Airport = req.body.Departure_Airport
   const Arrival_Airport = req.body.Arrival_Airport
   const Class = req.body.Class
   const number_seats = req.body.seats
-  console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
-  console.log(JSON.stringify(req.body) + "the whole body")
+  //console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
+  //console.log(JSON.stringify(req.body) + "the whole body")
 
   //  Flight.find({"Departure_Airport": Departure_Airport})
 
@@ -225,8 +225,35 @@ app.post("/get_flights", (req, res) => {
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
 })
-
-
+app.put("/reserveSeat", (async (req, res) => {
+  console.log(req.body);
+  const seatID = req.body.seatID;
+  const flightID = req.body.flightID;
+  const flight = await Flight.findById(flightID);
+  const seatsList = flight.flightSeats;
+  let sclass ;
+  seatsList.map(val => { if ((val._id) == seatID) { val.status = "reserved"; sclass = val.seatType } });
+  if (sclass === "Economy")
+    Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableEconomySeats: -1 } })
+  else
+    Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableBusinessSeats: -1 } })
+  console.log(seatsList);
+})
+)
+app.put("/deleteReservedSeat", async (req, res) => {
+  console.log(req.body);
+  const flightID = req.body.flightID;
+  const seatID = req.body.seatID;
+  const flight = await Flight.findById(flightID);
+  const seatsList = flight.flightSeats;
+  let sclass ;
+  seatsList.map(val => { if ((val._id) == seatID) { val.status = "free"; sclass = val.seatType } });
+  if (seat.seatType === "Economy")
+    Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableEconomySeats: 1 } })
+  else
+    Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableBusinessSeats: 1 } })
+}
+)
 // app.post("/get_return_flights", (req, res) => {
 //   console.log("entered..returnflight");
 //   console.log(JSON.stringify(req.body) + "return flight");
@@ -261,8 +288,8 @@ app.post("/get_flights", (req, res) => {
 //   }})
 
 app.post("/get_return_flights", (req, res) => {
-  console.log("entered..returnflight");
-  console.log(JSON.stringify(req.body) + "return flight");
+  //console.log("entered..returnflight");
+  //console.log(JSON.stringify(req.body) + "return flight");
   const Departure_Date = req.body.Departure_Date
   const Arrival_Date = req.body.Arrival_Date
   const Departure_Airport = req.body.Departure_Airport
@@ -270,8 +297,8 @@ app.post("/get_return_flights", (req, res) => {
   const time = req.body.Dtime
   const Class = req.body.Class
   const number_seats = req.body.seats
-  console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
-  console.log(JSON.stringify(req.body) + "the whole body")
+  //console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
+  //console.log(JSON.stringify(req.body) + "the whole body")
 
   //"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]}
   //  Flight.find({"Departure_Date": {$gt :Departure_Date}  ,
@@ -432,7 +459,7 @@ app.delete("/delete/:id", async (req, res) => {
 app.put("/updateFlight/:id", async (req, res) => {
   console.log('here');
   //let flight = await Flight.findById(req.params.id);
-  await Flight.findByIdAndUpdate(req.params.id,{
+  await Flight.findByIdAndUpdate(req.params.id, {
     Flight_Number: req.body.Flight_Number,
     Departure_Date: req.body.Departure_Date,
     Departure_Time: req.body.Departure_Time,

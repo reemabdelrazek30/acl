@@ -48,7 +48,7 @@ export default function ReserveSeats(props) {
       selected_seats.pop(allSeats.at(id1));
       //console.log("deselected button: " + id1);
     }
-    
+
     else if (document.getElementById(id1).className === "economyUnreserved") { //button not selected -> select
       document.getElementById(id1).className = "economySelected";
       selected_seats.push(allSeats.at(id1));
@@ -70,7 +70,7 @@ export default function ReserveSeats(props) {
     console.log(selected_seats.length + "length");
     for (var i = 0; i < selected_seats.length; i++) {
       console.log("i entered reserve for loop");
-      Axios.post("http://localhost:3001/reserveSeat", {
+      Axios.put("http://localhost:3001/reserveSeat", {
         flightID: id,
         seatID: selected_seats[i]._id
       });
