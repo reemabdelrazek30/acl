@@ -15,6 +15,23 @@
    
 
 }
+#popup1{
+    position: fixed;
+    /* top:100%; */
+    /* left: 25%; */
+  
+    width:50%;
+    height: 50%;
+    background-color: rgba(16, 10, 77, 0.2);
+
+    align-items: center;
+    display:flex;
+    justify-content: center;
+}
+#popup1 button {    
+   background-color: darkgreen;
+
+}
 .popup-inner{
     position: relative;
     padding: 32px;

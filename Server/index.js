@@ -3,7 +3,11 @@ const app = express();
 const mongoose = require('mongoose')
 const Flight = require("./models/Flight")
 const User = require("./models/User")
-const Confirmation_number = require("./models/Confirmation_numbers")
+const Confirmation_number= require("./models/Confirmation_numbers")
+const Seat = require("./models/Seat")
+
+
+//const dotenv=require('')
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -126,33 +130,153 @@ app.post("/get_available_flights", (req, res) => {
   console.log("entered..");
   console.log(JSON.stringify(req.body));
   const Departure_Date = req.body.Departure_Date
-  const Departure_Airport = req.body.Departure_Airport
-  const Arrival_Airport = req.body.Arrival_Airport
-  const Class = req.body.Class
-  const number_seats = req.body.seats
-  console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
-  console.log(JSON.stringify(req.body) + "the whole body")
-  if (Class === "Economy") {
-    Flight.find({
-      "Departure_Date": (Departure_Date ? Departure_Date : { $nin: [null] }),
+  //  const Arrival_Date = req.body.Arrival_Date
+ const  Departure_Airport = req.body.Departure_Airport
+ const  Arrival_Airport = req.body.Arrival_Airport
+ const Class =req.body.Class
+ const number_seats=req.body.seats
+ console.log(`Departure_Airport +${Departure_Airport}`+"  body>"+req.body.Departure_Airport);
+ console.log(JSON.stringify(req.body)+"the whole body")
 
-      "numberOfAvailableEconomySeats": { $gte: number_seats },
-      "Departure_Airport": (Departure_Airport ? Departure_Airport : { $nin: [null] }), "Arrival_Airport": (Arrival_Airport ? Arrival_Airport : { $nin: [null] })
+//  Flight.find({"Departure_Airport": Departure_Airport})
 
-    }).then(flights => (res.json(flights), console.log(flights)))
-      .catch(err => console.log(err));
-  }
-  else {
-    Flight.find({
-      "Departure_Date": (Departure_Date ? Departure_Date : { $nin: [null] }),
 
-      "numberOfAvailableBusinessSeats": { $gte: number_seats },
-      "Departure_Airport": (Departure_Airport ? Departure_Airport : { $nin: [null] }), "Arrival_Airport": (Arrival_Airport ? Arrival_Airport : { $nin: [null] })
 
-    }).then(flights => res.json(flights))
-      .catch(err => console.log(err));
-  }
+// .then(flights =>  res.json(flights))
+//   .catch(err => res.status(400).json('Error: ' + err));
 
+  //console.log(err);
+  // if ( ! ( Departure_Date || Departure_Airport ||  Arrival_Airport || Arrival_Date ) ) 
+  // { console.log("res=null")
+    
+  //   res = null ;}
+  // else 
+if(Class==="Economy"){
+  Flight.find({"Departure_Date": (Departure_Date ? Departure_Date:{$nin : [null]}),
+  
+ "numberOfAvailableEconomySeats": {$gte :number_seats},
+ "Departure_Airport":(Departure_Airport ? Departure_Airport:{$nin : [null]}),"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]})
+
+}).then(flights =>  (res.json(flights) ,console.log("before> "+JSON.stringify(flights) +"entered if")))
+.catch(err => console.log(err));
+}
+else{
+  Flight.find({"Departure_Date": (Departure_Date ? Departure_Date:{$nin : [null]}),
+  
+  "numberOfAvailableBusinessSeats": {$gte :number_seats},
+  "Departure_Airport":(Departure_Airport ? Departure_Airport:{$nin : [null]}),"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]})
+ 
+ }).then(flights =>  res.json(flights))
+ .catch(err => console.log(err));
+}
+
+ 
+})
+//   let filerterby ={};
+//   if(Departure_Airport!==''){
+//     filerterby.Departure_Airport= Departure_Airport;
+//   }
+//   if(Arrival_Airport!==''){
+//     filerterby.Arrival_Airport= Arrival_Airport
+//   }
+//   let result=Flight.find({});
+//   console.log(result+"result1")
+//   if((Object.keys(filerterby)).length>0){
+//     //Object.keys(obj).forEach(key => {
+// //   console.log(key, obj[key]);
+// // });
+// console.log(JSON.stringify(filerterby) +" filterby");
+
+// Object.keys(filerterby).forEach(key => {
+// // {filerterby.map((k,v)=>{
+//   console.log(key, filerterby[key]);
+//   //result= result.find({key: filerterby[key]})
+//    Flight.find({key: filerterby[key]}) .then(flights =>  res.json(flights))
+//   .catch(err => res.status(400).json('Error: ' + err));
+// })}
+
+//console.log(result+"result")
+
+//  }
+//     result= result.find({Departure_Airport: Departure_Airport})
+//   }
+// if(Departure_Date!==''){
+//   result+=Flight.find({Departure_Airport: Departure_Airport})
+//   flight.find(()=>{
+//     (Departure_Date!==''? (Departure_Airport: Departure_Airport) :{})
+//     })
+// }
+
+  //await Flight.find({Departure_Airport: Departure_Airport})//.find( {Arrival_Airport: Arrival_Airport})
+   //res.json(flights)
+  //  .then(flights =>  res.json(flights))
+  // .catch(err => res.status(400).json('Error: ' + err));
+  // });
+  // find({
+  //   $or: [
+  //     {"Departure_Date": {$gt :Departure_Date}  ,
+//  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
+// },
+  //     { "Departure_Date": {$gte :Departure_Date}  ,"Arrival_Time":{$gt :Departure_Time}
+//  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
+// }
+  //   ]
+  // });
+  // $and: [
+  //   {
+  //     $or: [
+  //       { age: { $gte: 29 } },
+  //       { rank: 'Commander' }
+  //     ]
+  //   },
+  //   {
+  //     $or: [
+  //       { name: { $lte: 'D' } },
+  //       { name: { $gte: 'W' } }
+  //     ]
+  //   }
+  // ]
+  app.get("/getSeats/:id", (req, res) => {
+    Flight.findById(req.params.id, {_id:0, flightSeats:1})
+    .then(users =>  res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+ })
+ app.post("/get_flights",(req, res) => {
+   const id=req.body.id
+  Flight.findById(id)
+  .then(users =>  res.json(users))
+  .catch(err => res.status(400).json('Error: ' + err));
+})
+
+  
+  app.post("/get_return_flights", (req, res) => {
+    console.log("entered..returnflight");
+    console.log(JSON.stringify(req.body) +"return flight");
+    const Departure_Date = req.body.Departure_Date
+   const Arrival_Date = req.body.Arrival_Date
+ const  Departure_Airport = req.body.Departure_Airport
+ const  Arrival_Airport = req.body.Arrival_Airport
+ const time =req.body.Dtime
+ const Class =req.body.Class
+ const number_seats=req.body.seats
+ console.log(`Departure_Airport +${Departure_Airport}`+"  body>"+req.body.Departure_Airport);
+ console.log(JSON.stringify(req.body)+"the whole body")
+
+//"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]}
+//  Flight.find({"Departure_Date": {$gt :Departure_Date}  ,
+//  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
+// })
+if(Class==="Economy"){
+  Flight.find({
+    $or: [
+      {"Departure_Date": {$gt :Departure_Date}  ,"numberOfAvailableEconomySeats":{$gt :number_seats},
+ "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
+},
+      { "Departure_Date": {$gte :Departure_Date}  ,"Departure_Time":{$gt :time},
+ "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
+}
+    ]
+  })
 
 })
 
@@ -210,24 +334,32 @@ app.post("/confirm_booking", async (req, res) => {
   console.log("entered..confirm");
   console.log(JSON.stringify(req.body) + "confirm booking");
   const Departure_flight = req.body.Departure_flight
-  const Arrival_flight = req.body.Arrival_flight
-  const Total_price = req.body.Total_price
-  const Class = req.body.Class
-  const Departure_seats = req.body.Departure_seats
+ const Arrival_flight = req.body.Arrival_flight
+const  Total_price = req.body.Total_price
+const  Class = req.body.Class
+const  Departure_seats = req.body.Departure_seats
 
-  const Arrival_seats = req.body.Arrival_seats
-  const number = req.body.Confirmation_number
+const  Arrival_seats = req.body.Arrival_seats
+const number= req.body.Confirmation_number
 
-  let user = await User.findOne({})
-  let l = user.Flights;
-  const flight_object = [{ "Departure_flight": Departure_flight, "Arrival_flight": Arrival_flight, "Total_price": Total_price, "Class": Class, "Departure_seats": Departure_seats, "Arrival_seats": Arrival_seats, "Confirmation_number": number }]
-  // const list=[].push(Departure_flight)
-  // user..push.apply(myArray, myArray2);
-  l.push.apply(l, flight_object)
-  console.log(Departure_flight)
-  await user.updateOne({ Flights: l }, { writeConcern: { w: "majority", wtimeout: 5000 } })
-    .then(flights => res.json(flights))
-    .catch(err => { console.log("errrr" + err); console.log(user); });
+let user = await User.findOne({})
+let l=user.Flights;
+const flight_object=[{"Departure_flight":Departure_flight,"Arrival_flight":Arrival_flight,"Total_price":Total_price,"Class":Class,"Departure_seats":Departure_seats,"Arrival_seats":Arrival_seats,"Confirmation_number":number}]
+// const list=[].push(Departure_flight)
+// user..push.apply(myArray, myArray2);
+l.push.apply(l,flight_object)
+console.log(Departure_flight)
+await user.updateOne({Flights:l}, { writeConcern: { w: "majority" , wtimeout: 5000 }})
+
+// console.log(JSON.stringify(req.body)+"the whole body")
+
+//"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]}
+// Flight.find({})
+// Flight.find({"Departure_Date": {$gt :Departure_Date}  ,
+// "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
+
+ .then(flights =>  res.json(flights))
+ .catch(err =>{ console.log("errrr"+err) ; console.log(user);});
 })
 
 app.get("/confirmition_number", async (req, res) => {
@@ -274,12 +406,30 @@ app.get('/add_confirmation', async (req, res) => {
     .then(flights => res.json(flights))
     .catch(err => res.status(400).json('Error: ' + err));
 });
-app.post('/addFlight', async (req, res) => {
-  console.log("here");
-  console.log(req.body);  //Sha8al
-  const new_flight = new Flight(req.body);
-  console.log('passed'); // it never comes here
-  await new_flight.save().then(() => res.json('flight is added')).catch(err => res.status(400).json('Error: ' + err))
+app.post('/addFlight', async (req,res) =>
+{
+    console.log("here");
+    //console.log(req.body);  //Sha8al
+    const new_flight = new Flight(req.body);
+    const seats = [];
+    console.log("business seats: ", req.body.Number_of_Business_seats);
+    console.log("economy seats: ", req.body.Number_of_Economy_seats);
+    for (var i = 0; i < req.body.Number_of_Economy_seats; i++){
+      const newSeat = new Seat({"seatNumber": i, "seatType":"Economy"});
+      console.log(newSeat.seatNumber);
+      seats.push(newSeat);
+    }
+    for (var j = 0; j < req.body.Number_of_Business_seats; j++){
+      const newSeat = new Seat({"seatNumber": j, "seatType":"Business"});
+      seats.push(newSeat);
+    }
+    new_flight.flightSeats = seats;
+    new_flight.numberOfAvailableEconomySeats = req.body.Number_of_Economy_seats;
+    new_flight.numberOfAvailableBusinessSeats = req.body.Number_of_Business_seats; 
+    console.log('passed'); // it never comes here
+    //console.log(seats);
+    console.log(new_flight);
+    await new_flight.save().then(()=> res.json('flight is added')).catch(err => res.status(400).json('Error: '+err))
 });
 
 app.get("/schedule", (req, res) => {

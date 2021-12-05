@@ -7,8 +7,19 @@ import Profile from './Components/Profile';
 import Home_page from "./Components/Hpage"
 import Home from './Components/Home';
 import User from './Components/User';
-import Reserve_FLight from './Components/ReserveFlight';
-import View_FLight from './Components/ViewFlight';
+import Reserve_FLight from './Components/ReserveFLight';
+import View_FLight from './Components/View_FLight';
+import payment from './Components/Payment';
+// import ReserveSeats from './Components/ReserveSeats';
+import Salma from './Components/salma';
+import Summary from './Components/Summary';
+
+
+
+
+// <Route exactpath = "/CreateFlight" component={CreateFlight}/>
+// if you got here that means I am crying 
+// Hallo
 function App() {
   return (
     <div className="App">
@@ -23,6 +34,13 @@ function App() {
          <Route exact path = "/ViewFlight" component={View_FLight}/>
          <Route exact path="/FlightSchedule" component={Flight_schedule}/>
          <Route exact path="/Profile" component={Profile}/>
+         <Route exact path="/salma" component={Salma}/>
+         <Route exact path = "/Summary" component={Summary}/>
+         <Route exact path = "/payment" component={payment}/>
+         
+
+
+        
           </Switch>
         </Router>
     </div>

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 //import Seat from './Seat'
-// const Seat = require("./Seat")
+const Seat = require("./Seat")
 const FlightSchema = new Schema({
   Flight_Number: {
     type: String,
@@ -40,7 +40,7 @@ const FlightSchema = new Schema({
     required: true
   },
   flightSeats: {
-    type: [],
+    type: [{}],
     required: false
   },
   numberOfAvailableEconomySeats: {
