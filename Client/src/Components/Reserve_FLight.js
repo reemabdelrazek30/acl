@@ -1,6 +1,6 @@
 //inport {useState} from 'react'
 import { useState } from "react";
-import View_FLight from "./View_FLight";
+import View_FLight from "./ViewFiight";
 export default function Reserve_FLight (){
 // const [currentDate,setCurrentDate]=useState('')
 const current = new Date();

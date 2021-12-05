@@ -1,0 +1,9 @@
+.closeButton {
+    background-color: rgb(10, 177, 46);
+    color: white
+}
+
+.text {
+    text-align: justify;
+    font-size: large;
+}

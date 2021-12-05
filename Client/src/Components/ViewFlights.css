@@ -1,0 +1,42 @@
+.app-containe {
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+    padding: 1rem;
+  }
+  
+.th1 {
+    background-color: #3257a7;
+    color: rgba(255, 255, 255, 0.842);
+    border: 1px solid #ffffff;
+    text-align:center;
+    padding: 8px;
+    width: 200px;
+    font-size: 20px;
+    position:relative;
+   
+    left:40%;
+  }
+
+  .t1{
+    padding: 18px; 
+  }
+  .btn {
+    margin-top: 10px;
+    text-align: center;
+ 
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #4345d8;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    left:40%;
+    box-shadow: 0 0 18px 0 #3257a7;
+  }
+
+  
+  

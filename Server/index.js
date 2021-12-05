@@ -39,7 +39,7 @@ app.get("/user", (req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-app.post("/get_available_flights", (req, res) => {
+app.post("/get_available_flights", async (req, res) => {
   console.log("entered..");
   console.log(JSON.stringify(req.body));
   const Departure_Date = req.body.Departure_Date
@@ -65,7 +65,7 @@ app.post("/get_available_flights", (req, res) => {
   //   res = null ;}
   // else 
 if(Class==="Economy"){
-  Flight.find({"Departure_Date": (Departure_Date ? Departure_Date:{$nin : [null]}),
+  await Flight.find({"Departure_Date": (Departure_Date ? Departure_Date:{$nin : [null]}),
   
  "numberOfAvailableEconomySeats": {$gte :number_seats},
  "Departure_Airport":(Departure_Airport ? Departure_Airport:{$nin : [null]}),"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]})
@@ -74,7 +74,7 @@ if(Class==="Economy"){
 .catch(err => console.log(err));
 }
 else{
-  Flight.find({"Departure_Date": (Departure_Date ? Departure_Date:{$nin : [null]}),
+  await Flight.find({"Departure_Date": (Departure_Date ? Departure_Date:{$nin : [null]}),
   
   "numberOfAvailableBusinessSeats": {$gte :number_seats},
   "Departure_Airport":(Departure_Airport ? Departure_Airport:{$nin : [null]}),"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]})
@@ -162,7 +162,7 @@ else{
 })
 
   
-  app.post("/get_return_flights", (req, res) => {
+  app.post("/get_return_flights",  async (req, res) => {
     console.log("entered..returnflight");
     console.log(JSON.stringify(req.body) +"return flight");
     const Departure_Date = req.body.Departure_Date
@@ -180,7 +180,7 @@ else{
 //  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
 // })
 if(Class==="Economy"){
-  Flight.find({
+  await Flight.find({
     $or: [
       {"Departure_Date": {$gt :Departure_Date}  ,"numberOfAvailableEconomySeats":{$gt :number_seats},
  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
@@ -195,7 +195,7 @@ if(Class==="Economy"){
   .catch(err => console.log(err));
 }
 else{
-  Flight.find({
+  await  Flight.find({
     $or: [
       {"Departure_Date": {$gt :Departure_Date}  ,"numberOfAvailableBusinessSeats":{$gt :number_seats},
  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
@@ -223,10 +223,13 @@ const  Departure_seats = req.body.Departure_seats
 
 const  Arrival_seats = req.body.Arrival_seats
 const number= req.body.Confirmation_number
+const seatsAID= req.body.seatsAID
+const seatsDID= req.body.seatsDID
+
 
 let user = await User.findOne({})
 let l=user.Flights;
-const flight_object=[{"Departure_flight":Departure_flight,"Arrival_flight":Arrival_flight,"Total_price":Total_price,"Class":Class,"Departure_seats":Departure_seats,"Arrival_seats":Arrival_seats,"Confirmation_number":number}]
+const flight_object=[{"Departure_flight":Departure_flight,"Arrival_flight":Arrival_flight,"Total_price":Total_price,"Class":Class,"Departure_seats":Departure_seats,"Arrival_seats":Arrival_seats,"seatsAID":seatsAID,"seatsDID":seatsDID,"Confirmation_number":number}]
 // const list=[].push(Departure_flight)
 // user..push.apply(myArray, myArray2);
 l.push.apply(l,flight_object)
@@ -243,6 +246,62 @@ await user.updateOne({Flights:l}, { writeConcern: { w: "majority" , wtimeout: 50
  .then(flights =>  res.json(flights))
  .catch(err =>{ console.log("errrr"+err) ; console.log(user);});
 })
+app.put("/reserveSeat", (async (req, res) => {
+  console.log(req.body);
+  const seatID = req.body.seatID;
+  const flightID = req.body.flightID;
+  const flight = await Flight.findById(flightID);
+  const seatsList = flight.flightSeats;
+  let sclass ;
+  seatsList.map(val => { if ((val._id) == seatID) { val.status = "reserved"; sclass = val.seatType } });
+  if (sclass === "Economy")
+    Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableEconomySeats: -1 } })
+  else
+    Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableBusinessSeats: -1 } })
+  console.log(seatsList);
+})
+)
+
+app.get("/user", (req, res) => {
+  user.find({})
+  .then(users =>  res.json(users))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+app.delete("/deleteticket/:confirm/:user_id", async(req,res)=>{
+  const confirm=req.params.confirm; 
+  var result=[];
+  const id=req.params.user_id;
+ // var id="61ab47212867eed35a696d19";
+  console.log("confirm  "+confirm);
+  console.log("id  "+id);
+
+
+  await User.findByIdAndUpdate(id,{$pull: { Flights:{Confirmation_number : confirm}}})
+
+
+    User.find({}).then(users =>  res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+   
+
+});
+
+
+
+app.put("/deleteReservedSeat", async (req, res) => {
+  console.log(req.body);
+  const flightID = req.body.flightID;
+  const seatID = req.body.seatID;
+  const flight = await Flight.findById(flightID);
+  const seatsList = flight.flightSeats;
+  let sclass ;
+  seatsList.map(val => { if ((val._id) == seatID) { val.status = "free"; sclass = val.seatType } });
+  if (seat.seatType === "Economy")
+    Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableEconomySeats: 1 } })
+  else
+    Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableBusinessSeats: 1 } })
+}
+)
 
  app.get("/confirmition_number",async (req,res)=>{
   let rand = Math.random().toString(16).substr(2, 8); // 6de5ccda
