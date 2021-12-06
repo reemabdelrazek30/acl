@@ -3,7 +3,6 @@ import Axios from "axios";;
 export const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-  
     const [loginStatus, setLoginStatus] = useState("");
   
     Axios.defaults.withCredentials = true;
@@ -15,7 +14,7 @@ export const Login = () => {
             if (response.data.message) {
                 setLoginStatus(response.data.message);
             } else {
-                setLoginStatus(response.data[0].First_Name);
+                setLoginStatus("Hello," + response.data.First_Name);
             }
         });
     };

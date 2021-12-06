@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose')
 const Flight = require("./models/Flight")
 const User = require("./models/User")
+const Passenger = require("./models/Passenger")
 const Confirmation_number = require("./models/Confirmation_numbers")
 const Seat = require("./models/Seat")
 const cors = require('cors')
@@ -37,7 +38,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      expires: 60 * 60 * 24,
+      expires: 1000 * 60 * 60 * 24,
     },
   })
 );
@@ -54,6 +55,7 @@ app.listen(3001, () => {
 })
 app.get("/login", (req, res) => {
   if (req.session.user) {
+    console.log('here');
     res.send({ loggedIn: true, user: req.session.user });
   } else {
     res.send({ loggedIn: false });
@@ -62,13 +64,18 @@ app.get("/login", (req, res) => {
 app.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  const user = await User.find({ 'Email': username });
-  if (user) {
-    bcrypt.compare(password, user.password, (error, response) => {
+  var passenger = await Passenger.findOne({ 'Email': username });
+  // find won't work here 
+  //passenger.toObject();
+  console.log(passenger.Email);
+  if (passenger) {
+    bcrypt.compare(password, passenger.Password, (error, response) => {
+      if (error)
+      console.log(error);
       if (response) {
-        req.session.user = result;
+        req.session.user = passenger;
         console.log(req.session.user);
-        res.send(user);
+        res.send(passenger);
       } else
         res.send({ message: "Wrong username/password combination!" });
     });
@@ -79,7 +86,7 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
   const { First_Name, Last_Name, Passport_Number, Email, password } = req.body;
   bcrypt.hash(password, saltRounds).then(async (hash) => {
-    const newUser = await new User({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email, "Password": hash });
+    const newUser = await new Passenger({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email, "Password": hash });
     // User.
     // User.insert({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email , "Password":hash },{ writeConcern: { w: "majority" , wtimeout: 5000 } })
     await newUser.save();
@@ -97,13 +104,21 @@ app.get("/Flights", (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-app.get("/user", (req, res) => {
-  User.find({})
+app.get("/passenger", (req, res) => {
+  Passenger.find({})
     //res.json(flights)
-    .then(flights => res.json(flights))
+    .then(passengers => res.json(passengers))
     .catch(err => res.status(400).json('Error: ' + err));
 });
-
+app.get("/user", (req, res) => {
+  User.find({}) 
+    //res.json(flights)
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+app.get("/userD",async (req, res) => {
+  await User.findByIdAndDelete("61ab47212867eed35a696d19").then().catch(err => res.status(400).json('Error: ' + err));
+});
 app.post("/get_available_flights", async (req, res) => {
   console.log("entered..");
   //console.log(JSON.stringify(req.body));
@@ -364,7 +379,7 @@ app.put("/deleteReservedSeat", async (req, res) => {
 
       app.get("/viewProfile/:id", async (req, res) => {
         const passedID = req.params.id;
-        User.find({ User_id: passedID })
+        Passenger.find(passedID)
           .then(users => {
             console.log(users)
             res.json(users)
@@ -380,7 +395,7 @@ app.put("/deleteReservedSeat", async (req, res) => {
           res.status(200)
           return
         }
-        User.findOneAndUpdate({ User_id: passedID }, {
+        Passenger.findOneAndUpdate(passedID, {
           First_Name: req.body.First_Name,
           Last_Name: req.body.Last_Name,
           Passport_Number: req.body.Passport_Number,
