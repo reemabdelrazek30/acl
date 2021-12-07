@@ -43,7 +43,7 @@ app.use(
   })
 );
 
-
+//cmongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true
 const MongoURL = process.env.MongoURL;
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => console.log("MongoDB is now connected"))
