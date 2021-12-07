@@ -43,7 +43,7 @@ app.use(
   })
 );
 
-
+//cmongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true
 const MongoURL = process.env.MongoURL;
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => console.log("MongoDB is now connected"))
@@ -55,7 +55,7 @@ app.listen(3001, () => {
 })
 app.get("/login", (req, res) => {
   if (req.session.user) {
-    console.log('here');
+    //console.log('here');
     res.send({ loggedIn: true, user: req.session.user });
   } else {
     res.send({ loggedIn: false });
@@ -74,7 +74,7 @@ app.post("/login", async (req, res) => {
       console.log(error);
       if (response) {
         req.session.user = passenger;
-        console.log(req.session.user);
+        //console.log(req.session.user);
         res.send(passenger);
       } else
         res.send({ message: "Wrong username/password combination!" });
@@ -379,13 +379,13 @@ app.put("/deleteReservedSeat", async (req, res) => {
 
       app.get("/viewProfile/:id", async (req, res) => {
         const passedID = req.params.id;
-        Passenger.find(passedID)
-          .then(users => {
-            console.log(users)
-            res.json(users)
+        Passenger.findById(passedID)
+          .then(user=> {
+            //console.log(user)
+            res.json(user)
           })
           .catch(err => res.status(400).json('Error: ' + err));
-        console.log(res.json);
+        //console.log(res.json);
       });
 
       app.put("/editProfile/:id", async (req, res) => {
@@ -395,7 +395,7 @@ app.put("/deleteReservedSeat", async (req, res) => {
           res.status(200)
           return
         }
-        Passenger.findOneAndUpdate(passedID, {
+        Passenger.findByIdAndUpdate(passedID, {
           First_Name: req.body.First_Name,
           Last_Name: req.body.Last_Name,
           Passport_Number: req.body.Passport_Number,

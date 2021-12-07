@@ -44,6 +44,7 @@ function App() {
          <Route exact path = "/payment" component={payment}/>
          <Route exact path = "/Login" component={Login}/>
          <Route exact path = "/Register" component={Register}/>
+         <Route exact path = "/salma" component={Salma}/>
          
 
 

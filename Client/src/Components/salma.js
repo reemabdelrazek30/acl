@@ -1,15 +1,10 @@
 import ReserveSeats from './ReserveSeats'
-import { useState, useEffect } from "react"
-import Axios from "axios";
-import Summary from "./Summary";
-
-import { useHistory } from 'react-router-dom';
+import { useState} from "react"
 import { useLocation } from "react-router-dom";
 
 export default function Salma (){
     const query = new URLSearchParams(useLocation().search);
     //      search:'?Did=' + depatureFlight["id"]+'Aid=' + arrivalFlight["id"]+ '&class='+prop.Class +'&number='+ (props.info.N_childern+props.info.N_adult) //+'&props='+JSON.stringify(prop)+'&clicked='+clicked
-
     console.log(query+"  ضعثقغ هى قثسثقرث حشلث");
     const Did = query.get("Did");
     const Aid = query.get("Aid");
@@ -17,13 +12,13 @@ export default function Salma (){
     const number=query.get("number");
     const priceD=query.get("priceD");
     const priceA=query.get("priceA");
-    const [info,setInfo]=useState({
-        "Did":Did,
-        "Aid":Aid,
-        "priceD":priceD,
-        "priceA":priceA,
-        "flightClass":flightClass
-    })
+    // const [info,setInfo]=useState({
+    //     "Did":Did,
+    //     "Aid":Aid,
+    //     "priceD":priceD,
+    //     "priceA":priceA,
+    //     "flightClass":flightClass
+    // })
 
     const [trigger,setTrigger]=useState(true)
     const [trigger2,setTrigger2]=useState(false)
