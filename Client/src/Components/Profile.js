@@ -3,18 +3,26 @@ import './createFlight.css';
 import { useState } from "react";
 import { useHistory } from 'react-router';
 import axios from 'axios';
-
+import {Login} from './Login'
 export default function Profile(){
- 
+    let id ;
     let history = useHistory();
-    const [id , setID] = useState(0);
+    //const [id , setID] = useState(0);
     const [profile , setProfile] = useState([]);
     const [First_Name , setFirst_Name] = useState("");
     const [Last_Name , setLast_Name] = useState("");
     const [Passport_Number , setPassport_Number] = useState("");
     const [Email , setEmail] = useState("");
-    //axios.defaults.withCredentials = true;
+    axios.defaults.withCredentials = true;
     const getProfile = () => {
+        axios.get("http://localhost:3001/login").then(response => 
+        {   
+            console.log("here");
+          if (response.data.loggedIn)
+             id = response.data.user[0]._id;
+           else
+           <Login/>
+        })
         axios.get(`http://localhost:3001/viewProfile/${id}`).then((response => {
             setProfile(response.data);
             setFirst_Name(response.data[0].First_Name);
