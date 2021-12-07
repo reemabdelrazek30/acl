@@ -210,7 +210,7 @@ export default function View_FLight(props) {
 
       set_clicked_confirm(true)
 
-      if (props.user === "true") {
+      if (props.user /*=== "true"*/) {
         let c;
         Axios.post("http://localhost:3001/confirm_booking", {
 
@@ -236,7 +236,7 @@ export default function View_FLight(props) {
       }
       else {
         // show you have to login first
-
+       
       }
 
     }
@@ -259,10 +259,11 @@ export default function View_FLight(props) {
       // search:'?Did=' + depatureFlight["id"]+'&Aid=' + arrivalFlight["id"]+ '&class='+prop.Class +'&number='+ (props.info.N_childern+props.info.N_adult)+
       // '&priceD='+depatureFlight["Price"] +'&priceA='+arrivalFlight["Price"]
       //+'&props='+JSON.stringify(prop)+'&clicked='+clicked
-      if (props.user === "false") {
+      if (!props.user /*=== "false"*/) {
         setshow_departure_component(false)
         setshow_return_component(false)
-        setshow_return_button(false)
+       // setshow_return_button(false)
+        setshow_return_button(true)
         setshow_departure_button(true)
         setShow_buttons(false)
         // setButton_content('Select Seats')}
@@ -372,7 +373,7 @@ export default function View_FLight(props) {
         ) : (show_return_component ? (
 
           returnFlights.length > 0 ? (<h1>Choose Arrival Flight</h1>) : <h1>Sorry, no available return flights for the selected departure flight try choose another one</h1>
-        ) : (clicked_confirm ? (((show_summery && props.user === "true" && button_content === 'Proceed to payment') ? (<h1> Your Confirmation code is {con_Number}</h1>) : <h1>You have to login first to confirm your reservation</h1>)
+        ) : (clicked_confirm ? (((show_summery && props.user/* === "true"*/ && button_content === 'Proceed to payment') ? (<h1> Your Confirmation code is {con_Number}</h1>) : <h1>You have to login first to confirm your reservation</h1>)
         ) : "")
         )
         }

@@ -148,7 +148,7 @@ else
         Axios.put("http://localhost:3001/reserveSeat",{
           flightID: id,
           seatID: selected_seats[i]._id
-        },[]);//const priceD=props.priceD;
+        },[id]);//const priceD=props.priceD;
        
         console.log(JSON.stringify(selected_seatsN)+"inside the for loop")
         

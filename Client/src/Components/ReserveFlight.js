@@ -143,7 +143,7 @@ export default function Reserve_FLight() {
       ) : ""}        <br />
 
 
-      {showComponent ? <View_FLight user= {LoggedIn} show={show} set={setShow} info={infoS} clicked={clicked} /> : null}
+      {showComponent ? <View_FLight user= {true}/*{LoggedIn}*/ show={show} set={setShow} info={infoS} clicked={clicked} /> : null}
       {/* {setShowComponent(false)} */}
 
     </div>
