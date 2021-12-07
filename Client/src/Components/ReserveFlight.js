@@ -1,5 +1,5 @@
 //inport {useState} from 'react'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import View_FLight from "./ViewFlight";
 import axios from 'axios';
 import {Login} from './Login'
@@ -52,16 +52,16 @@ export default function Reserve_FLight() {
     setShow(false)
     alert(JSON.stringify(info, '', 2));
   };
-  var LoggedIn = false;
+  const [isLoggedIn, setLoggedIn] = useState(false)
+  useEffect(() => {
   const isLogged = () => {
     axios.get("http://localhost:3001/login").then(response => {
       console.log("here");
       if (response.data.loggedIn)
-        LoggedIn = true;
-      else
-        <Login />
+        setLoggedIn(true);
     })
   }
+},[])
   return (
     <div  >
       <br />
@@ -143,7 +143,7 @@ export default function Reserve_FLight() {
       ) : ""}        <br />
 
 
-      {showComponent ? <View_FLight user= {LoggedIn} show={show} set={setShow} info={infoS} clicked={clicked} /> : null}
+      {showComponent ? <View_FLight user= {isLoggedIn} show={show} set={setShow} info={infoS} clicked={clicked} /> : null}
       {/* {setShowComponent(false)} */}
 
     </div>
