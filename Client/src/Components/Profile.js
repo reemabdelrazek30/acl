@@ -39,17 +39,17 @@ export default function Profile(){
             <div class ="banner">
                 <h1>View Profile</h1>
             </div>
-            <div class="item">
+            {/* <div class="item">
                 <h2>Enter ( User ID ) to view profile details</h2>
                 <input type="number" name="id" placeholder="User ID" onChange={(event) => {setID(event.target.value)}}></input>
-            </div>
+            </div> */}
             <div class="item">
-                <button onClick={getProfile}>proceed</button>
+                {/* <button onClick={getProfile}>proceed</button> */}
 
                 {profile.map((val, key) => {
                     return <form>
                     <div className="item">
-                        <h3> User ID : {val.User_id} </h3>
+                        {/* <h3> User ID : {val.User_id} </h3> */}
                         <input type="text" name="First Name" required={true} defaultValue={val.First_Name} onChange={(event) => {setFirst_Name(event.target.value)}}></input>
                         <input type="text" name="Last Name" required={true} defaultValue={val.Last_Name} onChange={(event) => {setLast_Name(event.target.value)}}></input>
                         <input type="text" name="Passport Number " required={true} defaultValue={val.Passport_Number} onChange={(event) => {setPassport_Number(event.target.value)}}></input>
