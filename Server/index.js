@@ -2,7 +2,7 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
 const Flight = require("./models/Flight")
-const User = require("./models/User")
+//const User = require("./models/User")
 const Passenger = require("./models/Passenger")
 const Confirmation_number = require("./models/Confirmation_numbers")
 const Seat = require("./models/Seat")
@@ -111,13 +111,13 @@ app.get("/passenger", (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 app.get("/user", (req, res) => {
-  User.find({}) 
+  Passenger.find({}) 
     //res.json(flights)
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 app.get("/userD",async (req, res) => {
-  await User.findByIdAndDelete("61ab47212867eed35a696d19").then().catch(err => res.status(400).json('Error: ' + err));
+  await Passenger.findByIdAndDelete("61ab47212867eed35a696d19").then().catch(err => res.status(400).json('Error: ' + err));
 });
 app.post("/get_available_flights", async (req, res) => {
   console.log("entered..");
@@ -135,7 +135,7 @@ app.post("/get_available_flights", async (req, res) => {
       "numberOfAvailableEconomySeats": { $gte: number_seats },
       "Departure_Airport": (Departure_Airport ? Departure_Airport : { $nin: [null] }), "Arrival_Airport": (Arrival_Airport ? Arrival_Airport : { $nin: [null] })
 
-    }).then(flights => (res.json(flights), console.log("before> " + JSON.stringify(flights) + "entered if")))
+    }).then(flights => (res.json(flights)/*, console.log("before> " + JSON.stringify(flights) + "entered if")*/))
       .catch(err => console.log(err));
   }
   else {
@@ -248,7 +248,7 @@ app.put("/deleteReservedSeat", async (req, res) => {
         const seatsDID = req.body.seatsDID
 
 
-        let user = await User.findOne({})
+        let user = await Passenger.findOne({})
         let l = user.Flights;
         const flight_object = [{ "Departure_flight": Departure_flight, "Arrival_flight": Arrival_flight, "Total_price": Total_price, "Class": Class, "Departure_seats": Departure_seats, "Arrival_seats": Arrival_seats, "seatsAID": seatsAID, "seatsDID": seatsDID, "Confirmation_number": number }]
         // const list=[].push(Departure_flight)
@@ -270,10 +270,10 @@ app.put("/deleteReservedSeat", async (req, res) => {
         console.log("id  " + id);
 
 
-        await User.findByIdAndUpdate(id, { $pull: { Flights: { Confirmation_number: confirm } } })
+        await Passenger.findByIdAndUpdate(id, { $pull: { Flights: { Confirmation_number: confirm } } })
 
 
-        User.find({}).then(users => res.json(users))
+        Passenger.find({}).then(users => res.json(users))
           .catch(err => res.status(400).json('Error: ' + err));
 
 
@@ -326,7 +326,7 @@ app.put("/deleteReservedSeat", async (req, res) => {
           .catch(err => res.status(400).json('Error: ' + err));
       });
       app.post('/addFlight', async (req, res) => {
-        console.log("here");
+        console.log("here add flight");
         //console.log(req.body);  //Sha8al
         const new_flight = new Flight(req.body);
         const seats = [];
@@ -351,6 +351,13 @@ app.put("/deleteReservedSeat", async (req, res) => {
       });
       //-----------------// get all flights
 
+      // app.post('/addFlight', async (req, res) => {
+      //   console.log("here add flight");
+      //   //console.log(req.body);  //Sha8al
+      //   const new_flight = new Flight(req.body);
+      //   console.log(new_flight);
+      //   await new_flight.save().then(() => res.json('flight is added')).catch(err => res.status(400).json('Error: ' + err))
+      // });
       //------ to delete a flight--//
       app.delete("/delete/:id", async (req, res) => {
         const id = req.params.id;

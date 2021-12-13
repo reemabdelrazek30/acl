@@ -43,7 +43,7 @@ export default function View_FLight(props) {
   const [clickedGoToReturnflights_button, setClickedGoToReturnflights_button] = useState(false)
   const [show_departure_component, setshow_departure_component] = useState(true)
   const [show_return_component, setshow_return_component] = useState(false)
-  const [show_departure_button, setshow_departure_button] = useState(false)
+  const [show_departure_button, setshow_departure_button] = useState(true)
   const [show_return_button, setshow_return_button] = useState(false)
   const [button_content, setButton_content] = useState('Proceed')
   const [seatsD, setSeatsD] = useState([]);
