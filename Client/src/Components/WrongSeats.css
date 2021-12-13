@@ -1,0 +1,11 @@
+.closeButton {
+    background-color: rgb(177, 10, 10);
+    color: white
+}
+.popup {
+    opacity: 0.8;
+}
+.text {
+    text-align: justify;
+    font-size: medium;
+}
