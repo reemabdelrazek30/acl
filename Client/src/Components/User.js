@@ -22,8 +22,10 @@ return(
          
           </div>
           <br/>
-         <div><button onClick={() => {history.push('/ReserveFLight');}}>Reserve FLight</button>
-        {/* <button onClick={() => {history.push('/test');}}>test</button> */}
+         <div><button onClick={() => {history.push('/ReserveFlight');}}>Reserve FLight</button> </div>
+         <br/>
+         <div><button onClick={() => {history.push('/ViewFlights');}}>View Reserved FLights</button>
+       <br/> <div><button onClick={() => {history.push('/Profile');}}>Profile</button></div>
          {/* <div><button onClick={ clickHandeler }>Reserve FLight</button> */}
         <br/>
       

@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose')
 const Flight = require("./models/Flight")
 const User = require("./models/User")
+const Passenger = require("./models/Passenger")
 const Confirmation_number = require("./models/Confirmation_numbers")
 const Seat = require("./models/Seat")
 const cors = require('cors')
@@ -13,36 +14,37 @@ const bcrypt = require('bcrypt');
 const cookieParser = require("cookie-parser");
 //const { sign, verify } = require('jsonwebtoken');
 const session = require("express-session");
-//const MongoURL = Process.env.MongoURL;
-const MongoURL = "mongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
 const saltRounds = 10;
-// app.use(
-//   cors({
-//     origin: ["http://localhost:3001"],
-//     methods: ["GET", "POST", "DELETE", "PUT"],
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-//app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"))
 app.use(methodOverride('_method'));
-//app.use(cookieParser());
+app.use(cookieParser());
 require('dotenv').config();
-// app.use(
-//   session({
-//     key: "userId",
-//     secret: "subscribe",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       expires: 60 * 60 * 24,
-//     },
-//   })
-// );
+app.use(
+  session({
+    key: "userId",
+    secret: "subscribe",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 1000 * 60 * 60 * 24,
+    },
+  })
+);
 
+//cmongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true
+const MongoURL = process.env.MongoURL;
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => console.log("MongoDB is now connected"))
   .catch(err => console.log(err));
@@ -51,41 +53,48 @@ app.listen(3001, () => {
   console.log("listening..");
 
 })
+app.get("/login", (req, res) => {
+  if (req.session.user) {
+    //console.log('here');
+    res.send({ loggedIn: true, user: req.session.user });
+  } else {
+    res.send({ loggedIn: false });
+  }
+});
+app.post("/login", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  var passenger = await Passenger.findOne({ 'Email': username });
+  // find won't work here 
+  //passenger.toObject();
+  console.log(passenger.Email);
+  if (passenger) {
+    bcrypt.compare(password, passenger.Password, (error, response) => {
+      if (error)
+        console.log(error);
+      if (response) {
+        req.session.user = passenger;
+        //console.log(req.session.user);
+        res.send(passenger);
+      } else
+        res.send({ message: "Wrong username/password combination!" });
+    });
+  } else {
+    res.send({ message: "User doesn't exist" });
+  }
+});
+app.post("/register", async (req, res) => {
+  const { First_Name, Last_Name, Passport_Number, Email, password } = req.body;
+  bcrypt.hash(password, saltRounds).then(async (hash) => {
+    const newUser = await new Passenger({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email, "Password": hash });
+    // User.
+    // User.insert({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email , "Password":hash },{ writeConcern: { w: "majority" , wtimeout: 5000 } })
+    await newUser.save();
+    //.then(() => console.log("inserted").catch(err => console.log(err)));
+  }).then(() => console.log("user registered"))
+    .catch(err => console.log(err));
 
-// app.post("/register", (req, res) => {
-//   const { First_Name, Last_Name, Passport_Number, Email, password } = req.body;
-//   bcrypt.hash(password, 10).then((hash) => {
-//     const newUser = new User({ "First_Name": First_Name, "Last_Name": Last_Name, "Passport_Number": Passport_Number, "Email": Email });
-//     User.insertOne(newUser);
-//   }).then(() => console.log("user registered"))
-//     .catch(err => console.log(err));
-// });
-
-// const createTokens = (user) => {
-//   const accessToken = sign({ email: user.Email, id: user._id }, Process.env.AccessToken);
-//   return accessToken;
-// }
-
-// const validateToken = (req, res, next) => {
-//   const accessToken = req.cookies("access-token");
-//   if (!accessToken)
-//     return res.status(400).json({error:"User not Auth"});
-//   try 
-//   {
-//     const validToken = verify(accessToken,Process.env.AccessToken)
-//     if (validToken)
-//     {
-//       req.authenticated = true;
-//       return next();
-//     }
-//   }
-//   catch(err) {res.status(400).json({error:err})}
-// }
-
-
-// m
-
-
+});
 
 app.get("/Flights", (req, res) => {
   console.log('here');
@@ -95,14 +104,22 @@ app.get("/Flights", (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+app.get("/passenger", (req, res) => {
+  Passenger.find({})
+    //res.json(flights)
+    .then(passengers => res.json(passengers))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 app.get("/user", (req, res) => {
   User.find({})
     //res.json(flights)
-    .then(flights => res.json(flights))
+    .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
 });
-
-app.post("/get_available_flights", (req, res) => {
+app.get("/userD", async (req, res) => {
+  await User.findByIdAndDelete("61ab47212867eed35a696d19").then().catch(err => res.status(400).json('Error: ' + err));
+});
+app.post("/get_available_flights", async (req, res) => {
   console.log("entered..");
   //console.log(JSON.stringify(req.body));
   const Departure_Date = req.body.Departure_Date
@@ -111,24 +128,8 @@ app.post("/get_available_flights", (req, res) => {
   const Arrival_Airport = req.body.Arrival_Airport
   const Class = req.body.Class
   const number_seats = req.body.seats
-  //console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
-  //console.log(JSON.stringify(req.body) + "the whole body")
-
-  //  Flight.find({"Departure_Airport": Departure_Airport})
-
-
-
-  // .then(flights =>  res.json(flights))
-  //   .catch(err => res.status(400).json('Error: ' + err));
-
-  //console.log(err);
-  // if ( ! ( Departure_Date || Departure_Airport ||  Arrival_Airport || Arrival_Date ) ) 
-  // { console.log("res=null")
-
-  //   res = null ;}
-  // else 
   if (Class === "Economy") {
-    Flight.find({
+    await Flight.find({
       "Departure_Date": (Departure_Date ? Departure_Date : { $nin: [null] }),
 
       "numberOfAvailableEconomySeats": { $gte: number_seats },
@@ -138,7 +139,7 @@ app.post("/get_available_flights", (req, res) => {
       .catch(err => console.log(err));
   }
   else {
-    Flight.find({
+    await Flight.find({
       "Departure_Date": (Departure_Date ? Departure_Date : { $nin: [null] }),
 
       "numberOfAvailableBusinessSeats": { $gte: number_seats },
@@ -148,72 +149,8 @@ app.post("/get_available_flights", (req, res) => {
       .catch(err => console.log(err));
   }
 
-
 })
-//   let filerterby ={};
-//   if(Departure_Airport!==''){
-//     filerterby.Departure_Airport= Departure_Airport;
-//   }
-//   if(Arrival_Airport!==''){
-//     filerterby.Arrival_Airport= Arrival_Airport
-//   }
-//   let result=Flight.find({});
-//   console.log(result+"result1")
-//   if((Object.keys(filerterby)).length>0){
-//     //Object.keys(obj).forEach(key => {
-// //   console.log(key, obj[key]);
-// // });
-// console.log(JSON.stringify(filerterby) +" filterby");
 
-// Object.keys(filerterby).forEach(key => {
-// // {filerterby.map((k,v)=>{
-//   console.log(key, filerterby[key]);
-//   //result= result.find({key: filerterby[key]})
-//    Flight.find({key: filerterby[key]}) .then(flights =>  res.json(flights))
-//   .catch(err => res.status(400).json('Error: ' + err));
-// })}
-
-//console.log(result+"result")
-
-//  }
-//     result= result.find({Departure_Airport: Departure_Airport})
-//   }
-// if(Departure_Date!==''){
-//   result+=Flight.find({Departure_Airport: Departure_Airport})
-//   flight.find(()=>{
-//     (Departure_Date!==''? (Departure_Airport: Departure_Airport) :{})
-//     })
-// }
-
-//await Flight.find({Departure_Airport: Departure_Airport})//.find( {Arrival_Airport: Arrival_Airport})
-//res.json(flights)
-//  .then(flights =>  res.json(flights))
-// .catch(err => res.status(400).json('Error: ' + err));
-// });
-// find({
-//   $or: [
-//     {"Departure_Date": {$gt :Departure_Date}  ,
-//  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
-// },
-//     { "Departure_Date": {$gte :Departure_Date}  ,"Arrival_Time":{$gt :Departure_Time}
-//  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
-// }
-//   ]
-// });
-// $and: [
-//   {
-//     $or: [
-//       { age: { $gte: 29 } },
-//       { rank: 'Commander' }
-//     ]
-//   },
-//   {
-//     $or: [
-//       { name: { $lte: 'D' } },
-//       { name: { $gte: 'W' } }
-//     ]
-//   }
-// ]
 app.get("/getSeats/:id", (req, res) => {
   Flight.findById(req.params.id, { _id: 0, flightSeats: 1 })
     .then(users => res.json(users))
@@ -231,7 +168,7 @@ app.put("/reserveSeat", (async (req, res) => {
   const flightID = req.body.flightID;
   const flight = await Flight.findById(flightID);
   const seatsList = flight.flightSeats;
-  let sclass ;
+  let sclass;
   seatsList.map(val => { if ((val._id) == seatID) { val.status = "reserved"; sclass = val.seatType } });
   if (sclass === "Economy")
     Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableEconomySeats: -1 } })
@@ -246,50 +183,17 @@ app.put("/deleteReservedSeat", async (req, res) => {
   const seatID = req.body.seatID;
   const flight = await Flight.findById(flightID);
   const seatsList = flight.flightSeats;
-  let sclass ;
+  let sclass;
   seatsList.map(val => { if ((val._id) == seatID) { val.status = "free"; sclass = val.seatType } });
-  if (seat.seatType === "Economy")
+  if (sclass.seatType === "Economy")
     Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableEconomySeats: 1 } })
   else
     Flight.findByIdAndUpdate(flightID, { $inc: { numberOfAvailableBusinessSeats: 1 } })
-}
-)
-// app.post("/get_return_flights", (req, res) => {
-//   console.log("entered..returnflight");
-//   console.log(JSON.stringify(req.body) + "return flight");
-//   const Departure_Date = req.body.Departure_Date
-//   const Arrival_Date = req.body.Arrival_Date
-//   const Departure_Airport = req.body.Departure_Airport
-//   const Arrival_Airport = req.body.Arrival_Airport
-//   const time = req.body.Dtime
-//   const Class = req.body.Class
-//   const number_seats = req.body.seats
-//   console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
-//   console.log(JSON.stringify(req.body) + "the whole body")
+})
 
-//   //"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]}
-//   //  Flight.find({"Departure_Date": {$gt :Departure_Date}  ,
-//   //  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
-//   // })
-//   if (Class === "Economy") {
-//     Flight.find({
-//       $or: [
-//         {
-//           "Departure_Date": { $gt: Departure_Date }, "numberOfAvailableEconomySeats": { $gt: number_seats },
-//           "Departure_Airport": Departure_Airport, "Arrival_Airport": Arrival_Airport, "Arrival_Date": (Arrival_Date ? Arrival_Date : { $nin: [null] })
-//         },
-//         {
-//           "Departure_Date": { $gte: Departure_Date }, "Departure_Time": { $gt: time },
-//           "Departure_Airport": Departure_Airport, "Arrival_Airport": Arrival_Airport, "Arrival_Date": (Arrival_Date ? Arrival_Date : { $nin: [null] })
-//         }
-//       ]
-//     })
-
-//   }})
-
-app.post("/get_return_flights", (req, res) => {
-  //console.log("entered..returnflight");
-  //console.log(JSON.stringify(req.body) + "return flight");
+app.post("/get_return_flights", async (req, res) => {
+  console.log("entered..returnflight");
+  console.log(JSON.stringify(req.body) + "return flight");
   const Departure_Date = req.body.Departure_Date
   const Arrival_Date = req.body.Arrival_Date
   const Departure_Airport = req.body.Departure_Airport
@@ -297,15 +201,10 @@ app.post("/get_return_flights", (req, res) => {
   const time = req.body.Dtime
   const Class = req.body.Class
   const number_seats = req.body.seats
-  //console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
-  //console.log(JSON.stringify(req.body) + "the whole body")
-
-  //"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]}
-  //  Flight.find({"Departure_Date": {$gt :Departure_Date}  ,
-  //  "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
-  // })
+  console.log(`Departure_Airport +${Departure_Airport}` + "  body>" + req.body.Departure_Airport);
+  console.log(JSON.stringify(req.body) + "the whole body")
   if (Class === "Economy") {
-    Flight.find({
+    await Flight.find({
       $or: [
         {
           "Departure_Date": { $gt: Departure_Date }, "numberOfAvailableEconomySeats": { $gt: number_seats },
@@ -317,12 +216,11 @@ app.post("/get_return_flights", (req, res) => {
         }
       ]
     })
-
       .then(flights => res.json(flights))
       .catch(err => console.log(err));
   }
   else {
-    Flight.find({
+    await Flight.find({
       $or: [
         {
           "Departure_Date": { $gt: Departure_Date }, "numberOfAvailableBusinessSeats": { $gt: number_seats },
@@ -334,11 +232,7 @@ app.post("/get_return_flights", (req, res) => {
         }
       ]
     })
-
-      .then(flights => res.json(flights))
-      .catch(err => console.log(err));
   }
-
 })
 app.post("/confirm_booking", async (req, res) => {
   console.log("entered..confirm");
@@ -351,26 +245,42 @@ app.post("/confirm_booking", async (req, res) => {
 
   const Arrival_seats = req.body.Arrival_seats
   const number = req.body.Confirmation_number
+  const seatsAID = req.body.seatsAID
+  const seatsDID = req.body.seatsDID
+
 
   let user = await User.findOne({})
   let l = user.Flights;
-  const flight_object = [{ "Departure_flight": Departure_flight, "Arrival_flight": Arrival_flight, "Total_price": Total_price, "Class": Class, "Departure_seats": Departure_seats, "Arrival_seats": Arrival_seats, "Confirmation_number": number }]
+  const flight_object = [{ "Departure_flight": Departure_flight, "Arrival_flight": Arrival_flight, "Total_price": Total_price, "Class": Class, "Departure_seats": Departure_seats, "Arrival_seats": Arrival_seats, "seatsAID": seatsAID, "seatsDID": seatsDID, "Confirmation_number": number }]
   // const list=[].push(Departure_flight)
   // user..push.apply(myArray, myArray2);
   l.push.apply(l, flight_object)
   console.log(Departure_flight)
   await user.updateOne({ Flights: l }, { writeConcern: { w: "majority", wtimeout: 5000 } })
-
-    // console.log(JSON.stringify(req.body)+"the whole body")
-
-    //"Arrival_Airport":(Arrival_Airport ? Arrival_Airport:{$nin : [null]}
-    // Flight.find({})
-    // Flight.find({"Departure_Date": {$gt :Departure_Date}  ,
-    // "Departure_Airport":Departure_Airport ,"Arrival_Airport":Arrival_Airport ,"Arrival_Date" :(Arrival_Date ? Arrival_Date : {$nin : [null]})
-
     .then(flights => res.json(flights))
     .catch(err => { console.log("errrr" + err); console.log(user); });
 })
+
+
+app.delete("/deleteticket/:confirm/:user_id", async (req, res) => {
+  const confirm = req.params.confirm;
+  var result = [];
+  const id = req.params.user_id;
+  // var id="61ab47212867eed35a696d19";
+  console.log("confirm  " + confirm);
+  console.log("id  " + id);
+
+
+  await User.findByIdAndUpdate(id, { $pull: { Flights: { Confirmation_number: confirm } } })
+
+
+  User.find({}).then(users => res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+
+
+});
+
+
 
 app.get("/confirmition_number", async (req, res) => {
   let rand = Math.random().toString(16).substr(2, 8); // 6de5ccda
@@ -419,34 +329,41 @@ app.get('/add_confirmation', async (req, res) => {
 app.post('/addFlight', async (req, res) => {
   console.log("here");
   //console.log(req.body);  //Sha8al
-  const new_flight = new Flight(req.body);
   const seats = [];
-  console.log("business seats: ", req.body.Number_of_Business_seats);
-  console.log("economy seats: ", req.body.Number_of_Economy_seats);
+  // console.log("business seats: ", req.body.Number_of_Business_seats);
+  // console.log("economy seats: ", req.body.Number_of_Economy_seats);
   for (var i = 0; i < req.body.Number_of_Economy_seats; i++) {
     const newSeat = new Seat({ "seatNumber": i, "seatType": "Economy" });
-    console.log(newSeat.seatNumber);
+    await newSeat.save();
+    //console.log(newSeat.seatNumber);
     seats.push(newSeat);
   }
   for (var j = 0; j < req.body.Number_of_Business_seats; j++) {
     const newSeat = new Seat({ "seatNumber": j, "seatType": "Business" });
+    await newSeat.save();
     seats.push(newSeat);
   }
-  new_flight.flightSeats = seats;
-  new_flight.numberOfAvailableEconomySeats = req.body.Number_of_Economy_seats;
-  new_flight.numberOfAvailableBusinessSeats = req.body.Number_of_Business_seats;
+  const new_flight = new Flight({'Flight_Number': req.body.Flight_Number,
+    "Departure_Date": req.body.Departure_Date,
+    "Departure_Time": req.body.Departure_Time,
+    "Arrival_Date": req.body.Arrival_Date,
+    'Arrival_Time': req.body.Arrival_Time,
+    'Departure_Airport': req.body.Departure_Airport,
+    'Arrival_Airport': req.body.Arrival_Airport,
+    'Number_of_Economy_seats': req.body.Number_of_Economy_seats,
+    'Number_of_Business_seats': req.body.Number_of_Business_seats,
+    'numberOfAvailableEconomySeats': req.body.numberOfAvailableEconomySeats,
+    'numberOfAvailableBusinessSeats': req.body.numberOfAvailableBusinessSeats,
+    'price_child': req.body.price_child,
+    'price_adult': req.body.price_adulte,
+    'baggage': req.body.baggage,
+  'flightSeats':seats});
+  //new_flight.flightSeats = seats;
   console.log('passed'); // it never comes here
   //console.log(seats);
-  console.log(new_flight);
+  //console.log(new_flight);
   await new_flight.save().then(() => res.json('flight is added')).catch(err => res.status(400).json('Error: ' + err))
 });
-
-app.get("/schedule", (req, res) => {
-  Flight.find({}).sort("Departure_Date").sort("Departure_Time")
-
-    .then(flights => res.json(flights))
-    .catch(err => res.status(400).json('Error: ' + err));
-})
 //-----------------// get all flights
 
 //------ to delete a flight--//
@@ -477,13 +394,13 @@ app.put("/updateFlight/:id", async (req, res) => {
 
 app.get("/viewProfile/:id", async (req, res) => {
   const passedID = req.params.id;
-  User.find({ User_id: passedID })
-    .then(users => {
-      console.log(users)
-      res.json(users)
+  Passenger.findById(passedID)
+    .then(user => {
+      //console.log(user)
+      res.json(user)
     })
     .catch(err => res.status(400).json('Error: ' + err));
-  console.log(res.json);
+  //console.log(res.json);
 });
 
 app.put("/editProfile/:id", async (req, res) => {
@@ -493,7 +410,7 @@ app.put("/editProfile/:id", async (req, res) => {
     res.status(200)
     return
   }
-  User.findOneAndUpdate({ User_id: passedID }, {
+  Passenger.findByIdAndUpdate(passedID, {
     First_Name: req.body.First_Name,
     Last_Name: req.body.Last_Name,
     Passport_Number: req.body.Passport_Number,
