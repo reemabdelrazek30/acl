@@ -53,10 +53,11 @@ app.listen(3001, () => {
   console.log("listening..");
 
 })
-app.get("/login", (req, res) => {
-  if (req.session.user) {
+app.get("/login", async(req, res) => {
+  if (req.session.userID) {
+    const passenger = await Passenger.findById(req.session.userID);
     //console.log('here');
-    res.send({ loggedIn: true, user: req.session.user });
+    res.send({ loggedIn: true, user: passenger });
   } else {
     res.send({ loggedIn: false });
   }
@@ -73,7 +74,7 @@ app.post("/login", async (req, res) => {
       if (error)
         console.log(error);
       if (response) {
-        req.session.user = passenger;
+        req.session.user_id = passenger._id;
         //console.log(req.session.user);
         res.send(passenger);
       } else
