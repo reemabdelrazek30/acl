@@ -78,7 +78,18 @@ export default function View_FLight(props) {
   }
 
 
-
+  Axios.defaults.withCredentials = true;
+  const [isLoggedIn, setLoggedIn] = useState(false)
+  const [current_user, setcurrent_user] = useState({});
+  useEffect(() => {
+    Axios.get("http://localhost:3001/login").then(response => {
+      if (response.data.loggedIn){
+      setcurrent_user(response.data.user);
+        setLoggedIn(true);
+      }
+    })
+  
+},[])
   const handleserving = (id, flight_number, flight_Departure_Date, flight_Departure_Time,
     flight_Arrival_Date, flight_Arrival_Time, cprice, aprice, flight_Departure_Airport, flight_Arrival_Airport) => {
     id = id;
@@ -94,7 +105,7 @@ export default function View_FLight(props) {
         ["flight_Arrival_Airport"]: flight_Arrival_Airport,
         ["Class"]: prop.Class,
         ["Price"]: ((cprice * prop.N_childern) + (aprice * prop.N_adult)),
-        ["Seats"]: seatsD
+        ["Seats"]: seatsDID
       }))
     }
     else {
@@ -109,7 +120,8 @@ export default function View_FLight(props) {
         ["flight_Arrival_Airport"]: flight_Arrival_Airport,
         ["Class"]: prop.Class,
         ["Price"]: ((cprice * prop.N_childern) + (aprice * prop.N_adult)),
-        ["Seats"]: seatsA
+        ["Seats"]:   seatsAID,
+
       }))
     }
     setshow_return_button(true)
@@ -223,7 +235,8 @@ export default function View_FLight(props) {
           Arrival_seats: seatsA,
           Confirmation_number: con_Number,
           seatsAID: seatsAID,
-          seatsDID: seatsDID
+          seatsDID: seatsDID,
+          userid:current_user
 
 
 

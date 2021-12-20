@@ -1,10 +1,11 @@
 import React, {  useState } from "react";
-import Axios from "axios";;
+import Axios from "axios";
+import { useHistory } from "react-router-dom";
 export const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
-  
+  let history =useHistory();
     Axios.defaults.withCredentials = true;
     const login = () => {
         Axios.post("http://localhost:3001/login", {
@@ -15,6 +16,9 @@ export const Login = () => {
                 setLoginStatus(response.data.message);
             } else {
                 setLoginStatus("Hello," + response.data.First_Name);
+                history.push({
+                    pathname: '/User',
+                })
             }
         });
     };

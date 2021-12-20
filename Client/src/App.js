@@ -8,6 +8,7 @@ import Home_page from "./Components/Hpage"
 import Home from './Components/Home';
 import User from './Components/User';
 import Reserve_FLight from './Components/ReserveFlight';
+import ReserveSeats from './Components/ReserveSeats';
 import View_FLight from './Components/ViewFlight';
 import payment from './Components/Payment';
 // import ReserveSeats from './Components/ReserveSeats';
@@ -28,7 +29,9 @@ function App() {
     <div className="App">
       <Router>
         <Switch>  
-         <Route exact path = "/" component={Home}/>
+        <Route exact path = "/" component={Register}/>
+        <Route exact path = "/Login" component={Login}/>
+         {/* <Route exact path = "/" component={Home}/> */}
          <Route exact path = "/Hpage" component={Home_page}/>
          <Route exact path = "/CreateFlight" component={CreateFlight}/>
          <Route exact path = "/Flight" component={Flight}/>
@@ -39,11 +42,11 @@ function App() {
          <Route exact path="/Profile" component={Profile}/>
          <Route exact path = "/Summary" component={Summary}/>
          <Route exact path = "/ViewFlights" component={ViewFlights}/>
-         {/* <Route exact path="/ReserveSeats" component={ReserveSeats}/> */}
+         <Route exact path="/ReserveSeats" component={ReserveSeats}/>
          {/* <Route exact path = "/View_FLight" component={View_FLight}/> */}
          <Route exact path = "/payment" component={payment}/>
-         <Route exact path = "/Login" component={Login}/>
-         <Route exact path = "/Register" component={Register}/>
+        
+        
          <Route exact path = "/salma" component={Salma}/>
          
 

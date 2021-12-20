@@ -8,30 +8,45 @@ import './ReserveSeats.css';
 import { Fragment } from 'react';
 import Summary from "./Summary";
 
-// import { useLocation } from "react-router-dom";
+ import { useLocation } from "react-router-dom";
 // // import { PromiseProvider } from 'mongoose';
 
 export default function ReserveSeats(props) {
-    // let history = useHistory();
+     let history = useHistory();
+    const location = useLocation();
+    let number=props.number
 
   console.log("I'M IN RESERVE SEATS");
     
     let id = 0;
-    if(props.mess==="Please, choose your return flight's seats"){
-      id=props.Aid
-      console.log("line 26")
+    let flightClass = props.flightClass
+    if(props!= undefined){
+      if(props.mess==="Please, choose your return flight's seats"){
+        id=props.Aid
+        console.log("line 26")
+      }
+      else{
+        id=props.Did 
+        console.log("line 30")
+  
+      }
     }
-    else{
-      id=props.Did
-      console.log("line 30")
-
+    
+    if(location.state !=undefined){
+      console.log(JSON.stringify(location)+"looooooo")
+      flightClass=location.state.classT;
+      id=location.state["id"];
+      console.log(id+          "              id");
+      number=location.state["number"];
+      
+      
     }
    
-    const flightClass = props.flightClass
-    const number=props.number
+    
+    
     // const priceD=props.priceD;
     // const priceA=props.priceA;
-    console.log(props+"props reserve page");
+    console.log(JSON.stringify(props)+"props reserve page");
     console.log(flightClass);
     console.log(id+          "              id");
     const [allSeats, setAllSeats] = useState([]);
@@ -55,7 +70,7 @@ let selectedA=[]
     useEffect(() => {
       console.log("enter nouran in use effect")
        Axios.get(`http://localhost:3001/getSeats/${id}`).
-       then((Response) => (setAllSeats((Response.data.flightSeats)),  console.log("enteren useeffect  nourannnnnnnnnnnnnn"+Response.data.flightSeats.toString())));
+       then((Response) => (setAllSeats((Response.data.flightSeats)),  console.log("enteren useeffect  nourannnnnnnnnnnnnn"+Response.data.flightSeats.toString()+Response.data.flightSeats.length)));
     },[id]);
 
     const select = (id1) => {
@@ -123,6 +138,63 @@ let selectedA=[]
     
    
       const reserve = () => {
+        console.log(JSON.stringify(selected_seats)+"selected_seats in the reserve method")
+        if(location.state!=undefined){
+          // location.state.set((pre)=>(
+          //   true?false:true
+          console.log("number"+number);
+
+           if (selected_seats.length !== number){
+             console.log("selected_seats.length !== number")
+            setWrongSeatsTrigger(true);
+        }
+else
+      {
+        console.log("i pressed reserve");
+      console.log(selected_seats);
+      console.log(selected_seats.length+"length");
+      for (var i = 0; i < selected_seats.length; i++){
+        selected_seatsN.push(selected_seats[i].seatNumber)
+       
+        // }
+        selected_seatsNID.push(selected_seats[i]._id)
+        console.log("i entered reserve for loop");
+        Axios.put("http://localhost:3001/reserveSeat",{
+          flightID: id,
+          seatID: selected_seats[i]._id
+        },[id]);//const priceD=props.priceD;
+       
+        console.log(JSON.stringify(selected_seatsN)+"inside the for loop")
+        
+      }
+      Axios.post("http://localhost:3001/updateSeats", {
+        flightID:id,
+        newSeats:[2],
+        userid: location.state.user ,
+          type:location.state.flightType,
+Confirmation_number:location.state.conf,
+
+})
+.then( history.goBack())
+      
+      }
+          
+          // ));
+          /*
+app.post("/updateSeats", async (req, res) => {
+        console.log("entered..confirm");
+        console.log(JSON.stringify(req.body) + "confirm booking");
+        const flightID= req.body.flightID
+        const newSeats=req.body.newSeats
+      
+        const number = req.body.Confirmation_number
+     
+        const userid=req.body.userid
+          */
+
+
+        }
+        else{
         console.log("we are in the reserve method")
        console.log(JSON.stringify(selected_seats)+"selected_seats")
         //  if (selected_seats.length===0){
@@ -131,11 +203,12 @@ let selectedA=[]
 
         // }
      //  else
-        if (selected_seats.length !== props.number){
+        if (selected_seats.length !== number){
             setWrongSeatsTrigger(true);
         }
 else
-      {console.log("i pressed reserve");
+      {
+        console.log("i pressed reserve");
       //console.log(selected_seats);
       console.log(selected_seats.length+"length");
       for (var i = 0; i < selected_seats.length; i++){
@@ -193,7 +266,7 @@ else
       }
      }
       
-    
+    }
     }
   return(
   

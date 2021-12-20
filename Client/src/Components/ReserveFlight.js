@@ -54,13 +54,13 @@ export default function Reserve_FLight() {
   };
   const [isLoggedIn, setLoggedIn] = useState(false)
   useEffect(() => {
-  const isLogged = () => {
+  
     axios.get("http://localhost:3001/login").then(response => {
       console.log("here");
       if (response.data.loggedIn)
         setLoggedIn(true);
     })
-  }
+  
 },[])
   return (
     <div  >

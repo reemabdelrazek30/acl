@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import Axios from "axios";;
+import { useHistory } from "react-router-dom";
+import Axios from "axios";
+
 export const Register = () => {
     const [fNReg, setfNReg] = useState("");
     const [lNReg, setlNReg] = useState("");
     const [emailReg, setEmailReg] = useState("");
     const [passwordReg, setPasswordReg] = useState("");
     const [passportReg, setPassportReg] = useState("");
-    
+    let history =useHistory();
     const register = () => {
         Axios.post("http://localhost:3001/register", {
             First_Name:fNReg, 
@@ -16,6 +18,9 @@ export const Register = () => {
             password:passwordReg
         }).then((response) => {
             console.log(response);
+            history.push({
+                pathname: '/Login',
+            })
         });
     };
     return (
@@ -59,3 +64,4 @@ export const Register = () => {
             <button onClick={register}> Register </button>
         </div>);
 }
+export default Register;
