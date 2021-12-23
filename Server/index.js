@@ -53,10 +53,42 @@ app.listen(3001, () => {
   console.log("listening..");
 
 })
-app.get("/login", (req, res) => {
-  if (req.session.user) {
+// app.get("/login", (req, res) => {
+//   if (req.session.user) {
+//     //console.log('here');
+//     res.send({ loggedIn: true, user: req.session.user });
+//   } else {
+//     res.send({ loggedIn: false });
+//   }
+// });
+// app.post("/login", async (req, res) => {
+//   const username = req.body.username;
+//   const password = req.body.password;
+//   var passenger = await Passenger.findOne({ 'Email': username });
+//   // find won't work here 
+//   //passenger.toObject();
+//   console.log(passenger.Email);
+//   if (passenger) {
+//     bcrypt.compare(password, passenger.Password, (error, response) => {
+//       if (error)
+//       console.log(error);
+//       if (response) {
+//         req.session.user = passenger;
+//         //console.log(req.session.user);
+//         res.send(passenger);
+//       } else
+//         res.send({ message: "Wrong username/password combination!" });
+//     });
+//   } else {
+//     res.send({ message: "User doesn't exist" });
+//   }
+// });
+
+app.get("/login", async(req, res) => {
+  if (req.session.userID) {
+    const passenger = await Passenger.findById(req.session.userID);
     //console.log('here');
-    res.send({ loggedIn: true, user: req.session.user });
+    res.send({ loggedIn: true, user: passenger });
   } else {
     res.send({ loggedIn: false });
   }
@@ -71,9 +103,9 @@ app.post("/login", async (req, res) => {
   if (passenger) {
     bcrypt.compare(password, passenger.Password, (error, response) => {
       if (error)
-      console.log(error);
+        console.log(error);
       if (response) {
-        req.session.user = passenger;
+        req.session.userID = passenger._id;
         //console.log(req.session.user);
         res.send(passenger);
       } else
@@ -159,8 +191,11 @@ app.post("/get_available_flights", async (req, res) => {
 
 })
 
-app.get("/getSeats/:id", (req, res) => {
-  Flight.findById(req.params.id, { _id: 0, flightSeats: 1 })
+app.get("/getSeats/:id/:class", async (req, res) => {
+  console.log("entered serve seats")
+  console.log("req.params.id"+req.params.id)
+  console.log("req.params.class"+req.params.class)
+ await Flight.find({"_id":req.params.id,"flightSeats.seatType":req.params.class}, { _id: 0, flightSeats: 1 })
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
 })
@@ -287,17 +322,39 @@ app.put("/deleteReservedSeat", async (req, res) => {
         //     break;
         //   }}
        // console.log(user_flights)
-if(flightType=="returnF")
-   { await   Passenger.updateOne({'Flights.Arrival_flight.id': flightID,"_id":userid,"Confirmation_number":number}, {'$set': {
+  //  grades: { $elemMatch: { grade: { $lte: 90 }, mean: { $gt: 80 } } }
+  //"Confirmation_number":number,'Flights.Arrival_flight.id': flightID,"_id":userid
+  // Model.findOne({ name: 'Mr. Anderson' }).
+  // then(doc => Model.updateOne({ _id: doc._id }, { name: 'Neo' })).
+  // then(() => Model.findOne({ name: 'Neo' })).,'Flights.Departure_flight.id': flightID,"Confirmation_number":number
+if(flightType ==="returnF"){ 
+  // await Passenger.findOne({'Flights.Departure_flight.id': flightID,"_id":userid})
+  // .then(row=>Passenger.updateOne({"Flights.$.Arrival_seats": newSeats})).then(users => res.json(users))"Flights.Confirmation_number":number
+  // .catch(err => res.status(400).json('Error: ' + err));
+  console.log('return');
+    await   Passenger.findOneAndUpdate( { "_id":userid,'Flights.Arrival_flight.id': flightID,"Flights.Confirmation_number":number}
+    //returnF returnF
+      ,
+     {'$set': {
         'Flights.$.Arrival_seats': newSeats
        
-       }}).then(console.log("sone"))}
-       else{
-        await   Passenger.updateOne({'Flights.Departure_flight.id': flightID,"_id":userid,"Confirmation_number":number}, {'$set': {
+       }}).then(users => res.json(users))
+       .catch(err => res.status(400).json('Error: ' + err));
+  // await   Passenger.updateOne({"_id":userid,Flights:{$elemMatch:{"Arrival_flight.id":flightID}}, {'$set': {
+  //   'Flights.$.Arrival_seats': newSeats
+   
+  //  }}).then(console.log("sone"))
+      }
+     else if(flightType=="departF"){ 
+        console.log('dep');
+        await   Passenger.findOneAndUpdate({"_id":userid,'Flights.Departure_flight.id': flightID,"Flights.Confirmation_number":number}, {'$set': {
           'Flights.$.Departure_seats': newSeats
          
-         }}).then(console.log("sone"))
+         }}).then(users => res.json(users))
+         .catch(err => res.status(400).json('Error: ' + err));
        }
+       else
+       console.log("not dep or return"+flightType);
         // Passenger.findById(userid).then(doc => {
         //   console.log(doc.Flights.Departure_flight)
           // item = doc.Flights.Arrival_flight.id(flightID );
@@ -312,7 +369,31 @@ if(flightType=="returnF")
         //   .catch(err => { console.log("errrr" + err); console.log(user); });
       //  }
       //   )
-  
+      app.post("/updateFlight", async (req, res) => {
+        console.log("entered..confirm");
+        console.log(JSON.stringify(req.body) + "updating flight");
+        const flightID= req.body.flightID
+        const newSeats=req.body.newSeats
+      
+        const number = req.body.Confirmation_number
+     
+        const userid=req.body.userid
+      const flightType=req.body.flightType
+      
+if(flightType==="returnF")
+   { await   Passenger.updateOne({'Flights.Arrival_flight.id': flightID,"_id":userid,"Confirmation_number":number}, {'$set': {
+        'Flights.$.Arrival_seats': newSeats
+       
+       }}).then(console.log("sone"))}
+       else{
+        await   Passenger.updateOne({'Flights.Departure_flight.id': flightID,"_id":userid,"Confirmation_number":number}, {'$set': {
+          'Flights.$.Departure_seats': newSeats
+         
+         }}).then(console.log("sone"))
+       }
+       
+        })
+        
   
       app.delete("/deleteticket/:confirm/:user_id", async (req, res) => {
         const confirm = req.params.confirm;
@@ -462,5 +543,3 @@ if(flightType=="returnF")
           Email: req.body.Email,
         }).then(res.status(200))
       })
-
-

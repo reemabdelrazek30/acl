@@ -66,10 +66,13 @@ let selectedA=[]
     const [clicked,setClicked]=useState(false)
     const [wrongSeatsTrigger, setWrongSeatsTrigger] = useState(false);
     console.log(JSON.stringify(selected_seats)+"selected_seats in the start to the page")
-
+// setClicked((prev)=>( 
+//   prev?false:true
+// ));
+console.log("clicked"+clicked)
     useEffect(() => {
       console.log("enter nouran in use effect")
-       Axios.get(`http://localhost:3001/getSeats/${id}`).
+       Axios.get(`http://localhost:3001/getSeats/${id}/${flightClass}`).
        then((Response) => (setAllSeats((Response.data.flightSeats)),  console.log("enteren useeffect  nourannnnnnnnnnnnnn"+Response.data.flightSeats.toString()+Response.data.flightSeats.length)));
     },[id]);
 
@@ -151,7 +154,7 @@ let selectedA=[]
 else
       {
         console.log("i pressed reserve");
-      console.log(selected_seats);
+      console.log("selected seat:"+selected_seats);
       console.log(selected_seats.length+"length");
       for (var i = 0; i < selected_seats.length; i++){
         selected_seatsN.push(selected_seats[i].seatNumber)
@@ -165,13 +168,15 @@ else
         },[id]);//const priceD=props.priceD;
        
         console.log(JSON.stringify(selected_seatsN)+"inside the for loop")
-        
+        console.log([selected_seatsN]+"inside the for loop without stringfy")
       }
+      console.log(JSON.stringify(selected_seatsN)+"before axios")
+      console.log([].push(...selected_seatsN)+"before axios")
       Axios.post("http://localhost:3001/updateSeats", {
         flightID:id,
-        newSeats:[2],
+        newSeats:selected_seatsN,
         userid: location.state.user ,
-          type:location.state.flightType,
+        flightType:location.state.flightType,
 Confirmation_number:location.state.conf,
 
 })

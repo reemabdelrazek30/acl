@@ -27,7 +27,7 @@ const ondelete=(confirm,user_id)=>{
 function goSeats(confNumber,id,classType,num,flightType){
 // history.push({
 //     path:'/ReserveSeats',
-
+console.log(currentuser_id+"currentuser_id")
 // })
 history.push({
     pathname: '/ReserveSeats',
@@ -48,10 +48,11 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
     if (response.data.loggedIn){
      setcurrent_user_id(response.data.user._id);
      setcurrent_user_flights(response.data.user.Flights)
+     console.log(response.data.user.Flights)
     }
   })
     
- }, []);
+ }, [currentuser_id]);
 
  console.log(" user Flights",currentuser_id);
  
