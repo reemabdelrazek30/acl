@@ -23,9 +23,10 @@ export default function CreateFlight()
 
     const [baggage, set_baggage] = useState(0);
 
-    //Axios.defaults.withCredentials = true;
+    Axios.defaults.withCredentials = true;
     const addFlight = () =>
     {
+        console.log("Fornt")
         Axios.post("http://localhost:3001/addFlight", {
         Flight_Number:number,
         Departure_Date:depDate,
@@ -121,7 +122,7 @@ export default function CreateFlight()
       </div>
       <div class="item">
         <div class="btn-block">
-          <button onClick={addFlight()}>Create Flight</button>
+          <button onClick={addFlight}>Create Flight</button>
         </div>
         <button onclick={() => {history.push("/")}}>Home Page</button>
     </div>
