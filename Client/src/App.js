@@ -15,10 +15,7 @@ import Salma from './Components/salma';
 import Summary from './Components/Summary';
 import { Login } from './Components/Login';
 import { Register } from './Components/Register';
-
-
 import ViewFlights from './Components/ViewFlights';
-
 
 // <Route exactpath = "/CreateFlight" component={CreateFlight}/>
 // if you got here that means I am crying 
@@ -45,12 +42,9 @@ function App() {
          <Route exact path = "/Login" component={Login}/>
          <Route exact path = "/Register" component={Register}/>
          <Route exact path = "/salma" component={Salma}/>
-         
-
-
-        
           </Switch>
         </Router>
+
     </div>
   );
 }

@@ -1,10 +1,11 @@
-import React, {  useState } from "react";
+import React, {  useContext, useState } from "react";
+import {LoginContext} from "..LoginContext"
 import Axios from "axios";;
 export const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
-  
+    const {loginI} = useContext(LoginContext);
     Axios.defaults.withCredentials = true;
     const login = () => {
         Axios.post("http://localhost:3001/login", {
@@ -13,6 +14,7 @@ export const Login = () => {
         }).then((response) => {
             if (response.data.message) {
                 setLoginStatus(response.data.message);
+                loginI("");
             } else {
                 setLoginStatus("Hello," + response.data.First_Name);
             }

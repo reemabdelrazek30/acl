@@ -14,7 +14,7 @@ const bcrypt = require('bcrypt');
 const cookieParser = require("cookie-parser");
 //const { sign, verify } = require('jsonwebtoken');
 const session = require("express-session");
-
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const saltRounds = 10;
 app.use(
   cors({
@@ -28,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"))
+////important to understand its name 
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 require('dotenv').config();
@@ -37,12 +38,14 @@ app.use(
     secret: "subscribe",
     resave: false,
     saveUninitialized: false,
+    // store : sessionStore,
     cookie: {
       expires: 1000 * 60 * 60 * 24,
     },
   })
 );
-
+const stripeSecretKey = "";
+const stripePublicKey = "";
 //cmongodb+srv://mernstacktest:mernstacktest@cluster0.1wydc.mongodb.net/myFirstDatabase?retryWrites=true
 const MongoURL = process.env.MongoURL;
 mongoose.connect(MongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -56,7 +59,6 @@ app.listen(3001, () => {
 app.get("/login", async(req, res) => {
   if (req.session.userID) {
     const passenger = await Passenger.findById(req.session.userID);
-    //console.log('here');
     res.send({ loggedIn: true, user: passenger });
   } else {
     res.send({ loggedIn: false });
@@ -66,23 +68,20 @@ app.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   var passenger = await Passenger.findOne({ 'Email': username });
-  // find won't work here 
-  //passenger.toObject();
-  console.log(passenger.Email);
-  if (passenger) {
-    bcrypt.compare(password, passenger.Password, (error, response) => {
-      if (error)
-        console.log(error);
-      if (response) {
-        req.session.user_id = passenger._id;
-        //console.log(req.session.user);
+  if (passenger)
+  {
+    bcrypt.compare(password, passenger.Password, (error, response) => 
+    {
+       if (response) {
+        req.session.userID = passenger._id;
         res.send(passenger);
-      } else
+       }
+        else
         res.send({ message: "Wrong username/password combination!" });
-    });
-  } else {
-    res.send({ message: "User doesn't exist" });
+     });
   }
+    else 
+    res.send({ message: "User doesn't exist" });
 });
 app.post("/register", async (req, res) => {
   const { First_Name, Last_Name, Passport_Number, Email, password } = req.body;
@@ -243,13 +242,10 @@ app.post("/confirm_booking", async (req, res) => {
   const Total_price = req.body.Total_price
   const Class = req.body.Class
   const Departure_seats = req.body.Departure_seats
-
   const Arrival_seats = req.body.Arrival_seats
   const number = req.body.Confirmation_number
   const seatsAID = req.body.seatsAID
   const seatsDID = req.body.seatsDID
-
-
   let user = await User.findOne({})
   let l = user.Flights;
   const flight_object = [{ "Departure_flight": Departure_flight, "Arrival_flight": Arrival_flight, "Total_price": Total_price, "Class": Class, "Departure_seats": Departure_seats, "Arrival_seats": Arrival_seats, "seatsAID": seatsAID, "seatsDID": seatsDID, "Confirmation_number": number }]
@@ -270,15 +266,9 @@ app.delete("/deleteticket/:confirm/:user_id", async (req, res) => {
   // var id="61ab47212867eed35a696d19";
   console.log("confirm  " + confirm);
   console.log("id  " + id);
-
-
   await User.findByIdAndUpdate(id, { $pull: { Flights: { Confirmation_number: confirm } } })
-
-
   User.find({}).then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
-
-
 });
 
 
@@ -288,11 +278,8 @@ app.get("/confirmition_number", async (req, res) => {
   let code;
   //   list=[].push(rand)
   code = await Confirmation_number.findOne({})
-
   let code1 = code.numbers
   if (code1.length !== 0) {
-
-
     while (code1.indexOf(rand) !== -1) {
       rand = Math.random().toString(16).substr(2, 8); // 6de5ccda
     }
@@ -323,7 +310,6 @@ app.post('/add_confirmation', async (req, res) => {
 
 app.get('/add_confirmation', async (req, res) => {
   Confirmation_number.find({})
-
     .then(flights => res.json(flights))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -419,4 +405,73 @@ app.put("/editProfile/:id", async (req, res) => {
   }).then(res.status(200))
 })
 
+// app.post("/create-checkout-session",async(req,res) =>
+// {
+//   try 
+//   {
+//     const session = await stripe.checkout.sessions.create({
+//       payment_method_types : ['card'],
+//       mode : 'payment',
+//       /*line_items: req.body.flights.map(flight => {
+//         const storeItem = StoreItems.get(item.id)
+//         return {
+//           price_data : {
+//             currency :'EGP',
+//             product_data : 
+//             { name : storeItem.name },
+//             unit_amount : storeItem.priceInOroush }
+//         } 
+//       }) */
+    
+//       // success_url:`${process.env.SERVER_URL}/success`,
+//       // cancel_url : `${process.env.SERVER_URL}/success` 
+//       success_url:`http://localhost:3001/success`,
+//       cancel_url : `http://localhost:3001/cancel` 
+//     })
+//     res.json({url : session.url})
+//   }
+//   catch (e){
+//       res.status(500).json({error : e.message})
+//   }
+// })
+ 
+app.post('/purchase', function(req, res) {
+      const itemsJson = JSON.parse(data)
+      const itemsArray = itemsJson.music.concat(itemsJson.merch)
+      let total = 0
+      req.body.items.forEach(function(item) {
+        const itemJson = itemsArray.find(function(i) {
+          return i.id == item.id  })
+        total = total + itemJson.price * item.quantity  })
+      stripe.charges.create({
+        amount: total,
+        source: req.body.stripeTokenId,
+        currency: 'usd'
+      }).then(function() {
+        console.log('Charge Successful')
+        res.json({ message: 'Successfully purchased items' })
+      }).catch(function() {
+        console.log('Charge Fail')
+        res.status(500).end()
+      })
+})
+app.post('/logout',(req,res) =>
+{
+  req.session.destroy();
+  res.send({LoggedOut: true})
+})
+
+app.post('/changePassword',(req,res) => 
+{
+  const userID = req.session.userID;
+  bcrypt.hash(password, saltRounds).then(async (hash) => {
+    await Passenger.findByIdAndUpdate(userID,{"Password":hash}).then(() => console.log("updated").catch(err => console.log(err)));
+  })
+})
+
+const requireLogin =( req,res, next) =>
+{
+  if (req.session.userID)
+  next();
+}
 
