@@ -11,6 +11,7 @@ import Reserve_FLight from './Components/ReserveFlight';
 import View_FLight from './Components/ViewFlight';
 import {Payment} from './Components/Payment';
 // import ReserveSeats from './Components/ReserveSeats';
+import ReserveSeats from './Components/ReserveSeats';
 import Salma from './Components/salma';
 import Summary from './Components/Summary';
 import { Login } from './Components/Login';
@@ -18,6 +19,13 @@ import { Register } from './Components/Register';
 import ViewFlights from './Components/ViewFlights';
 import StripeContainer from './Components/StripeContainer';
 import PaymentForm from './Components/PaymentForm';
+import Changedepartureflight from './Components/Changedepartureflight';
+import Viewavailabledepflights from './Components/Viewavailabledepflights';
+
+import Viewavailablereturnflights from './Components/Viewavailablereturnflights';
+import ChangeReturnFlight from './Components/ChangeReturnFlight';
+
+
 
 // <Route exactpath = "/CreateFlight" component={CreateFlight}/>
 // if you got here that means I am crying 
@@ -38,7 +46,7 @@ function App() {
          <Route exact path="/Profile" component={Profile}/>
          <Route exact path = "/Summary" component={Summary}/>
          <Route exact path = "/ViewFlights" component={ViewFlights}/>
-         {/* <Route exact path="/ReserveSeats" component={ReserveSeats}/> */}
+         <Route exact path="/ReserveSeats" component={ReserveSeats}/>
          {/* <Route exact path = "/View_FLight" component={View_FLight}/> */}
          <Route exact path = "/payment" component={Payment}/>
          <Route exact path = "/Login" component={Login}/>
@@ -46,6 +54,14 @@ function App() {
          <Route exact path = "/salma" component={Salma}/>
          <Route exact path = "/StripeContainer" component={StripeContainer}/>
          <Route exact path = "/PaymentForm" component={PaymentForm}/>
+         <Route exact path = "/cdf" component={Changedepartureflight}/>
+         <Route exact path = "/vadf" component={Viewavailabledepflights}/>
+
+         <Route exact path = "/crf" component={ChangeReturnFlight}/>
+         <Route exact path = "/varf" component={Viewavailablereturnflights}/>
+
+
+        
           </Switch>
         </Router>
 

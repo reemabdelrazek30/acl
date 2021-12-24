@@ -1,23 +1,23 @@
 import React from 'react'
 import './Popup.css'
 import Axios from "axios";
-import emailjs from 'emailjs-com';
-import{ init } from 'emailjs-com';
+//import emailjs from 'emailjs-com';
+//import{ init } from 'emailjs-com';
 
 export function Confirmdelete(props) {
-  const sendEmail =(input) =>
-{
-  init("user_apzwfvITShEvLYpHTpF5s");
-  var templateParams = {
-    confirmation_number:input
-};
-   //e.preventDefault();
-   emailjs.send('service_3h110wr','template_ln34t48',templateParams).then(function(response) {
-    console.log('SUCCESS!', response.status, response.text);
- }, function(error) {
-    console.log('FAILED...', error);
- });
-}
+//   const sendEmail =(input) =>
+// {
+//   init("user_apzwfvITShEvLYpHTpF5s");
+//   var templateParams = {
+//     confirmation_number:input
+// };
+//    //e.preventDefault();
+//    emailjs.send('service_3h110wr','template_ln34t48',templateParams).then(function(response) {
+//     console.log('SUCCESS!', response.status, response.text);
+//  }, function(error) {
+//     console.log('FAILED...', error);
+//  });
+// }
     const deleteTicket = (confirmation_number, user_id, departure_flight_id, return_flight_id, seatsAID, seatsDID) => {
         console.log(confirmation_number);
         Axios.delete(`http://localhost:3001/deleteticket/${confirmation_number}/${user_id}`);
@@ -38,7 +38,7 @@ export function Confirmdelete(props) {
           flightID:return_flight_id
             })
         )};
-        sendEmail(confirmation_number);
+      //  sendEmail(confirmation_number);
       };
     
 

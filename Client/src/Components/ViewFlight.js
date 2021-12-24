@@ -77,6 +77,19 @@ export default function View_FLight(props) {
     console.log("test" + JSON.stringify(showMoreInfo)) // to see the new values i should go out of the method
   }
 
+  Axios.defaults.withCredentials = true;
+  const [isLoggedIn, setLoggedIn] = useState(false)
+  const [current_user, setcurrent_user] = useState({});
+  useEffect(() => {
+    Axios.get("http://localhost:3001/login").then(response => {
+      if (response.data.loggedIn){
+      setcurrent_user(response.data.user);
+        setLoggedIn(true);
+      }
+    })
+  
+},[])
+
 
 
   const handleserving = (id, flight_number, flight_Departure_Date, flight_Departure_Time,
@@ -210,7 +223,7 @@ export default function View_FLight(props) {
 
       set_clicked_confirm(true)
 
-      if (props.user === "true") {
+      if (props.user  ) {
         let c;
         Axios.post("http://localhost:3001/confirm_booking", {
 
@@ -223,8 +236,10 @@ export default function View_FLight(props) {
           Arrival_seats: seatsA,
           Confirmation_number: con_Number,
           seatsAID: seatsAID,
-          seatsDID: seatsDID
-
+          seatsDID: seatsDID,
+          userid: current_user._id,
+          children: prop.N_childern,
+          adults: prop.N_adult
 
 
         }).then((Response) =>
@@ -233,10 +248,11 @@ export default function View_FLight(props) {
         setButton_content('Proceed to payment')
         setshow_departure_button(false)
         setshow_return_button(true)
+        console.log("unique nouran in if  " +props.user);
       }
       else {
         // show you have to login first
-
+        console.log("unique nouran in else  " +props.user);
       }
 
     }
@@ -259,6 +275,7 @@ export default function View_FLight(props) {
       // search:'?Did=' + depatureFlight["id"]+'&Aid=' + arrivalFlight["id"]+ '&class='+prop.Class +'&number='+ (props.info.N_childern+props.info.N_adult)+
       // '&priceD='+depatureFlight["Price"] +'&priceA='+arrivalFlight["Price"]
       //+'&props='+JSON.stringify(prop)+'&clicked='+clicked
+      console.log("unique here " +props.user);
       if (props.user === "false") {
         setshow_departure_component(false)
         setshow_return_component(false)
@@ -269,6 +286,7 @@ export default function View_FLight(props) {
         // setShow_summary(true)
         setMess("Please, choose your departure flight's seats")
         setButton_content('Confirm booking')
+     
       }
       else {
         setshow_departure_component(false)
@@ -280,6 +298,7 @@ export default function View_FLight(props) {
         setMess("Please, choose your departure flight's seats")
         // setShow_summary(true)
         setButton_content('Confirm booking')
+      
       }
       Axios.get("http://localhost:3001/confirmition_number", {
       }).then((Response) => {
@@ -372,7 +391,7 @@ export default function View_FLight(props) {
         ) : (show_return_component ? (
 
           returnFlights.length > 0 ? (<h1>Choose Arrival Flight</h1>) : <h1>Sorry, no available return flights for the selected departure flight try choose another one</h1>
-        ) : (clicked_confirm ? (((show_summery && props.user === "true" && button_content === 'Proceed to payment') ? (<h1> Your Confirmation code is {con_Number}</h1>) : <h1>You have to login first to confirm your reservation</h1>)
+        ) : (clicked_confirm ? (((show_summery && props.user  && button_content === 'Proceed to payment') ? (<h1> Your Confirmation code is {con_Number}</h1>) : <h1>You have to login first to confirm your reservation</h1>)
         ) : "")
         )
         }
