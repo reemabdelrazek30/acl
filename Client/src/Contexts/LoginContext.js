@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from "react"
-const LoginContext = React.createContext();
+import React, { useState} from "react"
+export const LoginContext = React.createContext();
 
 export const LoginProvider = ({children}) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userId , setUserId] = useState("");
-  loginI = (userId) =>
+  const loginI = (userId) =>
   { 
       setLoggedIn(true);
       setUserId(userId);
   }
-  logoutI = () =>
+  const logoutI = () =>
   {
       setLoggedIn(false);
       setUserId("");

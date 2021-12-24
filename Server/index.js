@@ -14,7 +14,9 @@ const bcrypt = require('bcrypt');
 const cookieParser = require("cookie-parser");
 //const { sign, verify } = require('jsonwebtoken');
 const session = require("express-session");
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+// const Stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+const Stripe = require("stripe")  
+const stripe = Stripe('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 const saltRounds = 10;
 app.use(
   cors({
@@ -435,25 +437,48 @@ app.put("/editProfile/:id", async (req, res) => {
 //   }
 // })
  
-app.post('/purchase', function(req, res) {
-      const itemsJson = JSON.parse(data)
-      const itemsArray = itemsJson.music.concat(itemsJson.merch)
-      let total = 0
-      req.body.items.forEach(function(item) {
-        const itemJson = itemsArray.find(function(i) {
-          return i.id == item.id  })
-        total = total + itemJson.price * item.quantity  })
-      stripe.charges.create({
-        amount: total,
-        source: req.body.stripeTokenId,
-        currency: 'usd'
-      }).then(function() {
-        console.log('Charge Successful')
-        res.json({ message: 'Successfully purchased items' })
-      }).catch(function() {
-        console.log('Charge Fail')
-        res.status(500).end()
-      })
+// app.post('/purchase', function(req, res) {
+//       const itemsJson = JSON.parse(data)
+//       const itemsArray = itemsJson.music.concat(itemsJson.merch)
+//       let total = 0
+//       req.body.items.forEach(function(item) {
+//         const itemJson = itemsArray.find(function(i) {
+//           return i.id == item.id  })
+//         total = total + itemJson.price * item.quantity  })
+//       stripe.charges.create({
+//         amount: total,
+//         source: req.body.stripeTokenId,
+//         currency: 'usd'
+//       }).then(function() {
+//         console.log('Charge Successful')
+//         res.json({ message: 'Successfully purchased items' })
+//       }).catch(function() {
+//         console.log('Charge Fail')
+//         res.status(500).end()
+//       })
+// })
+app.post("/payment",cors(), async (req, res) => {
+	let { amount, id } = req.body
+	try {
+		const payment = await stripe.paymentIntents.create({
+			amount,
+			currency: "USD",
+			description: "GUC Airlines",
+			payment_method: id,
+			confirm: true
+		})
+		console.log("Payment", payment)
+		res.json({
+			message: "Payment successful",
+			success: true
+		})
+	} catch (error) {
+		console.log("Error", error)
+		res.json({
+			message: "Payment failed",
+			success: false
+		})
+	}
 })
 app.post('/logout',(req,res) =>
 {

@@ -1,16 +1,17 @@
 import React, {  useContext, useState } from "react";
-import {LoginContext} from "..LoginContext"
-import Axios from "axios";;
-import './Login.css';
-import { useHistory } from 'react-router';
+ import Axios from "axios";
+ import { useHistory } from 'react-router-dom';
+ import {LoginContext} from "../Contexts/LoginContext"
+ import './Login.css';
+Axios.defaults.withCredentials = true;
+
 export const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
     const {loginI} = useContext(LoginContext);
     let history = useHistory();
-    Axios.defaults.withCredentials = true;
-    const login = () => {
+    const LoginH = () => {
         Axios.post("http://localhost:3001/login", {
             username: username,
             password: password,
@@ -18,9 +19,8 @@ export const Login = () => {
             if (response.data.message) {
                 setLoginStatus(response.data.message);
                 loginI("");
-            } else {
+            } else 
                 setLoginStatus("Hello," + response.data.First_Name);
-            }
         });
     };
     return (
@@ -60,7 +60,7 @@ export const Login = () => {
                     }}
              placeholder="Password" />
 			<a href="#">Forgot your password?</a>
-			<button onClick = {Login}>Sign In</button>
+			<button onClick = {LoginH}>Sign In</button>
 		</form>
 	</div>
 </div>

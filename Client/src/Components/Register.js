@@ -20,8 +20,8 @@ export const Register = () => {
             Email:emailReg, 
             password:passwordReg
         }).then((response) => {
-            setUserName = response.data.First_Name;
-            setRegistrationSuccessful = true;
+            setUserName(response.data.First_Name);
+            setRegistrationSuccessful(true);
         });
     };
     const login = (event) => {

@@ -9,13 +9,15 @@ import Home from './Components/Home';
 import User from './Components/User';
 import Reserve_FLight from './Components/ReserveFlight';
 import View_FLight from './Components/ViewFlight';
-import payment from './Components/Payment';
+import {Payment} from './Components/Payment';
 // import ReserveSeats from './Components/ReserveSeats';
 import Salma from './Components/salma';
 import Summary from './Components/Summary';
 import { Login } from './Components/Login';
 import { Register } from './Components/Register';
 import ViewFlights from './Components/ViewFlights';
+import StripeContainer from './Components/StripeContainer';
+import PaymentForm from './Components/PaymentForm';
 
 // <Route exactpath = "/CreateFlight" component={CreateFlight}/>
 // if you got here that means I am crying 
@@ -38,10 +40,12 @@ function App() {
          <Route exact path = "/ViewFlights" component={ViewFlights}/>
          {/* <Route exact path="/ReserveSeats" component={ReserveSeats}/> */}
          {/* <Route exact path = "/View_FLight" component={View_FLight}/> */}
-         <Route exact path = "/payment" component={payment}/>
+         <Route exact path = "/payment" component={Payment}/>
          <Route exact path = "/Login" component={Login}/>
          <Route exact path = "/Register" component={Register}/>
          <Route exact path = "/salma" component={Salma}/>
+         <Route exact path = "/StripeContainer" component={StripeContainer}/>
+         <Route exact path = "/PaymentForm" component={PaymentForm}/>
           </Switch>
         </Router>
 
