@@ -41,7 +41,7 @@ useEffect(() => { Axios.get("http://localhost:3001/user").then((Response) => set
                    
                     <tr><th className="th1">Departure Flight</th></tr>
                     <tr>
-                    <th > Fligth number </th>
+                    <th >Flight number</th>
                     <th >Departure Flight Date </th>
                     <th >Departure Flight Time </th>
                     <th >Departure Flight Airport </th>
