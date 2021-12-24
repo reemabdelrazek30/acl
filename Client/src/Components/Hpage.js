@@ -1,19 +1,24 @@
 import { useHistory } from 'react-router-dom';
-
+import './Hpage.css'
 function Hpage() {
 
   let history = useHistory();
 
   return (
+    <div>
+    <div className="banners">
+    <div className="container">
     <form action ="/">
-      <div className="banner">
-        <h1>Home Page</h1>
-      </div>
+        <h1 className="homePage">Home Page</h1>
       <div className="item">
-        <button onClick={() => {history.push('/Flight');}}>View Flights</button>
-        <button onClick={() =>{history.push('/CreateFlight');}}>Create Flight</button>
+        <div><button className="buttonHpage" onClick={() => {history.push('/Flight');}}>View Flights</button></div>
+        <div><button className="buttonHpage" onClick={() =>{history.push('/CreateFlight');}}>Create Flight</button></div>
+        <div><button className="buttonHpage" onClick={() => {history.push('/changePassword')}}>Change Password</button></div>
       </div>
     </form>
+    </div>
+    </div>
+    </div>
   );
 }
 

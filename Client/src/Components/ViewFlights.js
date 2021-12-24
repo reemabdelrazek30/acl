@@ -28,17 +28,16 @@ useEffect(() => { Axios.get("http://localhost:3001/user").then((Response) => set
 
     return(
         <div className= "app-containe" >  
-         <h1> Tricket Details:</h1>
+         <h1> Ticket Details:</h1>
                     <br/>
                     <br/>
                     <br/>
-        <table>  
+        <table className="styled-table">  
         { userflights.map(val =>
             <div className="app-containe" key={val._id}>
                 {val.Flights.map(info=>
                 <div>
                       <br/>
-                   
                     <tr><th className="th1">Departure Flight</th></tr>
                     <tr>
                     <th >Flight number</th>
@@ -50,7 +49,6 @@ useEffect(() => { Axios.get("http://localhost:3001/user").then((Response) => set
                     <th >Arrival Flight Airport </th>
                     <th >Flight Seats </th>
                     </tr>
-        
                     <tbody>
                     <td>{info.Departure_flight.Flight_Number} </td>
                     <td>{info.Departure_flight.flight_Departure_Date.toString()} </td>  
@@ -72,7 +70,6 @@ useEffect(() => { Axios.get("http://localhost:3001/user").then((Response) => set
                     <th >Arrival Flight Time </th>
                     <th >Arrival Flight Airport </th>
                     <th >Flight Seats </th>
-
                     <tbody>
                     <td>{info.Arrival_flight.Flight_Number} </td>
                     <td>{info.Arrival_flight.flight_Departure_Date} </td>  
@@ -95,10 +92,6 @@ useEffect(() => { Axios.get("http://localhost:3001/user").then((Response) => set
                     </tbody>
                     <button className="btn"  onClick={() => ondelete(info.Confirmation_number, val._id,
                         info.Departure_flight.id,info.Arrival_flight.id,info.seatsAID,info.seatsDID) } >Delete Ticket</button>
-
-
-
-
                     </div>
                     
                     )}
@@ -108,7 +101,6 @@ useEffect(() => { Axios.get("http://localhost:3001/user").then((Response) => set
        
         }
          </table>
-
          <Confirmdelete trigger={buttonpopup}  setTrigger={setbuttonpopup} delete_ticket={confirmation} user_id={userid}
             departure_flight_id={dep_flight_id} return_flight_id={re_flight_id} seatsAID={Aseats_id} seatsDID={Dseats_id}
         ></Confirmdelete>

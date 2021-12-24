@@ -20,8 +20,8 @@ export function Popup(props) {
         <h3>Arrival Airport: {props.delete_flight.Arrival_Airport}  </h3>
         <h3>Number of Economy seats: {props.delete_flight.Number_of_Economy_seats}  </h3>
         <h3>Number of Business seats: {props.delete_flight.Number_of_Business_seats}  </h3>
-        <div><button className="close-btn1" onClick={() => deleteFlight(props.delete_flight._id)}> confirm </button></div>
-        <button className="close-btn" onClick={() => props.setTrigger(false)}>cancel</button>
+        <div style="flex-direction:row;"><button className="confirm" onClick={() => deleteFlight(props.delete_flight._id)}> Confirm </button></div>
+        <button className="cancel" onClick={() => props.setTrigger(false)}>Cancel</button>
       </div>
     </div>
   ) : (""));

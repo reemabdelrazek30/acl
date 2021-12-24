@@ -1,10 +1,34 @@
 
-* {
+/* * {
 	box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    justify-self: center;
+    align-self: center;
+} */
+
+
+.banner {
+    position: relative;
+    height:1080px;
+	width:2040px;
+    background-image: url("https://assets.weforum.org/article/image/3_AfzFP4fkZH228ctZ5GnRe3TXuBErXM-_ZXG00lyLA.jpg");  
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    }
+
+.Register {
+	box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .body {
-	background: #f6f5f7;
+	background: #FFFFFF;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -20,10 +44,13 @@
 	margin: 0;
 }
 .createAccount {
-    color: #FF4B2B;
+    color: #FADF90;
+    margin-top: 50px;
+    margin-bottom: 30px;
 }
 .welcomeBack {
     color: white;
+    margin-bottom: 15px;
 }
 .h2 {
 	text-align: center;
@@ -51,8 +78,9 @@
 
 .buttonSignUp {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+    margin-top: 25px;
+	border: 1px solid #FADF90;
+	background-color: #FADF90;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -64,9 +92,10 @@
 
 .buttonSignIn {
 	border-radius: 20px;
+    margin-top: 15px;
 	border: 1px solid #FFFFFF;
 	background-color: #FFFFFF;
-	color: #FF4B2B;
+	color: #FADF90;
 	font-size: 12px;
 	font-weight: bold;
 	padding: 12px 45px;
@@ -75,9 +104,42 @@
 	transition: transform 80ms ease-in;
 }
 
-.button:active {
+.buttonSignIn:hover {
+    box-shadow: 0 0 18px 0 #FFFFFF;
+    }
+ .buttonSignUp:hover {
+    box-shadow: 0 0 18px 0 #FADF90;
+    }
+.buttonSignIn:active {
 	transform: scale(0.95);
 }
+
+.buttonSignUp:active {
+	transform: scale(0.95);
+}
+input:focus::placeholder {
+  color: transparent;
+}
+input:hover::placeholder {
+    color: #ebd492;
+    }
+input::placeholder {
+	color: #a39980;
+}
+input::text {
+	color: black;
+}
+.inputClass {
+    width: calc(100% - 70px);
+    height: 35px;
+    padding: 0 7px;
+    margin: 10px;
+}
+ input:hover {
+    border: 1px solid transparent;
+    box-shadow: 0 0 6px 0 #FADF90;
+    color: #FADF90;
+    }
 
 .button:focus {
 	outline: none;
@@ -87,10 +149,13 @@
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
-
+p {
+    color: white;
+}
 .form {
 	background-color: #FFFFFF;
 	display: flex;
+	opacity:1;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
@@ -100,15 +165,18 @@
 }
 
 .input {
-	background-color: #eee;
-	border: none;
-	padding: 12px 15px;
+	background-color: #FFFFFF;
+	border: 5px;
+	color:#FADF90;
+	padding: 15px 20px;
+    width: 50px;
 	margin: 8px 0;
 	width: 100%;
 }
 
 .container {
-	background-color: #fff;
+	background-color: #FFFFFF;
+	opacity:1;
 	border-radius: 10px;
   	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
@@ -130,10 +198,12 @@
 	left: 0;
 	width: 50%;
 	z-index: 2;
+	background-color: rgb(255, 253, 253);
 }
 
 .container.right-panel-active .sign-in-container {
 	transform: translateX(100%);
+	background-color: white;
 }
 
 .sign-up-container {
@@ -178,9 +248,9 @@
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: #FADF90;
+	background: -webkit-linear-gradient(to right, #FFCD12, #FADF90);
+	background: linear-gradient(to right, #FFCD12, #FADF90);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -196,7 +266,6 @@
 .container.right-panel-active .overlay {
   	transform: translateX(50%);
 }
-
 .overlay-panel {
 	position: absolute;
 	display: flex;
@@ -242,29 +311,4 @@
 	margin: 0 5px;
 	height: 40px;
 	width: 40px;
-}
-
-footer {
-    background-color: #222;
-    color: #fff;
-    font-size: 14px;
-    bottom: 0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 999;
-}
-
-footer p {
-    margin: 10px 0;
-}
-
-footer i {
-    color: red;
-}
-
-footer a {
-    color: #3c97bf;
-    text-decoration: none;
 }

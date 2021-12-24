@@ -4,10 +4,84 @@
     gap: 10px;
     padding: 1rem;
   }
-  
+  .containerFlightTable {
+	background-color: #FFFFFF;
+	opacity:1;
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+	position:absolute;
+  left:10px;
+  top:20px;
+	overflow: hidden;
+	width: 1900px;
+	max-width: 100%;
+	min-height: 480px;
+}
+.here {
+  position:absolute;
+  left:0px;
+  top:0px;
+}
+table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    table-layout:fixed;
+    box-shadow: 0 0 20px rgba(235, 230, 202, 0.15);
+}
+table thead tr {
+    background-color: #FADF90;
+    color: #ffffff;
+    text-align: left;
+}
+table th, table td {
+    padding: 12px 15px;
+}
+table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #FADF90;
+}
+table tbody tr.active-row {
+    font-weight: bold;
+    color: #FADF90;
+}
+tr:hover {
+ box-shadow: 0px 9px 4px -6px grey;
+}
+tr:hover td{
+  color:rgb(150, 151, 92);
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+button:hover {
+  cursor:pointer;
+}
+/* tr:first-child:hover td {
+  border-top: none;
+}
+tr:last-child:hover td {
+  border-bottom: none;
+} */
+tr:hover td.highlight div {
+  transform: scaleX(3);
+}
+  .yellowDiv{
+    background-color:#FADF90;
+    width:100%;
+    height:100%;
+  }
   table {
     border-collapse: collapse;
     width: 100%;
+    overflow:scroll;
   }
 
  
@@ -23,16 +97,34 @@
     /* background-color: rgb(117, 201, 250); */
     background-color:rgb(14, 14, 83);
    color:white;
+   width: 100%;
   }
   
   .td {
     /* background-color: rgb(205, 235, 253); */
     background-color:snow !important;
-   color:navy;
+   color:#FADF90;
+   width: 100%;
   }
   .button{
-    background-color:navy;
+    background-color:#FADF90;
   }
+.returnToHomePage {
+ 	border-radius: 20px;
+  margin-top: 25px;
+	border: 1px solid #FADF90;
+	background-color: #FADF90;
+  background: -webkit-linear-gradient(to right, #FFCD12, #FADF90);
+	background: linear-gradient(to right, #FFCD12, #FADF90);
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+  width: 500px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
 
   
   

@@ -12,9 +12,6 @@
     display:flex;
     justify-content: center;
     
-    
-   
-
 }
 #popup1{
     position: fixed;
@@ -29,9 +26,8 @@
     display:flex;
     justify-content: center;
 }
-#popup1 button {    
+#popup1 .button {    
    background-color: darkgreen;
-
 }
 .popup-inner{
     position: relative;
@@ -39,16 +35,36 @@
     width: 100%;
     max-width: 640px;
     background-color:white;
-
 }
-
-/* .popup-inner .close-btn{
-    position: absolute;
-    top: 16px;
-    right: 16px;
+.confirm{
+border-radius: 20px;
+  margin-top: 25px;
+	border: 1px solid #FADF90;
+	background-color: #FADF90;
+  background: -webkit-linear-gradient(to right, #FFCD12, #FADF90);
+	background: linear-gradient(to right, #FFCD12, #FADF90);
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+  width: 500px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
 }
-.popup-inner .close-btn1{
-    position: absolute;
-    top: 490px;
-    right: 16px;
-} */
+.cancel {
+    border-radius: 20px;
+  margin-top: 25px;
+	border: 1px solid #FF0000;
+	background-color: #FF0000;
+  background: -webkit-linear-gradient(to right, #dd0c28, #FF0000);
+	background: linear-gradient(to right, #dd0c28, #FF0000);
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+  width: 500px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}

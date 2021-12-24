@@ -1,12 +1,42 @@
-.app-containe {
-    display: flex;
-    flex-direction: column;
-    gap: 70px;
-    padding: 1rem;
-  }
-  
+.here {
+  position:absolute;
+  height: 100%;
+  width: 100%;
+  left:0px;
+  top:0px;
+}
+  .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    table-layout:fixed;
+    box-shadow: 0 0 20px rgba(235, 230, 202, 0.15);
+}
+.styled-table thead tr {
+    background-color: #FADF90;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #FADF90;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #FADF90;
+}
 .th1 {
-    background-color: #3257a7;
+    background-color: #FADF90;
     color: rgba(255, 255, 255, 0.842);
     border: 1px solid #ffffff;
     text-align:center;
@@ -17,25 +47,38 @@
    
     left:40%;
   }
-
+.h1ViewFlights{
+color:#FADF90;
+}
+.containerViewFlight {
+	background-color: #FFFFFF;
+	opacity:1;
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+	position: relative;
+	overflow: hidden;
+	width: 784px;
+	max-width: 100%;
+	min-height: 480px;
+}
   .t1{
     padding: 18px; 
   }
   .btn {
-    margin-top: 10px;
-    text-align: center;
- 
-    width: 200px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #4345d8;
-    font-size: 16px;
-    color: #fff;
-    cursor: pointer;
-    position: relative;
-    left:40%;
-    box-shadow: 0 0 18px 0 #3257a7;
+	border-radius: 20px;
+  margin-top: 25px;
+	border: 1px solid #FADF90;
+	background-color: #FADF90;
+  background: -webkit-linear-gradient(to right, #FFCD12, #FADF90);
+	background: linear-gradient(to right, #FFCD12, #FADF90);
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
   }
 
   

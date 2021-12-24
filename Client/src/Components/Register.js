@@ -30,24 +30,28 @@ export const Register = () => {
     }
 return (
     <div>
-<div class="container" id="container">
-	<div class="form-container sign-in-container">
+        <div className="banner">
+<div className="container" id="container">
+	<div className="form-container sign-in-container">
 		<form>
 			<h1 className="createAccount">Create Account</h1>
 			<input type="text"
                 required
+                className="inputClass"
                 placeholder="First Name"
                 onChange={(e) => {
                     setfNReg(e.target.value);
                 }}/>
                 <input type="text"
                 required
+                className="inputClass"
                 placeholder="Last Name"
                 onChange={(e) => {
                     setlNReg(e.target.value);
                 }}/>
 			<input type="text"
                 required
+                className="inputClass"
                 placeholder="Email"
                 onChange={(e) => {
                     setEmailReg(e.target.value);
@@ -55,6 +59,7 @@ return (
                 />
             <input type="text"
                 required
+                className="inputClass"
                 placeholder="Passport Number"
                 onChange={(e) => {
                     setPassportReg(e.target.value);
@@ -62,6 +67,7 @@ return (
                 />
 			<input type="password"
                 required
+                className="inputClass"
                 placeholder="Password"
                 onChange={(e) => {
                     setPasswordReg(e.target.value);
@@ -69,15 +75,16 @@ return (
 			<button className="buttonSignUp" onClick={register}>Sign Up</button>
 		</form>
 	</div>
-	<div class="overlay-container">
-		<div class="overlay">
-			<div class="overlay-panel overlay-right">
+	<div className="overlay-container">
+		<div className="overlay">
+			<div className="overlay-panel overlay-right">
 				<h1 className="welcomeBack">Welcome Back!</h1>
 				<p>To keep connected with us please login with your personal info</p>
-				<button class="buttonSignIn" onClick={(event) => {login(event)}} id="signIn">Sign In</button>
+				<button className="buttonSignIn" onClick={(event) => {login(event)}} id="signIn">Sign In</button>
 			</div>
 		</div>
 	</div>
+    </div>
 </div>
  <RegistrationSuccess trigger={registrationSuccessful} name={userName} setTrigger={setRegistrationSuccessful}></RegistrationSuccess>
 </div>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import './createFlight.css';
+import './Profile.css';
 import { useState } from "react";
 import { useHistory } from 'react-router';
 import axios from 'axios';
@@ -12,6 +12,7 @@ export default function Profile() {
     const [Last_Name, setLast_Name] = useState("");
     const [Passport_Number, setPassport_Number] = useState("");
     const [Email, setEmail] = useState("");
+    const [disabled, setDisabled] = useState(true);
     axios.defaults.withCredentials = true;
     useEffect(() => {
         axios.get("http://localhost:3001/login").then(response => {
@@ -44,33 +45,61 @@ export default function Profile() {
             Passport_Number: Passport_Number,
             Email: Email,
         })
+        history.push('/User');
     }
-
+    const discard = () => {
+        console.log("discard changes");
+        history.push('/User');
+    }
+    
+ <div>
+    <div className="banners">
+    <div className="container">
+        <br />
+          <h1 className="homePage">Home Page</h1>
+          {/* <label>Continue As:</label> */}
+         <div><button className="buttonHome" onClick={() => {history.push('/Hpage');}}>Admin</button>
+        <br/>
+        <br/>
+      <button className="buttonHome" onClick={() =>{history.push('/User');}}>User</button>
+      </div>
+  </div>
+  </div>
+   </div>
     return (
         <div>
-            <div class="banner">
-                <h1> Profile</h1>
-            </div>
-            {/* <div class="item">
-                <h2>Enter ( User ID ) to view profile details</h2>
-                <input type="number" name="id" placeholder="User ID" onChange={(event) => {setID(event.target.value)}}></input>
-            </div> */}
-            <div class="item">
-                {/* <button onClick={getProfile}>proceed</button> */}
-
-                {/* {profile.map((val, key) => { */}
-                    <form>
+            <div className="bannerProfile">
+                <div className="containerProfile">
+                <h1>Profile</h1>
+            <div>
+                    <form className="formProfile">
                         <div className="item">
-                            {/* <h3> User ID : {val.User_id} </h3> */}
-                            <input type="text" name="First Name" required={true} defaultValue={First_Name} onChange={(event) => { setFirst_Name(event.target.value) }}></input>
-                            <input type="text" name="Last Name" required={true} defaultValue={Last_Name} onChange={(event) => { setLast_Name(event.target.value) }}></input>
-                            <input type="text" name="Passport Number " required={true} defaultValue={Passport_Number} onChange={(event) => { setPassport_Number(event.target.value) }}></input>
-                            <input type="text" name="Email" required={true} defaultValue={Email} onChange={(event) => { setEmail(event.target.value) }}></input>
-                            <button onClick={editProfile}>Edit Data</button>
+                            <div>
+                            <label>First Name</label>
+                            <input type="text" className="inputProfile" name="First Name" required={true} defaultValue={First_Name} onChange={(event) => { setFirst_Name(event.target.value); setDisabled(false); }}></input>
+                            </div>
+                             <div>
+                            <label>Last Name</label>
+                            <input type="text" className="inputProfile" name="Last Name" required={true} defaultValue={Last_Name} onChange={(event) => { setLast_Name(event.target.value); setDisabled(false); }}></input>
+                            </div>
+                             <div>
+                            <label>Passport Number</label>
+                            <input type="text" className="inputProfile" name="Passport Number " required={true} defaultValue={Passport_Number} onChange={(event) => { setPassport_Number(event.target.value); setDisabled(false); }}></input>
+                            </div>
+                             <div>
+                            <label>Email</label>
+                            <input type="text" className="inputProfile" name="Email" required={true} defaultValue={Email} onChange={(event) => { setEmail(event.target.value); setDisabled(false); }}></input>
+                            </div>
+                            <div>
+                            <button id="discard" className="buttonDiscard" onClick={discard} disabled={disabled}>Discard Changes</button>
+                            <button className="buttonProfile" onClick={editProfile}>Save Changes</button>
+                            </div>
                         </div>
                     </form>
                 {/* })} */}
             </div>
         </div>
+        </div>
+            </div>
     );
 }

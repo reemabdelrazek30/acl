@@ -198,13 +198,9 @@ else
   return(
   
     <div  /*className="popup"*/>
-      {/* <p>selected seats: {selected_seats}</p> */}
       { console.log(selected_seats+"        selected")}
       { console.log(wrongSeatsTrigger+"        WrongSeats")}
       { console.log(wrongSeatsTrigger+"        WrongSeats")}
-
-      {/* { console.log(noSeats+"        noSeats")} */}
-
      <div> <h1>{props.mess}</h1></div>
      <br/>     <br/>
      <br/>
