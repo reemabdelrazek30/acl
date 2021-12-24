@@ -4,7 +4,23 @@ import './Login.css';
 import {useLocation} from 'react-router-dom';
 import { useHistory } from 'react-router';
 import {GoogleLogin} from 'react-google-login';
+const nodemailer = require('nodemailer');
+
 export const Login = () => {
+    let transporter = nodemailer.createTransport({
+        service: "hotmail",
+        auth: {
+            user:"airport-reservation-system@hotmail.com",
+            pass: "airport_reservation_system"
+        }
+    });
+    const options = {
+      from:"airport-reservation-system@hotmail.com",
+      to: "salma.elshafey@student.guc.edu.eg",
+      subject:"7asby allah",
+      text:"7asby allah"
+    }
+
     const location = useLocation();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -27,11 +43,20 @@ export const Login = () => {
             }
         });
         }
+        
+    let info = transporter.sendMail(options, function (err, info){
+        if (err)
+             console.log(err);
+        else
+             console.log(info.response);
+    });
+    console.log("info: " + info);
         if (location.state.viewFlights==="true")
               history.push('/ViewFlights');
         else
               history.push('/User');
     };
+
     const responseGoogle = (response) => {
         console.log(response);
     }
