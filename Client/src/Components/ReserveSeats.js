@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import './ReserveSeats.css';
 import { Fragment } from 'react';
 import Summary from "./Summary";
+import seats from './seat'
 
  import { useLocation } from "react-router-dom";
 // // import { PromiseProvider } from 'mongoose';
@@ -15,24 +16,11 @@ export default function ReserveSeats(props) {
      let history = useHistory();
     const location = useLocation();
     let number=props.number
-
+    let flightClass = props.flightClass
   console.log("I'M IN RESERVE SEATS");
     
     let id = 0;
-    let flightClass = props.flightClass
-    if(props!= undefined){
-      if(props.mess==="Please, choose your return flight's seats"){
-        id=props.Aid
-        console.log("line 26")
-      }
-      else{
-        id=props.Did 
-        console.log("line 30")
-  
-      }
-    }
-    
-    if(location.state !=undefined){
+    if(location.state.number !=undefined){
       console.log(JSON.stringify(location)+"looooooo")
       flightClass=location.state.classT;
       id=location.state["id"];
@@ -40,7 +28,23 @@ export default function ReserveSeats(props) {
       number=location.state["number"];
       
       
+    }else{
+      if(props!= undefined){
+        if(props.mess==="Please, choose your return flight's seats"){
+          id=props.Aid
+          console.log("line 26")
+        }
+        else{
+          id=props.Did 
+          console.log("line 30")
+    
+        }
     }
+    
+    
+    }
+    
+    
    
     
     
@@ -70,11 +74,13 @@ let selectedA=[]
 //   prev?false:true
 // ));
 console.log("clicked"+clicked)
+console.log(flightClass+"flight class")
+      console.log(id+"id")
     useEffect(() => {
       console.log("enter nouran in use effect")
-       Axios.get(`http://localhost:3001/getSeats/${id}/${flightClass}`).
-       then((Response) => (setAllSeats((Response.data.flightSeats)),  console.log("enteren useeffect  nourannnnnnnnnnnnnn"+Response.data.flightSeats.toString()+Response.data.flightSeats.length)));
-    },[id]);
+       Axios.get(`http://localhost:3001/getSeats/${id}`).
+       then((Response) => (setAllSeats((Response.data.flightSeats)),  console.log("enteren useeffect  nourannnnnnnnnnnnnn"+JSON.stringify(Response.data.flightSeats)+Response.data.flightSeats.length)));
+    },[id,flightClass]);
 
     const select = (id1) => {
          if (document.getElementById(id1).className === "businessSelected"){ //button already selected -> deselect
@@ -142,7 +148,7 @@ console.log("clicked"+clicked)
    
       const reserve = () => {
         console.log(JSON.stringify(selected_seats)+"selected_seats in the reserve method")
-        if(location.state!=undefined){
+        if(location.state.number!=undefined){
           // location.state.set((pre)=>(
           //   true?false:true
           console.log("number"+number);
@@ -164,8 +170,11 @@ else
         console.log("i entered reserve for loop");
         Axios.put("http://localhost:3001/reserveSeat",{
           flightID: id,
-          seatID: selected_seats[i]._id
-        },[id]);//const priceD=props.priceD;
+          seatID: selected_seats[i]._id,
+          flightClass: flightClass
+
+
+        });//const priceD=props.priceD;
        
         console.log(JSON.stringify(selected_seatsN)+"inside the for loop")
         console.log([selected_seatsN]+"inside the for loop without stringfy")
@@ -176,7 +185,7 @@ else
         flightID:id,
         newSeats:selected_seatsN,
         userid: location.state.user ,
-        flightType:location.state.flightType,
+          type:location.state.flightType,
 Confirmation_number:location.state.conf,
 
 })
@@ -225,8 +234,9 @@ else
         console.log("i entered reserve for loop");
         Axios.put("http://localhost:3001/reserveSeat",{
           flightID: id,
-          seatID: selected_seats[i]._id
-        },[id]);//const priceD=props.priceD;
+          seatID: selected_seats[i]._id,
+          flightClass: flightClass
+        });//const priceD=props.priceD;
        
         console.log(JSON.stringify(selected_seatsN)+"inside the for loop")
         
@@ -275,7 +285,7 @@ else
     }
   return(
   
-    <div  /*className="popup"*/>
+    <div  id="seats">
       {/* <p>selected seats: {selected_seats}</p> */}
       { console.log(selected_seats+"        selected")}
       { console.log(wrongSeatsTrigger+"        WrongSeats")}
@@ -289,6 +299,12 @@ else
      <br/>
      <br/>
      <br/>
+     <div id="nouran" ></div>
+     <div id="leftDiv" className="sectionLeft"></div>
+    
+   
+       
+   
 
              <div id="leftDiv" className="sectionLeft"></div>
              <div id="rightDiv" className="sectionRight"></div>
@@ -296,8 +312,13 @@ else
                  {
                       allSeats.map(seat => 
                         {  
+                         
+                          console.log(JSON.stringify(seat))
+                          
                            if (flightClass === "Business"){   //business class map
+                            console.log("entbuss1")
                                if(seat.seatType === "Business"){
+                                console.log("entbuss2")
                                   let buttoni = document.createElement("button");
                                   var statusi = seat.status === "free" ? "businessUnreserved" : "businessReserved";
                                   buttoni.setAttribute("class", statusi);
@@ -315,16 +336,21 @@ else
                                 }
                             }
                             else if (flightClass === "Economy"){ //economy class map
+                              console.log("enteco1")
                                if(seat.seatType === "Economy"){
+                                console.log("enteco2")
                                   let buttoni = document.createElement("button");
                                   var statusi = seat.status === "free" ? "economyUnreserved" : "economyReserved";
                                   buttoni.setAttribute("class", statusi);
                                   buttoni.setAttribute("id", seat.seatNumber);
                                   buttoni.innerHTML+=seat.seatNumber;
+                                  console.log(" document.getElementById()", document.getElementById("rightDiv"));
                                   if(seat.seatNumber % 8 <= 3) {
+                                    console.log("Button: " + buttoni.id + " in left Div");
                                       document.getElementById("leftDiv").appendChild(buttoni);
                                   }
                                   else if(seat.seatNumber % 8 > 3) {
+                                    console.log("Button: " + buttoni.id + " in Right Div");
                                       document.getElementById("rightDiv").appendChild(buttoni);
                                   }
                                   buttoni.onclick = function() { select(buttoni.id); };

@@ -1,11 +1,14 @@
 //inport {useState} from 'react'
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import View_FLight from "./ViewFlight";
 import axios from 'axios';
 import {Login} from './Login'
+import './ReserveFlight.css';
 export default function Reserve_FLight() {
   // const [currentDate,setCurrentDate]=useState('')
-  const current = new Date();
+ const current = new Date();
+ let history=useHistory();
   let date;
   // const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
   date = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
@@ -15,8 +18,6 @@ export default function Reserve_FLight() {
       date = `${current.getFullYear()}-0${current.getMonth() + 1}-0${current.getDate()}`;
     }
   }
-
-
   // setCurrentDate(date)
   const [info, setInfo] = useState({
     Departure_date: date,
@@ -32,9 +33,7 @@ export default function Reserve_FLight() {
   });
   const [showComponent, setShowComponent] = useState(false)
   const [show, setShow] = useState(true)
-
   const [clicked, setClicked] = useState(false)
-
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setInfo((previnfo) => ({
@@ -43,110 +42,136 @@ export default function Reserve_FLight() {
     }));
   };
 
-
   const handleSubmit = (event) => {
     event.preventDefault();
     setClicked((prev) => prev ? false : true)
     setShowComponent(true)
     setInfoS(info);
-    setShow(false)
-    alert(JSON.stringify(info, '', 2));
-  };
-  const [isLoggedIn, setLoggedIn] = useState(false)
-  useEffect(() => {
+    setShow(false);
+    // alert(JSON.stringify(info, '', 2));
+    // {showComponent ? <View_FLight user= {isLoggedIn} show={show} set={setShow} info={infoS} clicked={clicked} /> : ""}
+    history.push({
+     
+      pathname: '/ViewFlight',
+     // search: '?update=true',  // query string
+      state: {  // location state
+        user: isLoggedIn, show:show,info:info , clicked:clicked
+      },
+    },console.log("entered here")); 
+  }
   
-    axios.get("http://localhost:3001/login").then(response => {
-      console.log("here");
+  const [isLoggedIn, setLoggedIn] = useState(false)
+//   useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: true}).then(response => {
+//     console.log(response.data.loggedIn)
+//     console.log("entered use effect in view flights")
+//     if (response.data.loggedIn){
+//      setcurrent_user_id(response.data.user._id);
+//      setcurrent_user_flights(response.data.user.Flights)
+//      console.log(response.data.user.Flights)
+//     }
+//   })
+    
+//  }, [currentuser_id]);
+
+  useEffect(() => {
+ 
+    axios.get("http://localhost:3001/login",{ withCredentials: true}).then(response => {
+      console.log("here"+response.data.loggedIn);
       if (response.data.loggedIn)
         setLoggedIn(true);
     })
   
-},[])
+},[clicked])
+
   return (
-    <div  >
-      <br />
-      {/* <p>{showComponent}</p> */}
-      <br />
-      {show ? (<div className=" form">
-        <form onSubmit={handleSubmit}>
-          <label for="Departure_airport">Departure airport</label>
-          <input id="Departure_airport"
+    // <div>
+    <div className="bannersReserveFlight" >
+      {show ? (
+      <div className="containerReserveFlight">
+        <br /> <br />
+        <h1 className="h1ReserveFlight">Reserve A Flight</h1>
+        <br /> 
+      <div id="booking">
+        {/* <div className="banner"> */}
+        <form className="formReserveFlights" onSubmit={handleSubmit}>
+          <div className="divReserveFlight">
+          <label for="Departure_airport">Departure Airport</label>
+          <input className="inputReserveFlight"
+            id="Departure_airport"
             value={info.Departure_airport || ''}
             onChange={handleChange}
             name="Departure_airport"
             type="text"
-            placeholder="Departure airport" required
+            placeholder="Departure Airport" required
           />
-          <label for="Arrival_airport">Arrival airport </label>
-          <input id="Arrival_airport"
-            value={info.Arrival_airport || ''}
-            onChange={handleChange}
-            type="text"
-            name="Arrival_airport"
-            placeholder="Arrival airport " required
-          />
-          <br />
-          <br />
           <label for="Departure_date">Departure Date</label>
           <input id="Departure_date"
+          className="inputReserveFlight"
             value={info.Departure_date}
             onChange={handleChange}
             type="date" min={date}
             name="Departure_date"
             placeholder={date}
           />
+          </div>
+          <div className="divReserveFlight">
+          <label for="Arrival_airport">Arrival Airport </label>
+          <input id="Arrival_airport"
+            className="inputReserveFlight"
+            value={info.Arrival_airport || ''}
+            onChange={handleChange}
+            type="text"
+            name="Arrival_airport"
+            placeholder="Arrival Airport " required
+          />
           <label for="Arrival_date">Return Date</label>
           <input id="Arrival_date"
+          className="inputReserveFlight"
             value={info.Arrival_date}
             onChange={handleChange} min={info.Departure_date}
             type="date"
             name="Arrival_date"
             placeholder={date}
           />
-          <br />
-          <br />
-
-          <label for="N_childern">Number of children</label>
+          </div>
+          <div className="divReserveFlight">
+          <label for="N_childern">Number of Children</label>
           <input id="N_childern"
+          className="inputReserveFlightNumber"
             value={info.N_childern} min="0"
             onChange={handleChange}
             type="number"
             name="N_childern"
-            placeholder="Number of children"
-
+            placeholder="Number of Children"
           />
-          <label for="N_adult">Number of adults </label>
+          </div>
+          <div>
+          <label for="N_adult">Number of Adults</label>
           <input id="N_adult"
+            className = "inputReserveFlightNumber"
             value={info.N_adult || 1} min="1"
             onChange={handleChange}
             type="number"
             name="N_adult"
-            placeholder="Number of adults"
-
+            placeholder="Number of Adults"
           />
-          <br />
-          <br />
-          <label className="form_label_special" for="class"> Class </label>
-
-          <select name="Class" id="class" value={info.Class} onChange={handleChange}>
-            < option value="Economy">Economy</option>
+          </div>
+          <div className="rowDiv">
+          <label>Class</label>
+          <select name="Class" className="inputReserveFlightNumber" id="class" value={info.Class} onChange={handleChange}>
+            <option value="Economy">Economy</option>
             <option value="Business">Business</option>
           </select>
-
-
-          <br />
-          <br />
-
-          <button type="submit">See  available flights</button>
+          </div>
+          <button className="buttonReserveFlight" type="submit">Search</button>
         </form>
-      </div>
+        </div>
+       </div>
       ) : ""}        <br />
 
-
-      {showComponent ? <View_FLight user= {true} show={show} set={setShow} info={infoS} clicked={clicked} /> : null}
-      {/* {setShowComponent(false)} */}
-
+{/* </div> */}
+    
     </div>
   );
 
-}
+      }

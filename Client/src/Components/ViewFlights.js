@@ -48,7 +48,7 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
     if (response.data.loggedIn){
      setcurrent_user_id(response.data.user._id);
      setcurrent_user_flights(response.data.user.Flights)
-     console.log(response.data.user.Flights)
+     console.log(JSON.stringify(response.data.user.Flights))
     }
   })
     
@@ -58,26 +58,29 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
  
 
 
-
+//  className="bannersReserveFlight"
 
     return(
         
-        <div className= "app-containe" >  
+        <div id="styled-table" >  
          <h1> Tricket Details:</h1>
                     <br/>
                     <br/>
                     <br/>
 
 
-         <table>  
-           { currentuser_flights.map(info=>
-
-            <div className="app-containe" >
-               
+         <table   align="center">  
+           { currentuser_flights.map((info)=>
+                   
+            <div  >
+                 <br/> <br/>  <br/>  <br/> <br/>  <br/>
+                {/* console.log("key:"+l);
+                    console.log("value:"+info); */}
                 <div>
                       <br/>
                    
                     <tr><th className="th1">Departure Flight</th></tr>
+                    
                     <tr>
                     <th > Fligth number </th>
                     <th >Departure Flight Date </th>
@@ -87,25 +90,29 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                     <th >Arrival Flight Time </th>
                     <th >Arrival Flight Airport </th>
                     <th >Flight Seats </th>
+                    <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Departure_flight.id,info.Class,( info.Departure_seats.length),"departF")}>Edit Seats</button> 
+
                     </tr>
         
                     <tbody>
                     <td>{info.Departure_flight.Flight_Number} </td>
-                    <td>{info.Departure_flight.flight_Departure_Date.toString()} </td>  
+                    <td>{info.Departure_flight.flight_Departure_Date.split('T')[0]} </td>  
                      <td>{info.Departure_flight.flight_Departure_Time} </td> 
                     <td>{info.Departure_flight.flight_Departure_Airport} </td>   
-                    <td>{info.Departure_flight.flight_Arrival_Date} </td> 
+                    <td>{info.Departure_flight.flight_Arrival_Date.split('T')[0]} </td> 
                      <td>{info.Departure_flight.flight_Arrival_Time} </td>  
                      <td>{info.Departure_flight.flight_Arrival_Airport} </td> 
                     <td>{info.Departure_seats.map(seat=>
                         <p> {seat} </p>)} </td> 
+                         <button className="btn"> Change Flight </button>
                     </tbody>
-                    <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Departure_flight.id,info.Class,( info.Departure_seats.length),"departF")}>Edit Seats</button> 
+                    {/* <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Departure_flight.id,info.Class,( info.Departure_seats.length),"departF")}>Edit Seats</button> 
 
-                    <button> Change Departure Flight </button>
+                    <button className="btn"> Change Flight </button> */}
                     <br/>
                     <br/> <br/>
                     <tr><th className="th1">Return Flight</th></tr>
+                    <tr>
                     <th > Fligth number </th>
                     <th >Departure Flight Date </th>
                     <th >Departure Flight Time </th>
@@ -114,20 +121,23 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                     <th >Arrival Flight Time </th>
                     <th >Arrival Flight Airport </th>
                     <th >Flight Seats </th>
-
+                    <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Arrival_flight.id,info.Class,( info.Departure_seats.length),"returnF")}>Edit Seats</button> 
+</tr>
                     <tbody>
                     <td>{info.Arrival_flight.Flight_Number} </td>
-                    <td>{info.Arrival_flight.flight_Departure_Date} </td>  
+                    <td>{info.Arrival_flight.flight_Departure_Date.split('T')[0]} </td>  
                      <td>{info.Arrival_flight.flight_Departure_Time} </td> 
                     <td>{info.Arrival_flight.flight_Departure_Airport} </td>   
-                    <td>{info.Arrival_flight.flight_Arrival_Date} </td> 
+                    <td>{info.Arrival_flight.flight_Arrival_Date.split('T')[0]} </td> 
                      <td>{info.Arrival_flight.flight_Arrival_Time} </td>  
                      <td>{info.Arrival_flight.flight_Arrival_Airport} </td> 
                     <td>{info.Arrival_seats.map(seat=>
                         <p> {seat} </p>)} </td> 
-                    </tbody>
-                    <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Arrival_flight.id,info.Class,( info.Departure_seats.length),"returnF")}>Edit Seats</button> 
+                     <button className="btn"> Change Flight </button>
 
+                    </tbody>
+                    {/* <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Arrival_flight.id,info.Class,( info.Departure_seats.length),"returnF")}>Edit Seats</button>  */}
+                    {/* <button className="btn"> Change Flight </button> */}
                     <br/> <br/>
                     <th >Flight Class </th>
                     <th >Total Price </th>
@@ -136,10 +146,15 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                     <td className="t1"> {info.Class}  </td>
                     <td className="t1">  {info.Total_price}  </td>
                     <td className="t1">  {info.Confirmation_number} </td>
-                    </tbody>
-                    <button className="btn"  onClick={() => ondelete(info.Confirmation_number, currentuser_id,
+                    <button className="btn1"  onClick={() => ondelete(info.Confirmation_number, currentuser_id,
                         info.Departure_flight.id,info.Arrival_flight.id,info.seatsAID,info.seatsDID) } >Delete Ticket</button>
 
+
+                    </tbody>
+
+                    {/* <button className="btn1"  onClick={() => ondelete(info.Confirmation_number, currentuser_id,
+                        info.Departure_flight.id,info.Arrival_flight.id,info.seatsAID,info.seatsDID) } >Delete Ticket</button>
+ */}
 
 
 
@@ -149,9 +164,10 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
             
         </div>
            )
+          
            }
          </table> 
-
+        
          <Confirmdelete trigger={buttonpopup}  setTrigger={setbuttonpopup} delete_ticket={confirmation} user_id={userid}
             departure_flight_id={dep_flight_id} return_flight_id={re_flight_id} seatsAID={Aseats_id} seatsDID={Dseats_id}
         ></Confirmdelete>

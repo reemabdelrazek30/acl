@@ -11,20 +11,26 @@ import ReserveSeatsN from "./ReserveSeatsN";
 
 export default function View_FLight(props) {
   let history = useHistory();
+  let location=useLocation();
 
-  const query = new URLSearchParams(useLocation().search);
-  console.log(query + "query");
-  const Class = query.get("Class");
+  // const query = new URLSearchParams(useLocation().search);
+  // console.log(query + "query");
+  // const Class = query.get("Class");
   // const flightClass = query.get("class");
-
-
-  let prop = props.info
-  let clicked = props.clicked
+  // console.log(JSON.stringify(location)+"looooooo")
+  // flightClass=location.state.classT;
+  // id=location.state["id"];
+  // console.log(id+          "              id");
+  // number=location.state["number"];
+  // // user: isLoggedIn, show:show,set:setShow,info:infoS , clicked:clicked
+console.log(JSON.stringify(location.state))
+  let prop = location.state.info
+  let clicked = location.state.clicked
 
   // show={show} set={setShow}
   // const [form,props.set]=useState(props.show)
-  // let show_component=props.set
-  // let prop_click=props.clicked
+  let show_component;
+  let prop_click;
   const [flights, setFlights] = useState([]);
   const [returnFlights, setReturnFlights] = useState([]);
   const [choosenFlight, setChoosenFlight] = useState("")
@@ -86,6 +92,8 @@ export default function View_FLight(props) {
       if (response.data.loggedIn){
       setcurrent_user(response.data.user);
         setLoggedIn(true);
+         prop = location.state.info
+   clicked = location.state.clicked
       }
     })
   
@@ -157,16 +165,17 @@ export default function View_FLight(props) {
 
     setChoosenFlight("")
     if (button_content === 'Confirm booking' || button_content === 'Proceed to payment') {
-      setshow_departure_component(false)
+      setshow_departure_component(true)
       setshow_departure_button(true)
-      setshow_return_component(true)
+      setshow_return_component(false)
       setshow_return_button(false)
       setShowMoreInfo({})
-      setButton_content('Select Seats')
+      setButton_content('Proceed')
       setShow_summary(false)
     }
     else if (button_content === 'Proceed') {
-      props.set(true)
+      // props.set(true)
+      history.goBack();
       setshow_departure_component(false)
       setshow_return_component(false)
       setShow_buttons(false)
@@ -222,7 +231,7 @@ export default function View_FLight(props) {
 
       set_clicked_confirm(true)
 
-      if (props.user /*=== "true"*/) {
+      if (location.state.user /*=== "true"*/) {
         let c;
         Axios.post("http://localhost:3001/confirm_booking", {
 
@@ -254,7 +263,7 @@ export default function View_FLight(props) {
 
     }
     else if (button_content === 'Proceed to payment') {
-
+console.log("button_content === 'Proceed to payment'")
       {
         history.push({
           pathname: '/Payment',
@@ -272,7 +281,7 @@ export default function View_FLight(props) {
       // search:'?Did=' + depatureFlight["id"]+'&Aid=' + arrivalFlight["id"]+ '&class='+prop.Class +'&number='+ (props.info.N_childern+props.info.N_adult)+
       // '&priceD='+depatureFlight["Price"] +'&priceA='+arrivalFlight["Price"]
       //+'&props='+JSON.stringify(prop)+'&clicked='+clicked
-      if (!props.user /*=== "false"*/) {
+      if (!location.state.user /*=== "false"*/) {
         setshow_departure_component(false)
         setshow_return_component(false)
        // setshow_return_button(false)
@@ -370,27 +379,26 @@ export default function View_FLight(props) {
   //{show_return_component ?
   // (returnFlights.length>0?(
   return (
-    <div>
-      {/* <p>clicked_confirm {clicked_confirm}</p>
-        <p>show_summery {show_summery}</p>
-        <p>button_content {button_content}</p> */}
-      {console.log(clicked_confirm + "" + show_summery + "" + button_content + "" + props.user)}
+    <div >
+      
+      {/* {console.log(clicked_confirm + "" + show_summery + "" + button_content + "" + props.user)}
       {console.log("seat content" + button_content)}
-      {console.log("setSeatsD  " + seatsD)}
+      {console.log("setSeatsD  " + seatsD)} */}
 
-
-      <div id="view_flight" >
+{console.log("show buttons",show_buttons)}
+      <div id="view_flight" className="here" >
         {show_departure_component ? (
 
           flights.length > 0 ? (<h1>Choose Departure Flight</h1>) : <h1>Sorry, no available departure flights for your inputs</h1>
         ) : (show_return_component ? (
 
           returnFlights.length > 0 ? (<h1>Choose Arrival Flight</h1>) : <h1>Sorry, no available return flights for the selected departure flight try choose another one</h1>
-        ) : (clicked_confirm ? (((show_summery && props.user/* === "true"*/ && button_content === 'Proceed to payment') ? (<h1> Your Confirmation code is {con_Number}</h1>) : <h1>You have to login first to confirm your reservation</h1>)
+        ) : (clicked_confirm ? (((show_summery && location.state.user/* === "true"*/ && button_content === 'Proceed to payment') ? (<h1> Your Confirmation code is {con_Number}</h1>) : <h1>You have to login first to confirm your reservation</h1>)
         ) : "")
         )
         }
         <br />
+        <br /> <br />
         <br />
         {/* <p>{JSON.stringify( depatureFlight["id"]) +"id   d     "}</p>
 <p>{JSON.stringify( pop) +"     pop     "}</p> */}
@@ -418,6 +426,7 @@ export default function View_FLight(props) {
         </div>
         <br />
         <br />
+
         {show_departure_component ? (
 
           flights.length > 0 ? (
@@ -454,15 +463,15 @@ export default function View_FLight(props) {
                         <tr key={flight._id} onClick={() => { handelClickingRow(flight._id, flight.Departure_Date, flight.Arrival_Date, flight.Departure_Time, flight.Arrival_Time) }}>
                           {/* <tr key={flight._id} onClick={handelClickingRow(flight._id)}> */}
                           <td > {flight.Flight_Number} </td>
-                          <td > {flight.Departure_Date} </td>
+                          <td > {flight.Departure_Date.split('T')[0]} </td>
                           <td > {flight.Departure_Time} </td>
-                          <td > {flight.Arrival_Date} </td>
+                          <td > {flight.Arrival_Date.split('T')[0]} </td>
                           <td > {flight.Arrival_Time} </td>
                           <td > {flight.Departure_Airport} </td>
                           <td > {flight.Arrival_Airport} </td>
                           {/* <td style={{display:"relative"}}></td> */}
 
-                          <td /*className="special_td"*/> V <> <button onClick={() => {
+                          <td /*className="special_td"*/>  <> <button onClick={() => {
                             handleserving(flight._id, flight.Flight_Number, flight.Departure_Date, flight.Departure_Time,
                               flight.Arrival_Date, flight.Arrival_Time, flight.price_child, flight.price_adult, flight.Departure_Airport, flight.Arrival_Airport
                             )
@@ -537,14 +546,14 @@ export default function View_FLight(props) {
                         <tr key={flight._id} onClick={() => { handelClickingRow(flight._id, flight.Departure_Date, flight.Arrival_Date, flight.Departure_Time, flight.Arrival_Time) }}>
                           {/* <tr key={flight._id} onClick={handelClickingRow(flight._id)}> */}
                           <td > {flight.Flight_Number} </td>
-                          <td > {flight.Departure_Date} </td>
+                          <td > {flight.Departure_Date.split('T')[0]} </td>
                           <td > {flight.Departure_Time} </td>
-                          <td > {flight.Arrival_Date} </td>
+                          <td > {flight.Arrival_Date.split('T')[0]} </td>
                           <td > {flight.Arrival_Time} </td>
                           <td > {flight.Departure_Airport} </td>
                           <td > {flight.Arrival_Airport} </td>
                           {/* <td style={{display:"relative"}}></td> */}
-                          <td /*className="special_td"*/> V <> <button onClick={() => {
+                          <td /*className="special_td"*/>  <> <button onClick={() => {
                             handleserving(flight._id, flight.Flight_Number, flight.Departure_Date, flight.Departure_Time,
                               flight.Arrival_Date, flight.Arrival_Time, flight.price_child, flight.price_adult, flight.Departure_Airport, flight.Arrival_Airport
                             )
@@ -585,6 +594,7 @@ export default function View_FLight(props) {
         {/* <p>{JSON.stringify(depatureFlight)}</p> */}
 
       </div>
+      <div id="summary">
       {/* <ReserveSeatsN trigger={pop} setTrigger={setPop} id={choosenFlight} Class={prop.Class}/> */}
       <Summary trigger={show_summery} button_content={button_content} Dflight={depatureFlight} con={con_Number} seatsA={seatsA} seatsD={seatsD} Aflight={arrivalFlight} />
       {(mess === "Please, choose your departure flight's seats" || mess === "Please, choose your return flight's seats") ? (<ReserveSeats Did={depatureFlight["id"]} Aid={arrivalFlight["id"]}
@@ -597,7 +607,7 @@ export default function View_FLight(props) {
           ""
         )
       }
-
+</div>
     </div>
 
   )

@@ -9,7 +9,7 @@ import Home from './Components/Home';
 import User from './Components/User';
 import Reserve_FLight from './Components/ReserveFlight';
 import ReserveSeats from './Components/ReserveSeats';
-import View_FLight from './Components/ViewFlight';
+// import View_FLight from './Components/ViewFlight';
 import payment from './Components/Payment';
 // import ReserveSeats from './Components/ReserveSeats';
 import Salma from './Components/salma';
@@ -17,7 +17,7 @@ import Summary from './Components/Summary';
 import { Login } from './Components/Login';
 import { Register } from './Components/Register';
 
-
+import ViewFlight from './Components/ViewFlight'
 import ViewFlights from './Components/ViewFlights';
 
 
@@ -37,7 +37,9 @@ function App() {
          <Route exact path = "/Flight" component={Flight}/>
          <Route exact path = "/User" component={User}/>
          <Route exact path = "/ReserveFlight" component={Reserve_FLight}/>
-         <Route exact path = "/ViewFlight" component={View_FLight}/>
+         <Route exact path = "/ViewFlight" component={ViewFlight}/>
+         <Route exact path = "/ViewFLights" component={ViewFlights}/>
+       
          <Route exact path="/FlightSchedule" component={Flight_schedule}/>
          <Route exact path="/Profile" component={Profile}/>
          <Route exact path = "/Summary" component={Summary}/>

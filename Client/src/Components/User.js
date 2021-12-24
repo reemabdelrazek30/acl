@@ -7,7 +7,7 @@ export default function User() {
     let history = useHistory();
     useEffect(() => {
   
-      Axios.get("http://localhost:3001/login").then(response => {
+      Axios.get("http://localhost:3001/login",{ withCredentials: true}).then(response => {
         console.log("here");
         if (response.data.loggedIn){
    //  setLoggedIn(true);

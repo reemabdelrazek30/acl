@@ -5,9 +5,9 @@ import App from './App';
 import Register from './Components/Register'
 
 ReactDOM.render(
-  <React.StrictMode>
+ 
     <App />
-  </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 
