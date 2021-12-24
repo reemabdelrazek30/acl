@@ -76,7 +76,7 @@ app.post("/login", async (req, res) => {
   var passenger = await Passenger.findOne({ 'Email': username });
   // find won't work here 
   //passenger.toObject();
-  console.log(passenger.Email);
+ // console.log(passenger.Email);
   if (passenger) {
     bcrypt.compare(password, passenger.Password, (error, response) => {
       if (error)
@@ -191,7 +191,7 @@ app.post("/get_available_flights", async (req, res) => {
 
 })
 
-app.post("/get_flitered_dep_flights", async (req,res)=>{
+app.post("/get_flitered_flights", async (req,res)=>{
   const totalprice = req.body.TotalPrice
   const Departure_flight_airport = req.body.depflightairport
   const arrival_flight_airport = req.body.arrivalflightairport
@@ -487,95 +487,101 @@ app.put("/editProfile/:id", async (req, res) => {
   }).then(res.status(200))
 })
 
-app.post("/updateFlight", async (req, res) => {
+app.post("/updateFlight/", async (req, res) => {
   console.log("entered..updateFlight");
   console.log(JSON.stringify(req.body) + "confirm booking");
   const userid=req.body.userid
   const flightID= req.body.flightID
   const NewflightID= req.body.NewflightID
   const flightNumber=req.body.flightNumber
-const flight_Departure_Date=req.body.flight_Departure_Date
-const flight_Arrival_Date=req.body.flight_Arrival_Date
-const flight_Departure_Time=req.body.flight_Departure_Time
+  const flight_Departure_Date=req.body.flight_Departure_Date
+  const flight_Arrival_Date=req.body.flight_Arrival_Date
+  const flight_Departure_Time=req.body.flight_Departure_Time
 
-const flight_Arrival_Time=req.body.flight_Arrival_Time
-const flight_Departure_Airport=req.body.flight_Departure_Airport
-const flight_Arrival_Airport=req.body.flight_Arrival_Airport
+  const flight_Arrival_Time=req.body.flight_Arrival_Time
+  const flight_Departure_Airport=req.body.flight_Departure_Airport
+  const flight_Arrival_Airport=req.body.flight_Arrival_Airport
 
-const Class=req.body.Class
-const Price=req.body.Price
-const Seats=req.body.Seats
-   const number = req.body.Confirmation_number
+  const Class=req.body.Class
+  const Price=req.body.Price
+  const Seats=req.body.Seats
+  const cnumber = req.body.confnumber
+  const flightprice=req.body.flightPrice
+  console.log(flightprice);
 
-  // const userid=req.body.userid
-const flightType=req.body.flightType
-const newFlight={"id":NewflightID,"Flight_Number":flightNumber,"flight_Departure_Date":flight_Departure_Date,
-"flight_Departure_Time":flight_Departure_Time, "flight_Arrival_Date":flight_Arrival_Date,"flight_Arrival_Time":flight_Arrival_Time,
-"flight_Departure_Airport":flight_Departure_Airport,"flight_Arrival_Airport":flight_Arrival_Airport,
-"Class":Class,"Price":Price,"Seats":Seats
-}
+
+  const flightType=req.body.flightType
+  const newFlight={"id":NewflightID,"Flight_Number":flightNumber,"flight_Departure_Date":flight_Departure_Date,
+  "flight_Departure_Time":flight_Departure_Time, "flight_Arrival_Date":flight_Arrival_Date,"flight_Arrival_Time":flight_Arrival_Time,
+  "flight_Departure_Airport":flight_Departure_Airport,"flight_Arrival_Airport":flight_Arrival_Airport,
+  "Class":Class,"Price":Price,"Seats":Seats}
 
  
-if(flightType ==="returnF"){ 
-console.log('return');
-await   Passenger.findOneAndUpdate( { "_id":userid,'Flights.Arrival_flight.id': flightID,"Flights.Confirmation_number":number}
-//returnF returnF
-,
-{'$set': {
-  'Flights.$.Arrival_flight': newFlight
- /*
-//     .then(users =>{ res.json(users),console.log(JSON.stringify(users))})
-//     .catch(err => res.status(400).json('Error: ' + err));
- */
- }}).then(users => res.json(users))
- .catch(err => res.status(400).json('Error: ' + err));
+  if(flightType ==="returnF"){ 
+    console.log('return');
+    await   Passenger.findOneAndUpdate( { "Flights.Confirmation_number":cnumber} ,
+      {'$set': {'Flights.$.Arrival_flight': newFlight , 'Flights.$.Total_price':flightprice}  })
+      .then(users => {res.json(users),console.log(users)})
+      .catch(err => res.status(400).json('Error: ' + err));
 
-}
-else if(flightType=="departF"){ 
-  console.log('dep');
-  // await  Passenger.findOneAndUpdate({"_id":userid ,"Flights" :{ Departure_Flight :{id : flightID} ,Confirmation_Number : number}  }
-  //        , {'$set': { Flights: { Departure_Flight: newFlight } } }
-   // await  Passenger.find({"_id":userid ,"Flights" :{ Departure_Flight :{id : flightID} ,Confirmation_Number : number}  }
-   const passenger = await Passenger.findById(userid);
-   console.log("bas ba2a "+passenger)
-   await passenger.update( {"Flights": { Departure_Flight: {id : flightID} ,Confirmation_Number : number}})
-     
-  .then(
-    users => console.log(users)
-   )
-   .catch(err => res.status(400).json('Error: ' + err));
- }
- else
- console.log("not dep or return"+flightType);
- 
+  }
+  else if(flightType==="departF"){ 
+    console.log('dep');
+    await   Passenger.updateOne( { 'Flights': { $elemMatch :{Confirmation_number: cnumber }}   },
+        {"$set": {"Flights.$.Departure_flight": newFlight ,  "Flights.$.Total_price":flightprice  }})
+      .then( users => console.log(users))
+      .catch(err => res.status(400).json('Error: ' + err));
+  }
+  else
+  console.log("not dep or return"+flightType);
+
   })
 
-  app.post("/updateSeats", async (req, res) => {
-    console.log("entered..confirm");
-    console.log(JSON.stringify(req.body) + "confirm booking");
-    const flightID= req.body.flightID
-    const newSeats=req.body.newSeats
-    const number = req.body.Confirmation_number
-    const userid=req.body.userid
-    const flightType=req.body.flightType
+app.post("/updateSeats", async (req, res) => {
+  console.log("entered..confirm");
+  console.log(JSON.stringify(req.body) + "confirm booking");
+//  const flightID= req.body.flightID
+  const newSeats=req.body.newSeats
   
-if(flightType ==="returnF"){ 
-  console.log('return');
-  await   Passenger.findOneAndUpdate( { "_id":userid,'Flights.Arrival_flight.id': flightID,"Flights.Confirmation_number":number} ,
-   {'$set': {  'Flights.$.Arrival_seats': newSeats}}).
-    then(users => res.json(users))
-   .catch(err => res.status(400).json('Error: ' + err));
-  }
- else if(flightType=="departF"){ 
-    console.log('dep');
-    await   Passenger.findOneAndUpdate({"_id":userid,'Flights.Departure_flight.id': flightID,"Flights.Confirmation_number":number}, 
-    {'$set': {'Flights.$.Departure_seats': newSeats}})
-     .then(users => res.json(users))
-     .catch(err => res.status(400).json('Error: ' + err));
-   }
-   else
-   console.log("not dep or return"+flightType);
+  const number = req.body.Confirmation_number
+ 
+ // const userid=req.body.userid
+  const flightType=req.body.type
+
+  if(flightType ==="returnF"){ 
+
+  await   Passenger.findOneAndUpdate( { "Flights.Confirmation_number":number},
+  {'$set': {'Flights.$.Arrival_seats': newSeats}})
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json('Error: ' + err));
+    }
+  else if(flightType==="departF"){ 
+      console.log('dep');
+      await   Passenger.findOneAndUpdate({"Flights.Confirmation_number":number},
+       {'$set': {'Flights.$.Departure_seats': newSeats }})
+       .then(users => res.json(users))
+       .catch(err => res.status(400).json('Error: ' + err));
+    }
+    else
+    console.log("not dep or return"+flightType);
+   
     })
+
+    app.delete("/deleteticket1/:user_id", async (req, res) => {
+      //const confirm = req.params.confirm;
+      const id = req.params.user_id;
+      // var id="61ab47212867eed35a696d19";
+      console.log("id  " + id);
+    
+    
+      await Passenger.findByIdAndUpdate(id, { $pull: { Flights: {  } } })
+    
+    
+      Passenger.find({}).then(users => res.json(users))
+        .catch(err => res.status(400).json('Error: ' + err));
+    
+    
+    });
 
 
 

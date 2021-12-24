@@ -21,6 +21,10 @@ import ViewFlights from './Components/ViewFlights';
 import Changedepartureflight from './Components/Changedepartureflight';
 import Viewavailabledepflights from './Components/Viewavailabledepflights';
 
+import Viewavailablereturnflights from './Components/Viewavailablereturnflights';
+import ChangeReturnFlight from './Components/ChangeReturnFlight';
+
+
 
 // <Route exactpath = "/CreateFlight" component={CreateFlight}/>
 // if you got here that means I am crying 
@@ -49,6 +53,9 @@ function App() {
          <Route exact path = "/salma" component={Salma}/>
          <Route exact path = "/cdf" component={Changedepartureflight}/>
          <Route exact path = "/vadf" component={Viewavailabledepflights}/>
+
+         <Route exact path = "/crf" component={ChangeReturnFlight}/>
+         <Route exact path = "/varf" component={Viewavailablereturnflights}/>
 
 
         

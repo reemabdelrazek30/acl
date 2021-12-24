@@ -8,23 +8,47 @@ import { useHistory } from 'react-router-dom';
 export function Confirmupdateflight(props) {
     let history = useHistory();
     const update_departure_flight = () => {
-        Axios.post("http://localhost:3001/updateFlight",{
-            userid:props.allinfo.user_id,
-            NewflightID: props.allinfo.id,
-            flightID:props.allinfo.olddepflight_id,
-            flightNumber: props.allinfo.flightnumber,
-            flight_Departure_Date: props.allinfo.depdate,
-            flight_Arrival_Date: props.allinfo.arrivaldate,
-            flight_Departure_Time: props.allinfo.deptime,
-            flight_Arrival_Time: props.allinfo.arrivaltime,
-            flight_Departure_Airport: props.allinfo.depairport,
-            flight_Arrival_Airport: props.allinfo.arrivalairport,
-            Class: props.allinfo.classT,
-            Price: props.allinfo.flightprice,
-            Seats: props.seats,
-            number: props.allinfo.confirmation_number,
-            flightType:"departF",
-        });
+        const flag = props.allinfo.flag;
+        if(flag == "return"){
+            Axios.post(`http://localhost:3001/updateFlight`,{
+                userid:props.allinfo.user_id,
+                NewflightID: props.allinfo.id,
+                flightID:props.allinfo.olddepflight_id,
+                flightNumber: props.allinfo.flightnumber,
+                flight_Departure_Date: props.allinfo.depdate,
+                flight_Arrival_Date: props.allinfo.arrivaldate,
+                flight_Departure_Time: props.allinfo.deptime,
+                flight_Arrival_Time: props.allinfo.arrivaltime,
+                flight_Departure_Airport: props.allinfo.depairport,
+                flight_Arrival_Airport: props.allinfo.arrivalairport,
+                Class: props.allinfo.classT,
+                Price: props.allinfo.flightprice,
+                Seats: props.seats,
+                confnumber: props.allinfo.confirmation_number,
+                flightType:"returnF",
+                flightPrice:props.allinfo.newflightprice
+            });
+
+        }else{
+            Axios.post(`http://localhost:3001/updateFlight`,{
+                userid:props.allinfo.user_id,
+                NewflightID: props.allinfo.id,
+                flightID:props.allinfo.olddepflight_id,
+                flightNumber: props.allinfo.flightnumber,
+                flight_Departure_Date: props.allinfo.depdate,
+                flight_Arrival_Date: props.allinfo.arrivaldate,
+                flight_Departure_Time: props.allinfo.deptime,
+                flight_Arrival_Time: props.allinfo.arrivaltime,
+                flight_Departure_Airport: props.allinfo.depairport,
+                flight_Arrival_Airport: props.allinfo.arrivalairport,
+                Class: props.allinfo.classT,
+                Price: props.allinfo.flightprice,
+                Seats: props.seats,
+                confnumber: props.allinfo.confirmation_number,
+                flightType:"departF",
+                flightPrice:props.allinfo.newflightprice
+            });
+        }
         //props.setTrigger(false); 
         redirect();  
     
@@ -54,7 +78,7 @@ export function Confirmupdateflight(props) {
         <h3>arrival date : {props.allinfo.arrivaldate}</h3>
         <h3>arrival time : {props.allinfo.arrivaltime}</h3>
         <h3>arrival airport : {props.allinfo.arrivalairport}</h3>
-        <h3>flight price : {props.allinfo.flightprice}</h3>
+        <h3>flight price : {props.allinfo.newflightprice}</h3>
         <h3>seats : {props.seats}</h3>
         <h3>old flight id : {props.allinfo.olddepflight_id}</h3>
          

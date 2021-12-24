@@ -40,6 +40,18 @@ const redirect=(info) =>{
             number_of_children:info.children_no,
             number_of_adults:info.adult_no,
             user_id:currentuser_id,
+            returnticketprice:info.Arrival_flight.Price
+        }
+    });
+}
+
+const redirect2=(info) =>{
+    history.push({
+        pathname: '/crf',
+        state: {  
+            depdate: info.Departure_flight.flight_Arrival_Date ,
+            user_id:currentuser_id,
+            pastflightinfo: info
         }
     });
 }
@@ -65,7 +77,7 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
     return(
         
         <div className= "app-containe" >  
-         <h1> Tricket Details:</h1>
+         <h1> Ticket Details:</h1>
                     <br/>
                     <br/>
                     <br/>
@@ -81,7 +93,7 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                    
                     <tr><th className="th1">Departure Flight</th></tr>
                     <tr>
-                    <th > Fligth number </th>
+                    <th > Flight Number </th>
                     <th >Departure Flight Date </th>
                     <th >Departure Flight Time </th>
                     <th >Departure Flight Airport </th>
@@ -93,10 +105,10 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
         
                     <tbody>
                     <td>{info.Departure_flight.Flight_Number} </td>
-                    <td>{info.Departure_flight.flight_Departure_Date.toString()} </td>  
+                    <td>{info.Departure_flight.flight_Departure_Date.split("T")[0]} </td>  
                      <td>{info.Departure_flight.flight_Departure_Time} </td> 
                     <td>{info.Departure_flight.flight_Departure_Airport} </td>   
-                    <td>{info.Departure_flight.flight_Arrival_Date} </td> 
+                    <td>{info.Departure_flight.flight_Arrival_Date.split("T")[0]} </td> 
                      <td>{info.Departure_flight.flight_Arrival_Time} </td>  
                      <td>{info.Departure_flight.flight_Arrival_Airport} </td> 
                     <td>{info.Departure_seats.map(seat=>
@@ -107,7 +119,7 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                     <br/>
                     <br/> <br/>
                     <tr><th className="th1">Return Flight</th></tr>
-                    <th > Fligth number </th>
+                    <th > Flight Number </th>
                     <th >Departure Flight Date </th>
                     <th >Departure Flight Time </th>
                     <th >Departure Flight Airport </th>
@@ -118,15 +130,18 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
 
                     <tbody>
                     <td>{info.Arrival_flight.Flight_Number} </td>
-                    <td>{info.Arrival_flight.flight_Departure_Date} </td>  
+                    <td>{info.Arrival_flight.flight_Departure_Date.split("T")[0]} </td>  
                      <td>{info.Arrival_flight.flight_Departure_Time} </td> 
                     <td>{info.Arrival_flight.flight_Departure_Airport} </td>   
-                    <td>{info.Arrival_flight.flight_Arrival_Date} </td> 
+                    <td>{info.Arrival_flight.flight_Arrival_Date.split("T")[0]} </td> 
                      <td>{info.Arrival_flight.flight_Arrival_Time} </td>  
                      <td>{info.Arrival_flight.flight_Arrival_Airport} </td> 
                     <td>{info.Arrival_seats.map(seat=>
                         <p> {seat} </p>)} </td> 
                     </tbody>
+
+                    <button onClick={()=> redirect2(info)}> Change Return Flight </button>
+
                     <br/> <br/>
                     <th >Flight Class </th>
                     <th >Total Price </th>

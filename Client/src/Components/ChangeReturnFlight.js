@@ -5,29 +5,17 @@ import { useHistory } from "react-router-dom";
 
 
 
-function Changedepartureflight() {
+function ChangeReturnFlight() {
     const location = useLocation();
     let history = useHistory();
 
     
-    const max_date = location.state.returndate.split("T")[0];
-  
-
-    const current = new Date();
-    let date;
-    // const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-    date = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
-    if (current.getDate() < 10) {
-      date = `${current.getFullYear()}-${current.getMonth() + 1}-0${current.getDate()}`;
-      if ((current.getMonth() + 1) < 10) {
-        date = `${current.getFullYear()}-0${current.getMonth() + 1}-0${current.getDate()}`;
-      }
-    }
+    const min_date = location.state.depdate.split("T")[0];
   
   
     // setCurrentDate(date)
     const [info, setInfo] = useState({
-      Departure_date: date,
+      Departure_date: min_date,
       Class: "Economy"
     });
   
@@ -41,20 +29,18 @@ function Changedepartureflight() {
       
     };
 
-    const TotalPrice=location.state.TotalPrice;
-    const arrivalflightairport=location.state.arrivalflightairport;
-    const depflightairport=location.state.depflightairport;
-    const N_children=location.state.number_of_children;
-    const N_adults =location.state.number_of_adults;
+    // const TotalPrice=location.state.TotalPrice;
+    // const arrivalflightairport=location.state.arrivalflightairport;
+    // const depflightairport=location.state.depflightairport;
+    // const N_children=location.state.number_of_children;
+    // const N_adults =location.state.number_of_adults;
     const user_id=location.state.user_id;
 
     //location.state contains user_id ,number_of_adults,number_of_children,depflightairport,arrivalflightairport,TotalPrice,conf
     const redirect=() =>{
         history.push({
-            pathname: '/vadf',
-            state: { TotalPrice: TotalPrice, Aflightairport:arrivalflightairport,depflightairport:depflightairport, info:info,N_children:N_children,N_adults:N_adults,
-                user_id:user_id, conf:location.state.conf ,olddepflight_id:location.state.olddepflight_id,
-                returnticketprice:location.state.returnticketprice},
+            pathname: '/varf',
+            state: {  info:info, user_id:user_id, pastflightinfo:location.state.pastflightinfo },
             
         });
     }
@@ -69,6 +55,7 @@ function Changedepartureflight() {
         
         <div  >
         <br />
+        <h2>Change Return Flight-Step 1</h2>
         <br />
         <div className=" form">
           <form onSubmit={handleSubmit}>
@@ -78,9 +65,9 @@ function Changedepartureflight() {
             <input id="Departure_date"
               value={info.Departure_date}
               onChange={handleChange}
-              type="date" min={date} max={max_date}
+              type="date" min={min_date} 
               name="Departure_date"
-              placeholder={date}
+              placeholder={min_date}
             />
             <br />
             
@@ -101,11 +88,11 @@ function Changedepartureflight() {
          <br />
          <h2>class:{info.Departure_date}</h2>
           <h2>class:{info.Class}</h2>
-          <h2>children :{N_children}</h2>
-          <h2>adult :{N_adults}</h2>
+          <h2>children :{location.state.pastflightinfo.children_no}</h2>
+          <h2>adult :{location.state.pastflightinfo.adult_no}</h2>
       </div>
     );
 }
 
 
-export default Changedepartureflight;
+export default ChangeReturnFlight;

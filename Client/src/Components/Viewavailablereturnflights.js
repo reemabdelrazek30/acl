@@ -5,7 +5,7 @@ import Axios from 'axios'
 
 
 
-function Viewavailabledepflights() {
+function Viewavailablereturnflights() {
     const location = useLocation();
     let history = useHistory();
 
@@ -13,14 +13,15 @@ function Viewavailabledepflights() {
     const [id_duration, setId_duration] = useState({})
     const [showMoreInfo, setShowMoreInfo] = useState({});
     const [confirm , setconfirm] = useState(true);
+    const flag="return"
 
     const chosen_class = location.state.info.Class;
 
     useEffect(()=>{
         Axios.post("http://localhost:3001/get_flitered_flights",{
-            TotalPrice:location.state.TotalPrice,
-            depflightairport:location.state.depflightairport,
-            arrivalflightairport:location.state.Aflightairport,
+          
+            depflightairport:location.state.pastflightinfo.Arrival_flight.flight_Departure_Airport,
+            arrivalflightairport:location.state.pastflightinfo.Arrival_flight.flight_Arrival_Airport,
             chosen_class:location.state.info.Class,
             chosen_dep_date:location.state.info.Departure_date,
         }).then((Response) => {
@@ -33,18 +34,19 @@ function Viewavailabledepflights() {
         history.push({
             pathname: '/ReserveSeats',
             state: { classT: chosen_class , id:flightid, 
-            number:location.state.N_adults+location.state.N_children,
+            number:location.state.pastflightinfo.adult_no+location.state.pastflightinfo.children_no,
             confirm:confirm ,
-            confirmation_number:location.state.conf,
+            flag:flag,
+            confirmation_number:location.state.pastflightinfo.Confirmation_number,
             flightnumber:flightnumber,
             depdate:depdate, deptime:deptime, depairport: depairport,
             arrivaldate:arrivaldate, arrivaltime:arrivaltime, arrivalairport:arrivalairport,
 
-            newflightprice:flightprice +location.state.returnticketprice,
+            newflightprice:flightprice+ location.state.pastflightinfo.Departure_flight.Price,
 
             user_id:location.state.user_id,
-            olddepflight_id:location.state.olddepflight_id,
-            //returnticketprice:location.state.returnticketprice
+            olddepflight_id:location.state.pastflightinfo.Arrival_flight.id,
+           // depticketprice:location.state.pastflightinfo.Departure_flight.Price,
             
          },
             
@@ -105,7 +107,7 @@ function Viewavailabledepflights() {
 
     return(
         <div>
-        <h2>Select departure flight</h2>
+        <h2>Select Return flight</h2>
 
   <>
     <table >
@@ -138,7 +140,8 @@ function Viewavailabledepflights() {
                 <td > {flight.Arrival_Time} </td>
                 <td > {flight.Departure_Airport} </td>
                 <td > {flight.Arrival_Airport} </td>
-                <td>{(flight.price_adult *location.state.N_adults + flight.price_child*location.state.N_children )-location.state.TotalPrice}</td>
+                <td>{(flight.price_adult *location.state.pastflightinfo.adult_no + flight.price_child*location.state.pastflightinfo.children_no )
+                -location.state.pastflightinfo.Total_price}</td>
 
                 <td > 
                     <button  >Select Flight </button>
@@ -155,7 +158,7 @@ function Viewavailabledepflights() {
                 <td colSpan="3">  Baggage Allowance.:  {flight.baggage} </td>
                 <button onClick={()=>reserve_seat_redirect(flight._id,flight.Flight_Number,flight.Departure_Date,flight.Departure_Time,
                     flight.Arrival_Date,flight.Arrival_Time,flight.Departure_Airport,flight.Arrival_Airport,
-                    (flight.price_adult *location.state.N_adults + flight.price_child*location.state.N_children )
+                    (flight.price_adult *location.state.pastflightinfo.adult_no  + flight.price_child*location.state.pastflightinfo.children_no )
                     )}>Choose Seat</button>
                 
 
@@ -173,9 +176,7 @@ function Viewavailabledepflights() {
       </tbody>
     </table>
   </>
-  {/* <ReserveSeats Did={flightid} 
-        flightClass={chosen_class}  number={location.state.N_adults + location.state.N_children} 
-        /> */}
+
   <p></p>
 
         </div>
@@ -183,4 +184,4 @@ function Viewavailabledepflights() {
 }
 
 
-export default Viewavailabledepflights;
+export default Viewavailablereturnflights;

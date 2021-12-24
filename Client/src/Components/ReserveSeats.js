@@ -178,12 +178,15 @@ console.log("clicked"+clicked)
         // console.log([].push(...selected_seatsN)+"before axios")
      
         if(location.state.confirm === true){
+          if(location.state.flag=="return"){
+            Axios.post("http://localhost:3001/updateSeats", {newSeats:selected_seatsN, type:"returnF",  Confirmation_number:location.state.confirmation_number,})
+          }else{
+            Axios.post("http://localhost:3001/updateSeats", {newSeats:selected_seatsN, type:"departF",  Confirmation_number:location.state.confirmation_number,}) 
+          }
           setbuttonpopup(true);
-          console.log("hello you are here, inside the if condition   ");
           setnewseatsfornewflight(JSON.stringify(selected_seatsN));
 
         }else{
-          console.log("hello you are here, inside the else condition")
 
         Axios.post("http://localhost:3001/updateSeats", {
           flightID:id,
@@ -198,17 +201,6 @@ console.log("clicked"+clicked)
     }
           
           // ));
-          /*
-app.post("/updateSeats", async (req, res) => {
-        console.log("entered..confirm");
-        console.log(JSON.stringify(req.body) + "confirm booking");
-        const flightID= req.body.flightID
-        const newSeats=req.body.newSeats
-      
-        const number = req.body.Confirmation_number
-     
-        const userid=req.body.userid
-          */
 
 
         }
