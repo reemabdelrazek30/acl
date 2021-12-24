@@ -56,6 +56,7 @@ export default function Flight() {
   const handleEditClick = (event, val) => {
     event.preventDefault();
     setEditingFlightId(val._id);
+    console.log("FLIGHT" + val.Arrival_Date.split('T')[0])
     const formValues =
     {
       Flight_Number: val.Flight_Number,
@@ -109,13 +110,11 @@ export default function Flight() {
       flag = false;
     return flag;
   }
-  //Axios.defaults.withCredentials = true;
   useEffect(() => { Axios.get("http://localhost:3001/Flights").then((Response) => setAllflights(Response.data)) }, []);
 
   return (
-    <div className="app-container">
-      {/* <div> <h1> Flights</h1></div> */}
-      <table>
+     <div className="here">
+      <table className="styled-table">
         <thead>
           <Search handleSearchTermsChange={handleSearchTermsChange} />
           <tr>
@@ -149,9 +148,11 @@ export default function Flight() {
         </tbody>
       </table>
       <Popup trigger={popupbutton} setTrigger={setpopupbutton} delete_flight={toBeDeletedFlight} ><h2>Are you sure you want to delete the following flight:</h2></Popup>
-      <button onClick={() => {history.push('/Hpage')}}>Return to Home Page</button>
+      <button className="returnToHomePage" onClick={() => {history.push('/Hpage')}}>Return to Home Page</button>
+      <br /> <br /> <br /> <br />
     </div>
-
+// </div>
+// </div>
   )
 
 }

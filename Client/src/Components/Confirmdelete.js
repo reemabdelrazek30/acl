@@ -46,7 +46,7 @@ export function Confirmdelete(props) {
     <div className="popup">
       <div className="popup-inner">
         {props.children}
-        <h3>Are you sure you want to delete this Ticket</h3>
+        <h3>Are You Sure You Want To Delete This Ticket</h3>
 
         <div><button className="close-btn1" onClick={() => deleteTicket(props.delete_ticket, props.user_id  ,
           props.departure_flight_id, props.return_flight_id, props.seatsAID, props.seatsDID )  }> Confirm </button></div>     

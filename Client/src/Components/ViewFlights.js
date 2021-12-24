@@ -90,7 +90,6 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                
                 <div>
                       <br/>
-                   
                     <tr><th className="th1">Departure Flight</th></tr>
                     <tr>
                     <th > Flight Number </th>
@@ -102,7 +101,6 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                     <th >Arrival Flight Airport </th>
                     <th >Flight Seats </th>
                     </tr>
-        
                     <tbody>
                     <td>{info.Departure_flight.Flight_Number} </td>
                     <td>{info.Departure_flight.flight_Departure_Date.split("T")[0]} </td>  
@@ -127,7 +125,6 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                     <th >Arrival Flight Time </th>
                     <th >Arrival Flight Airport </th>
                     <th >Flight Seats </th>
-
                     <tbody>
                     <td>{info.Arrival_flight.Flight_Number} </td>
                     <td>{info.Arrival_flight.flight_Departure_Date.split("T")[0]} </td>  
@@ -153,7 +150,6 @@ useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: t
                     </tbody>
                     <button className="btn"  onClick={() => ondelete(info.Confirmation_number, currentuser_id,
                         info.Departure_flight.id,info.Arrival_flight.id,info.seatsAID,info.seatsDID) } >Delete Ticket</button>
-
                     </div>
                     
                     

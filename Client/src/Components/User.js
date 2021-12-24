@@ -2,7 +2,8 @@
 //import Style from './Nstyle.css'
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
+import axios from 'axios';
+import './User.css'
 export default function User() {
     let history = useHistory();
    // const [clicked,setClicked]=useState(false)
@@ -11,28 +12,29 @@ export default function User() {
     // }
    
 return(
-    
-    <div >
-       
-   {/* // {clicked ? {<Reserve_FLight/>, setClicked(false)}:null} */}
-         <br/>
-         <br/>
-   <div>
-          <label>User page</label>
-         
-          </div>
+       <div className="banners"> 
+       <div className="container">
+         <br /> <br />
+          <h1 className="h1User">User page</h1>
           <br/>
-         <div><button onClick={() => {history.push('/ReserveFlight');}}>Reserve FLight</button> </div>
-         <br/>
-         <div><button onClick={() => {history.push('/ViewFlights');}}>View Reserved FLights</button>
-       <br/> <div><button onClick={() => {history.push('/Profile');}}>Profile</button></div>
-         {/* <div><button onClick={ clickHandeler }>Reserve FLight</button> */}
-        <br/>
-      
+         <div><button className="buttonUser" onClick={() => {history.push('/ReserveFlight');}}>Reserve Flight</button> </div>
+         <div><button className="buttonUser" onClick={() => {
+            axios.get("http://localhost:3001/login").then(response => {
+            console.log("here in UseEffect");
+            console.log(response);
+            if (response.data.loggedIn)
+              history.push('/ViewFlights');
+           else {
+              history.push({
+              pathname: '/Login',
+              state: { viewFlights: "true" }
+           });
+            }})}}>View Reserved Flights</button> </div>
+         <div><button className="buttonUser" onClick={() => {history.push('/Profile');}}>Profile</button></div>
+         <button className="buttonUser" onClick={() => {history.push('/Login')}}>Log In</button>
       </div>
-      
-  
-  </div>
+   </div>
+  // </div>
 );
 
 }

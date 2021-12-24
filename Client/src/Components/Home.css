@@ -1,9 +1,19 @@
-.Hpage {
+.Home {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-
+.banners {
+    position: relative;
+    height:1080px;
+	width:2040px;
+    background-image: url("https://assets.weforum.org/article/image/3_AfzFP4fkZH228ctZ5GnRe3TXuBErXM-_ZXG00lyLA.jpg");  
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    }
 .Data {
   display: flex;
   flex-direction: column;
@@ -11,24 +21,16 @@
   justify-content: center;
   align-content: center;
 }
-.banners {
-    position: relative;
-    height:1080px;
-	width:2040px;
-    background-image: url("https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/1300/2021/12/01124045/shutterstock_1508315888-818x460.jpg");  
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    }
 
-.Data label {
-  color: #e2c97c;
+.homePage {
+  color: #e4c873;
+  margin-top: 50px;
+  margin-bottom: 90px;
 }
-.buttonHpage {
+   .buttonHome{
 	border-radius: 20px;
   margin-top: 25px;
+  margin-bottom:20px;
 	border: 1px solid #FADF90;
 	background-color: #FADF90;
   background: -webkit-linear-gradient(to right, #FFCD12, #FADF90);
@@ -40,15 +42,4 @@
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
-}
-button:hover {
-    box-shadow: 0 0 18px 0 #FADF90;
-    }
-button:active {
-	transform: scale(0.95);
-}
-.homePage {
-  color: #e4c873;
-  margin-top: 50px;
-  margin-bottom: 90px;
 }

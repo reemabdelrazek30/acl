@@ -12,7 +12,7 @@ export function Pop_con(props) {
         <h3>Flight Number:{props.delete_flight.Flight_Number}</h3>
        
         <div><button className="close-btn1" onClick={props.handel_ok}> OK </button></div>
-        <button className="close-btn" onClick={() => props.setTrigger(false)}>cancel</button>
+        <button className="close-btn" onClick={() => props.setTrigger(false)}>Cancel</button>
       </div>
     </div>
   ) : (""));

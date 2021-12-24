@@ -21,10 +21,10 @@ import StripeContainer from './Components/StripeContainer';
 import PaymentForm from './Components/PaymentForm';
 import Changedepartureflight from './Components/Changedepartureflight';
 import Viewavailabledepflights from './Components/Viewavailabledepflights';
-
 import Viewavailablereturnflights from './Components/Viewavailablereturnflights';
 import ChangeReturnFlight from './Components/ChangeReturnFlight';
-
+import changePassword from './Components/ChangePassword';
+import FlightCreationSuccessful from './Components/FlightCreationSuccessful';
 
 
 // <Route exactpath = "/CreateFlight" component={CreateFlight}/>
@@ -56,10 +56,10 @@ function App() {
          <Route exact path = "/PaymentForm" component={PaymentForm}/>
          <Route exact path = "/cdf" component={Changedepartureflight}/>
          <Route exact path = "/vadf" component={Viewavailabledepflights}/>
-
          <Route exact path = "/crf" component={ChangeReturnFlight}/>
          <Route exact path = "/varf" component={Viewavailablereturnflights}/>
-
+         <Route exact path = '/ChangePassword' component={changePassword}/>
+         <Route exact path = '/FlightCreationSuccessful' component={FlightCreationSuccessful}/>
 
         
           </Switch>
