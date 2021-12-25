@@ -6,7 +6,7 @@ import { EditFlightRow } from './EditFlightRow';
 import { Fragment } from 'react';
 import { Popup } from './Popup.js';
 import { Search } from './SearchFlight';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 export default function Flight() {
   let history = useHistory();

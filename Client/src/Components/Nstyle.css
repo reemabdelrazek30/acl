@@ -115,11 +115,6 @@ font-size: medium;
   /* border-color: lawngreen; */
   height:max-content;
   
-<<<<<<< HEAD
-  
-}
-#view_flight .div {
-=======
 }
 
 #summary{
@@ -127,7 +122,6 @@ font-size: medium;
   margin-top: calc(20%);
 }
 #view_flight div {
->>>>>>> origin/nouran
  display: inline-block;
  /* background-color: darkgreen; */
  display:inline-flex;

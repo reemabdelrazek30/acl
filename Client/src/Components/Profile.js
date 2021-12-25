@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './Profile.css';
 import { useState } from "react";
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 export default function Profile() {
     //let id;

@@ -38,7 +38,7 @@ return(
           <br/>
          <div><button className="buttonUser" onClick={() => {history.push('/ReserveFlight');}}>Reserve Flight</button> </div>
          <div><button className="buttonUser" onClick={() => {
-            axios.get("http://localhost:3001/login").then(response => {
+            Axios.get("http://localhost:3001/login").then(response => {
             console.log("here in UseEffect");
             console.log(response);
             if (response.data.loggedIn)

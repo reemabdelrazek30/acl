@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import Axios from 'axios'
 import './ViewFlights.css'
 import { Confirmdelete } from './Confirmdelete';
-import { useHistory } from 'react-router-dom'
 
 //const [userflights, setuserflights] = useState([]);
 
@@ -28,10 +27,6 @@ function ViewFlights() {
         setbuttonpopup(true)
         setconfirmation(confirm)
         setuserid(user_id);
-        setdepflightid(depflightid);
-        setreturnflightid(returnflightid);
-        setseatsDID(depseat);
-
     }
 
     const redirect = (info) => {

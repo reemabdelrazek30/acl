@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import './Register.css';
 import RegistrationSuccess from './RegistrationSuccess';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 export const Register = () => {
     const [fNReg, setfNReg] = useState("");
     const [lNReg, setlNReg] = useState("");

@@ -5,6 +5,7 @@ import { LoginContext } from "../Contexts/LoginContext"
 import './Login.css';
 import { useLocation } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
+import Logout from './Logout';
 const nodemailer = require('nodemailer');
 Axios.defaults.withCredentials = true;
 export const Login = () => {
@@ -14,6 +15,7 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
     const { loginI } = useContext(LoginContext);
+    // const { loggedIn } = useContext(LoginContext);
     const [loggedIn, setLoggedIn] = useState(false);
     const clientId = "15756298551-8i42qm169dk39lk9u4tp7irgfgbecrbr.apps.googleusercontent.com";
     let transporter = nodemailer.createTransport({
@@ -42,49 +44,30 @@ export const Login = () => {
         }
     }
 
-//     let info = transporter.sendMail(options, function (err, info) {
-//         if (err)
-//             console.log(err);
-//         else
-//             console.log(info.response);
-//     });
-//     console.log("info: " + info);
-//     if (location.state.viewFlights === "true")
-//         history.push('/ViewFlights');
-//     else
-//         history.push('/User');
-// };
-
 const responseGoogle = (response) => {
     console.log(response);
 }
-// useEffect(() => {
-//     console.log("entered get login");
-//     Axios.get("http://localhost:3001/login").then(response => {
-//         if (response.data.loggedIn)
-//             setLoggedIn(true);
-//         else
-//             setLoggedIn(false);
-//     })
-// }, [])
-// const logout = () => {
-//     window.localStorage.clear();
-//     setLoggedIn(false);
-//     history.push('/User');
-// }
+useEffect(() => {
+    console.log("entered get login");
+    Axios.get("http://localhost:3001/login").then(response => {
+        if (response.data.loggedIn)
+            setLoggedIn(true);
+        else
+            setLoggedIn(false);
+    })
+}, [])
 return (
 
     <div>
         {loggedIn ?
             (
-
                 <div className="bannerLogIn">
                     <div className="container" id="container">
                         <div>
                             <br /> <br />
                             <h1 className="signIn">Oops! It appears you're already logged in</h1>
                             <h2 className="signIn">Log Out Instead?</h2>
-                            <button className="buttonSignUp" onClick={() => { logout() }}>Log Out</button>
+                            <Logout />
                         </div>
                     </div>
                 </div>)
@@ -135,7 +118,7 @@ return (
                                     required
                                     className="inputClass"
                                     placeholder="Password" />
-                                <a href="#">Forgot your password?</a>
+                                    
                                 {/* <button onClick = {LoginH}>Sign In</button> */}
                                 {/* <a href="#">Forgot your password?</a> */}
                                 <button className="buttonSignUp" onClick={LoginH}>Sign In</button>

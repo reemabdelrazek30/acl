@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from "react";
 import Axios from "axios";
-import './CreateFlight.css';
-import { useHistory } from 'react-router';
+import './createFlight.css';
+import { useHistory } from 'react-router-dom';
 
 export default function FlightCreationSuccessful()
 { 

@@ -83,19 +83,6 @@ console.log(JSON.stringify(location.state))
     console.log("test" + JSON.stringify(showMoreInfo)) // to see the new values i should go out of the method
   }
 
-  Axios.defaults.withCredentials = true;
-  const [isLoggedIn, setLoggedIn] = useState(false)
-  const [current_user, setcurrent_user] = useState({});
-  useEffect(() => {
-    Axios.get("http://localhost:3001/login").then(response => {
-      if (response.data.loggedIn){
-      setcurrent_user(response.data.user);
-        setLoggedIn(true);
-      }
-    })
-  
-},[])
-
 
   Axios.defaults.withCredentials = true;
   const [isLoggedIn, setLoggedIn] = useState(false)
@@ -244,11 +231,7 @@ console.log(JSON.stringify(location.state))
 
       set_clicked_confirm(true)
 
-<<<<<<< HEAD
-      if (props.user  ) {
-=======
       if (location.state.user /*=== "true"*/) {
->>>>>>> origin/nouran
         let c;
         Axios.post("http://localhost:3001/confirm_booking", {
 
@@ -262,14 +245,8 @@ console.log(JSON.stringify(location.state))
           Confirmation_number: con_Number,
           seatsAID: seatsAID,
           seatsDID: seatsDID,
-<<<<<<< HEAD
-          userid: current_user._id,
-          children: prop.N_childern,
-          adults: prop.N_adult
-=======
           userid:current_user
 
->>>>>>> origin/nouran
 
 
         }).then((Response) =>
@@ -278,15 +255,10 @@ console.log(JSON.stringify(location.state))
         setButton_content('Proceed to payment')
         setshow_departure_button(false)
         setshow_return_button(true)
-        console.log("unique nouran in if  " +props.user);
       }
       else {
         // show you have to login first
-<<<<<<< HEAD
-        console.log("unique nouran in else  " +props.user);
-=======
        
->>>>>>> origin/nouran
       }
 
     }
@@ -309,12 +281,7 @@ console.log("button_content === 'Proceed to payment'")
       // search:'?Did=' + depatureFlight["id"]+'&Aid=' + arrivalFlight["id"]+ '&class='+prop.Class +'&number='+ (props.info.N_childern+props.info.N_adult)+
       // '&priceD='+depatureFlight["Price"] +'&priceA='+arrivalFlight["Price"]
       //+'&props='+JSON.stringify(prop)+'&clicked='+clicked
-<<<<<<< HEAD
-      console.log("unique here " +props.user);
-      if (props.user === "false") {
-=======
       if (!location.state.user /*=== "false"*/) {
->>>>>>> origin/nouran
         setshow_departure_component(false)
         setshow_return_component(false)
        // setshow_return_button(false)
@@ -325,7 +292,6 @@ console.log("button_content === 'Proceed to payment'")
         // setShow_summary(true)
         setMess("Please, choose your departure flight's seats")
         setButton_content('Confirm booking')
-     
       }
       else {
         setshow_departure_component(false)
@@ -337,7 +303,6 @@ console.log("button_content === 'Proceed to payment'")
         setMess("Please, choose your departure flight's seats")
         // setShow_summary(true)
         setButton_content('Confirm booking')
-      
       }
       Axios.get("http://localhost:3001/confirmition_number", {
       }).then((Response) => {
@@ -413,237 +378,237 @@ console.log("button_content === 'Proceed to payment'")
   ///////////////////////////////////////////////////////////////////////////////////////////////////
   //{show_return_component ?
   // (returnFlights.length>0?(
-    return (
-      <div >
-        
-        {/* {console.log(clicked_confirm + "" + show_summery + "" + button_content + "" + props.user)}
-        {console.log("seat content" + button_content)}
-        {console.log("setSeatsD  " + seatsD)} */}
-  
-  {console.log("show buttons",show_buttons)}
-        <div id="view_flight" className="here" >
-          {show_departure_component ? (
-  
-            flights.length > 0 ? (<h1>Choose Departure Flight</h1>) : <h1>Sorry, no available departure flights for your inputs</h1>
-          ) : (show_return_component ? (
-  
-            returnFlights.length > 0 ? (<h1>Choose Arrival Flight</h1>) : <h1>Sorry, no available return flights for the selected departure flight try choose another one</h1>
-          ) : (clicked_confirm ? (((show_summery && location.state.user/* === "true"*/ && button_content === 'Proceed to payment') ? (<h1> Your Confirmation code is {con_Number}</h1>) : <h1>You have to login first to confirm your reservation</h1>)
-          ) : "")
-          )
-          }
-          <br />
-          <br /> <br />
-          <br />
-          {/* <p>{JSON.stringify( depatureFlight["id"]) +"id   d     "}</p>
-  <p>{JSON.stringify( pop) +"     pop     "}</p> */}
-          <br />
-          {/* <p>{JSON.stringify( depatureFlight["id"])) }</p>
-  <br/>
-  <p> hi {JSON.stringify(prop.Departure_airport) }</p>
-  <p> hi {JSON.stringify(showMoreInfo)+"clicked"+ "\n"} </p> */}
-          {/* <br/>
-  {/* <p> clicked button {JSON.stringify(checkClickedButton)+"clicked one row button    "+ "\n show return button" +JSON.stringify(show_return_component)} </p> */}
-  
-          <br />
-          {
-  /*
-  <br/> 
-  <p>{"depatureFlight:" +JSON.stringify(depatureFlight)}</p>
-  <p>{"arrivalFlight:"+JSON.stringify(arrivalFlight)}</p> */}
-          <br />
-          <div className="spicalButton">
-  
-            {show_buttons ? (<><button disabled={!show_departure_button} onClick={goBack_to_departure_flights}>  Go Back </button>
-              <button disabled={!show_return_button} onClick={goToReturnFlights}/*disabled={show_return_component} */>{button_content}</button></>) : ""}
-            {/* <button className="spicalButtonRigth"> Go to return flights</button> */}
-  
-          </div>
-          <br />
-          <br />
-  
-          {show_departure_component ? (
-  
-            flights.length > 0 ? (
-              <>
-  
-  
-                <table >
-  
-                  <thead>
-                    {<tr >
-  
-                      <th >Flight Number</th>
-                      <th>Departure Date</th>
-                      <th>Departure time</th>
-                      <th>Arrival Date</th>
-                      <th>Arrival time</th>
-  
-                      <th>Departure Airport</th>
-                      <th>Arrival Airport</th>
-                      <th /*className="special_td"*/>Actions</th>
-                      {/* <th>Actions</th> */}
-                      {/* <th>Economy Class Seats</th>
-              <th>Business Class Seats</th> */}
-                      {/* <th>Actions</th> */}
-                    </tr>}
-                  </thead>
-                  <br />
-                  <tbody>
-                    {
-                      flights.map((flight) => (
-  
-                        < >
-  
-                          <tr key={flight._id} onClick={() => { handelClickingRow(flight._id, flight.Departure_Date, flight.Arrival_Date, flight.Departure_Time, flight.Arrival_Time) }}>
-                            {/* <tr key={flight._id} onClick={handelClickingRow(flight._id)}> */}
-                            <td > {flight.Flight_Number} </td>
-                            <td > {flight.Departure_Date.split('T')[0]} </td>
-                            <td > {flight.Departure_Time} </td>
-                            <td > {flight.Arrival_Date.split('T')[0]} </td>
-                            <td > {flight.Arrival_Time} </td>
-                            <td > {flight.Departure_Airport} </td>
-                            <td > {flight.Arrival_Airport} </td>
-                            {/* <td style={{display:"relative"}}></td> */}
-  
-                            <td /*className="special_td"*/>  <> <button onClick={() => {
-                              handleserving(flight._id, flight.Flight_Number, flight.Departure_Date, flight.Departure_Time,
-                                flight.Arrival_Date, flight.Arrival_Time, flight.price_child, flight.price_adult, flight.Departure_Airport, flight.Arrival_Airport
-                              )
-                            }}>Select Flight </button>
-  
-                              {/* < button   disabled={!(show_book_seat && choosenFlight===flight._id)} onClick={()=>{book_seat(flight._id); id=flight._id}}>Select Seat </button> */}
-                            </>
-                            </td>
-                          </tr>
-  
-                          <br />
-                          {showMoreInfo[flight._id] ? (
-  
-                            <tr typeof="a" /*id="diplay_flight_info"*/>
-                              <td colSpan="3"> Flight Duration:  {JSON.stringify(id_duration[flight._id])}  </td>
-                              <td colSpan="2">  Cabin Class:  {prop.Class} </td>
-                              <td colSpan="3">  Baggage Allowance.:  {flight.baggage} </td>
-  
-                              {/* <label>Baggage Allowance:  {flight.baggage_allowance} </label>*/}
-                              {/* <br/> */}
-  
-                              {/* <label>Price:  {flight.price} </label>*/}
-  
-                              <br />
-  
-  
-  
-                            </tr>
-                          ) : <br />}
-                          <br />
-                        </>
-                      ))
-                    }
-                  </tbody>
-                </table>
-              </>) : ""
-          ) : <p></p>}
-  
-  
-          {show_return_component ?
-            (returnFlights.length > 0 ? (
-              <>
-                {/* <h1>Choose Arrival Flight</h1> */}
-                {/* <p>{clickedGoToReturnflights_button+"RETURN FLIGHTS"}</p> */}
-                <table >
-  
-  
-                  <thead>
-                    {<tr >
-  
-                      <th >Flight Number</th>
-                      <th>Departure Date</th>
-                      <th>Departure time</th>
-                      <th>Arrival Date</th>
-                      <th>Arrival time</th>
-  
-                      <th>Departure Airport</th>
-                      <th>Arrival Airport</th>
-                      <th /*className="special_td"*/>Actions</th>
-                      {/* <th>Actions</th> */}
-                      {/* <th>Economy Class Seats</th>
-              <th>Business Class Seats</th> */}
-                      {/* <th>Actions</th> */}
-                    </tr>}
-                  </thead>
-                  <br />
-                  <tbody>
-                    {
-                      returnFlights.map((flight) => (
-                        <   >
-  
-                          <tr key={flight._id} onClick={() => { handelClickingRow(flight._id, flight.Departure_Date, flight.Arrival_Date, flight.Departure_Time, flight.Arrival_Time) }}>
-                            {/* <tr key={flight._id} onClick={handelClickingRow(flight._id)}> */}
-                            <td > {flight.Flight_Number} </td>
-                            <td > {flight.Departure_Date.split('T')[0]} </td>
-                            <td > {flight.Departure_Time} </td>
-                            <td > {flight.Arrival_Date.split('T')[0]} </td>
-                            <td > {flight.Arrival_Time} </td>
-                            <td > {flight.Departure_Airport} </td>
-                            <td > {flight.Arrival_Airport} </td>
-                            {/* <td style={{display:"relative"}}></td> */}
-                            <td /*className="special_td"*/>  <> <button onClick={() => {
-                              handleserving(flight._id, flight.Flight_Number, flight.Departure_Date, flight.Departure_Time,
-                                flight.Arrival_Date, flight.Arrival_Time, flight.price_child, flight.price_adult, flight.Departure_Airport, flight.Arrival_Airport
-                              )
-                            }}>Select Flight </button>
-  
-                              {/* < button   disabled={!(show_book_seat && choosenFlight===flight._id)} onClick={book_seat}>Select Seat </button> */}
-                            </>
-                            </td>
-                          </tr>
-  
-                          {showMoreInfo[flight._id] ? (
-  
-                            <tr typeof="a" /*id="diplay_flight_info"*/>
-                              <td colSpan="3"> Flight Duration:  {JSON.stringify(id_duration[flight._id])}  </td>
-                              <td colSpan="2">  Cabin Class:  {prop.Class} </td>
-                              <td colSpan="3">  Baggage Allowance.:  {flight.baggage} </td>
-  
-                              {/* <label>Baggage Allowance:  {flight.baggage_allowance} </label>*/}
-                              {/* <br/> */}
-  
-                              {/* <label>Price:  {flight.price} </label>*/}
-  
-                              <br />
-  
-  
-  
-                            </tr>
-                          ) : <br />}
-                          <br />
-                        </>
-                      ))
-                    }
-                  </tbody>
-                </table>
-              </>) : ""
-  
-            ) : <p></p>}
-          {/* <p>{JSON.stringify(depatureFlight)}</p> */}
-  
-        </div>
-        <div id="summary">
-        {/* <ReserveSeatsN trigger={pop} setTrigger={setPop} id={choosenFlight} Class={prop.Class}/> */}
-        <Summary trigger={show_summery} button_content={button_content} Dflight={depatureFlight} con={con_Number} seatsA={seatsA} seatsD={seatsD} Aflight={arrivalFlight} />
-        {(mess === "Please, choose your departure flight's seats" || mess === "Please, choose your return flight's seats") ? (<ReserveSeats Did={depatureFlight["id"]} Aid={arrivalFlight["id"]}
-          flightClass={depatureFlight["Class"]} number={prop.N_childern + prop.N_adult} setSeatsAID={setSeatsAID} setSeatsDID={setSeatsDID} setSeatsD={setSeatsD} setSeatsA={setSeatsA} setB={setShow_buttons} set={setShow_summary} mess={mess} setM={setMess} />) :
-          (
-            // <ReserveSeats Did={Did} Aid={Aid} priceD={priceD} priceA={priceA} 
-            // flightClass={flightClass} number={number} set={setTrigger} 
-            //  setT2={setTrigger2}  setT3={setTrigger3} mess={mess} setM={setMess}/>
-            // <Summary info={info}/>  //  const [trigger2,setTrigger2]=useState(false)
-            ""
-          )
+  return (
+    <div >
+      
+      {/* {console.log(clicked_confirm + "" + show_summery + "" + button_content + "" + props.user)}
+      {console.log("seat content" + button_content)}
+      {console.log("setSeatsD  " + seatsD)} */}
+
+{console.log("show buttons",show_buttons)}
+      <div id="view_flight" className="here" >
+        {show_departure_component ? (
+
+          flights.length > 0 ? (<h1>Choose Departure Flight</h1>) : <h1>Sorry, no available departure flights for your inputs</h1>
+        ) : (show_return_component ? (
+
+          returnFlights.length > 0 ? (<h1>Choose Arrival Flight</h1>) : <h1>Sorry, no available return flights for the selected departure flight try choose another one</h1>
+        ) : (clicked_confirm ? (((show_summery && location.state.user/* === "true"*/ && button_content === 'Proceed to payment') ? (<h1> Your Confirmation code is {con_Number}</h1>) : <h1>You have to login first to confirm your reservation</h1>)
+        ) : "")
+        )
         }
-  </div>
+        <br />
+        <br /> <br />
+        <br />
+        {/* <p>{JSON.stringify( depatureFlight["id"]) +"id   d     "}</p>
+<p>{JSON.stringify( pop) +"     pop     "}</p> */}
+        <br />
+        {/* <p>{JSON.stringify( depatureFlight["id"])) }</p>
+<br/>
+<p> hi {JSON.stringify(prop.Departure_airport) }</p>
+<p> hi {JSON.stringify(showMoreInfo)+"clicked"+ "\n"} </p> */}
+        {/* <br/>
+{/* <p> clicked button {JSON.stringify(checkClickedButton)+"clicked one row button    "+ "\n show return button" +JSON.stringify(show_return_component)} </p> */}
+
+        <br />
+        {
+/*
+<br/> 
+<p>{"depatureFlight:" +JSON.stringify(depatureFlight)}</p>
+<p>{"arrivalFlight:"+JSON.stringify(arrivalFlight)}</p> */}
+        <br />
+        <div className="spicalButton">
+
+          {show_buttons ? (<><button disabled={!show_departure_button} onClick={goBack_to_departure_flights}>  Go Back </button>
+            <button disabled={!show_return_button} onClick={goToReturnFlights}/*disabled={show_return_component} */>{button_content}</button></>) : ""}
+          {/* <button className="spicalButtonRigth"> Go to return flights</button> */}
+
+        </div>
+        <br />
+        <br />
+
+        {show_departure_component ? (
+
+          flights.length > 0 ? (
+            <>
+
+
+              <table >
+
+                <thead>
+                  {<tr >
+
+                    <th >Flight Number</th>
+                    <th>Departure Date</th>
+                    <th>Departure time</th>
+                    <th>Arrival Date</th>
+                    <th>Arrival time</th>
+
+                    <th>Departure Airport</th>
+                    <th>Arrival Airport</th>
+                    <th /*className="special_td"*/>Actions</th>
+                    {/* <th>Actions</th> */}
+                    {/* <th>Economy Class Seats</th>
+            <th>Business Class Seats</th> */}
+                    {/* <th>Actions</th> */}
+                  </tr>}
+                </thead>
+                <br />
+                <tbody>
+                  {
+                    flights.map((flight) => (
+
+                      < >
+
+                        <tr key={flight._id} onClick={() => { handelClickingRow(flight._id, flight.Departure_Date, flight.Arrival_Date, flight.Departure_Time, flight.Arrival_Time) }}>
+                          {/* <tr key={flight._id} onClick={handelClickingRow(flight._id)}> */}
+                          <td > {flight.Flight_Number} </td>
+                          <td > {flight.Departure_Date.split('T')[0]} </td>
+                          <td > {flight.Departure_Time} </td>
+                          <td > {flight.Arrival_Date.split('T')[0]} </td>
+                          <td > {flight.Arrival_Time} </td>
+                          <td > {flight.Departure_Airport} </td>
+                          <td > {flight.Arrival_Airport} </td>
+                          {/* <td style={{display:"relative"}}></td> */}
+
+                          <td /*className="special_td"*/>  <> <button onClick={() => {
+                            handleserving(flight._id, flight.Flight_Number, flight.Departure_Date, flight.Departure_Time,
+                              flight.Arrival_Date, flight.Arrival_Time, flight.price_child, flight.price_adult, flight.Departure_Airport, flight.Arrival_Airport
+                            )
+                          }}>Select Flight </button>
+
+                            {/* < button   disabled={!(show_book_seat && choosenFlight===flight._id)} onClick={()=>{book_seat(flight._id); id=flight._id}}>Select Seat </button> */}
+                          </>
+                          </td>
+                        </tr>
+
+                        <br />
+                        {showMoreInfo[flight._id] ? (
+
+                          <tr typeof="a" /*id="diplay_flight_info"*/>
+                            <td colSpan="3"> Flight Duration:  {JSON.stringify(id_duration[flight._id])}  </td>
+                            <td colSpan="2">  Cabin Class:  {prop.Class} </td>
+                            <td colSpan="3">  Baggage Allowance.:  {flight.baggage} </td>
+
+                            {/* <label>Baggage Allowance:  {flight.baggage_allowance} </label>*/}
+                            {/* <br/> */}
+
+                            {/* <label>Price:  {flight.price} </label>*/}
+
+                            <br />
+
+
+
+                          </tr>
+                        ) : <br />}
+                        <br />
+                      </>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </>) : ""
+        ) : <p></p>}
+
+
+        {show_return_component ?
+          (returnFlights.length > 0 ? (
+            <>
+              {/* <h1>Choose Arrival Flight</h1> */}
+              {/* <p>{clickedGoToReturnflights_button+"RETURN FLIGHTS"}</p> */}
+              <table >
+
+
+                <thead>
+                  {<tr >
+
+                    <th >Flight Number</th>
+                    <th>Departure Date</th>
+                    <th>Departure time</th>
+                    <th>Arrival Date</th>
+                    <th>Arrival time</th>
+
+                    <th>Departure Airport</th>
+                    <th>Arrival Airport</th>
+                    <th /*className="special_td"*/>Actions</th>
+                    {/* <th>Actions</th> */}
+                    {/* <th>Economy Class Seats</th>
+            <th>Business Class Seats</th> */}
+                    {/* <th>Actions</th> */}
+                  </tr>}
+                </thead>
+                <br />
+                <tbody>
+                  {
+                    returnFlights.map((flight) => (
+                      <   >
+
+                        <tr key={flight._id} onClick={() => { handelClickingRow(flight._id, flight.Departure_Date, flight.Arrival_Date, flight.Departure_Time, flight.Arrival_Time) }}>
+                          {/* <tr key={flight._id} onClick={handelClickingRow(flight._id)}> */}
+                          <td > {flight.Flight_Number} </td>
+                          <td > {flight.Departure_Date.split('T')[0]} </td>
+                          <td > {flight.Departure_Time} </td>
+                          <td > {flight.Arrival_Date.split('T')[0]} </td>
+                          <td > {flight.Arrival_Time} </td>
+                          <td > {flight.Departure_Airport} </td>
+                          <td > {flight.Arrival_Airport} </td>
+                          {/* <td style={{display:"relative"}}></td> */}
+                          <td /*className="special_td"*/>  <> <button onClick={() => {
+                            handleserving(flight._id, flight.Flight_Number, flight.Departure_Date, flight.Departure_Time,
+                              flight.Arrival_Date, flight.Arrival_Time, flight.price_child, flight.price_adult, flight.Departure_Airport, flight.Arrival_Airport
+                            )
+                          }}>Select Flight </button>
+
+                            {/* < button   disabled={!(show_book_seat && choosenFlight===flight._id)} onClick={book_seat}>Select Seat </button> */}
+                          </>
+                          </td>
+                        </tr>
+
+                        {showMoreInfo[flight._id] ? (
+
+                          <tr typeof="a" /*id="diplay_flight_info"*/>
+                            <td colSpan="3"> Flight Duration:  {JSON.stringify(id_duration[flight._id])}  </td>
+                            <td colSpan="2">  Cabin Class:  {prop.Class} </td>
+                            <td colSpan="3">  Baggage Allowance.:  {flight.baggage} </td>
+
+                            {/* <label>Baggage Allowance:  {flight.baggage_allowance} </label>*/}
+                            {/* <br/> */}
+
+                            {/* <label>Price:  {flight.price} </label>*/}
+
+                            <br />
+
+
+
+                          </tr>
+                        ) : <br />}
+                        <br />
+                      </>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </>) : ""
+
+          ) : <p></p>}
+        {/* <p>{JSON.stringify(depatureFlight)}</p> */}
+
       </div>
-  
-    )
-  }
+      <div id="summary">
+      {/* <ReserveSeatsN trigger={pop} setTrigger={setPop} id={choosenFlight} Class={prop.Class}/> */}
+      <Summary trigger={show_summery} button_content={button_content} Dflight={depatureFlight} con={con_Number} seatsA={seatsA} seatsD={seatsD} Aflight={arrivalFlight} />
+      {(mess === "Please, choose your departure flight's seats" || mess === "Please, choose your return flight's seats") ? (<ReserveSeats Did={depatureFlight["id"]} Aid={arrivalFlight["id"]}
+        flightClass={depatureFlight["Class"]} number={prop.N_childern + prop.N_adult} setSeatsAID={setSeatsAID} setSeatsDID={setSeatsDID} setSeatsD={setSeatsD} setSeatsA={setSeatsA} setB={setShow_buttons} set={setShow_summary} mess={mess} setM={setMess} />) :
+        (
+          // <ReserveSeats Did={Did} Aid={Aid} priceD={priceD} priceA={priceA} 
+          // flightClass={flightClass} number={number} set={setTrigger} 
+          //  setT2={setTrigger2}  setT3={setTrigger3} mess={mess} setM={setMess}/>
+          // <Summary info={info}/>  //  const [trigger2,setTrigger2]=useState(false)
+          ""
+        )
+      }
+</div>
+    </div>
+
+  )
+}
