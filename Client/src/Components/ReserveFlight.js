@@ -96,7 +96,7 @@ export default function Reserve_FLight() {
         {/* <div className="banner"> */}
         <form className="formReserveFlights" onSubmit={handleSubmit}>
           <div className="divReserveFlight">
-          <label for="Departure_airport">Departure Airport</label>
+          <label for="Departure_airport">Dep Airport</label>
           <input className="inputReserveFlight"
             id="Departure_airport"
             value={info.Departure_airport || ''}
@@ -105,7 +105,7 @@ export default function Reserve_FLight() {
             type="text"
             placeholder="Departure Airport" required
           />
-          <label for="Departure_date">Departure Date</label>
+          <label for="Departure_date">Dep Date</label>
           <input id="Departure_date"
           className="inputReserveFlight"
             value={info.Departure_date}
@@ -145,8 +145,6 @@ export default function Reserve_FLight() {
             name="N_childern"
             placeholder="Number of Children"
           />
-          </div>
-          <div>
           <label for="N_adult">Number of Adults</label>
           <input id="N_adult"
             className = "inputReserveFlightNumber"
@@ -157,9 +155,9 @@ export default function Reserve_FLight() {
             placeholder="Number of Adults"
           />
           </div>
-          <div className="rowDiv">
-          <label>Class</label>
-          <select name="Class" className="inputReserveFlightNumber" id="class" value={info.Class} onChange={handleChange}>
+          <div className="divReserveFlight">
+            <label>Class</label>
+          <select name="Class" className="selectReserveFlight" id="class" value={info.Class} onChange={handleChange}>
             <option value="Economy">Economy</option>
             <option value="Business">Business</option>
           </select>

@@ -4,7 +4,7 @@
   width: 100%;
   left:0px;
   top:0px;
-  font-size: x-large;
+  /* font-size: x-large; */
 }
 table.center {
   margin-left:auto; 
@@ -17,14 +17,13 @@ table.center {
     width: 100%;
     height: fit-content;
     z-index: -1;
-    box-align:center;
     margin-left: auto;
     margin-right: auto;
     padding: 20px;
     border-collapse: collapse;
     margin: 25px 0;
     /* font-size: 0.9em; */
-    font-size: x-large;
+    /* font-size: x-large; */
     font-family: sans-serif;
     /* margin-left: 30px; */
     border-radius: 30px;
@@ -36,29 +35,31 @@ table.center {
 }
 #styled-table table{
 
-width: 100%;
+width: 90%;
 border-radius: 30px;
-font-size: x-large;
+/* font-size: x-large; */
 border-width: 30px;
-margin-left: 30px;
-border-color: chartreuse;
-padding: 30px;
+/* margin-left: 10px; */
+/* border-color: chartreuse; */
+/* padding: 30px; */
 }
 #styled-table table tr td{
 
   /* width: 100%;
   border-radius: 30px; */
-  font-size: xx-large !important;
+  /* font-size: xx-large !important; */
   /* border-width: 30px;
   margin-left: 30px;
   border-color: chartreuse;
   padding: 30px; */
   }
-
+.this {
+  color: black;
+}
 #styled-table table th{
   background-color: #FADF90 !important;
     color: #ffffff;
-  font-size: large;
+  /* font-size: large; */
       /* display: inline-block; */
       width: 160px;
       /* border-color: lawngreen; */
@@ -68,7 +69,7 @@ padding: 30px;
 table th{
   background-color: #FADF90;
     color: #ffffff;
-  font-size: large;
+  /* font-size: large; */
       /* display: inline-block; */
       width: 160px;
       /* border-color: lawngreen; */
@@ -82,17 +83,32 @@ table th{
 }
 #styled-table th, #styled-table td {
     padding: 12px 15px;
-    font-size: x-large;
+    /* font-size: x-large; */
     margin-left: 50px;
 }
 #styled-table table td {
   /* padding: 12px 15px; */
-  font-size: x-large !important;
-  margin-left: 50px;
+  font-size: x-large ;
+  /* font-weight: bold; */
+  /* margin-left: 50px; */
+}
+#styled-table table tr th  {
+  /* padding: 12px 15px; */
+  font-size: x-large ;
+  font-weight: bolder;
+
+  /* margin-left: 50px; */
+}
+#styled-table table  th  {
+  /* padding: 12px 15px; */
+  font-size: x-large ;
+  font-weight: bolder;
+
+  /* margin-left: 50px; */
 }
 #styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
-    margin-left: 50px;
+    /* margin-left: 50px; */
 }
 #styled-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
@@ -111,7 +127,7 @@ table th{
     text-align:center;
     padding: 8px;
     width: 200px;
-    font-size: 20px;
+    /* font-size: 20px; */
     position:relative;
    
     left:40%;
@@ -149,7 +165,7 @@ color:#FADF90;
   background: -webkit-linear-gradient(to right, #FFCD12, #FADF90);
 	background: linear-gradient(to right, #FFCD12, #FADF90);
 	color: #FFFFFF;
-	font-size: 12px;
+	/* font-size: 12px; */
 	font-weight: bold;
 	padding: 12px 45px;
 	letter-spacing: 1px;

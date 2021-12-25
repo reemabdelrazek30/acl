@@ -1,7 +1,7 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
 import React, { useState } from 'react'
-import './PaymentForm.css';
+import './Home.css';
 const CARD_OPTIONS = {
 	iconStyle: "solid",
 	style: {

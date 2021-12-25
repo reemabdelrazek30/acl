@@ -1,108 +1,70 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import Axios from 'axios'
-import './ViewFlights.css'
+import  './ViewFlights.css'
 import { Confirmdelete } from './Confirmdelete';
-import { useHistory } from 'react-router-dom'
+import{useHistory} from 'react-router-dom'
 
-//const [userflights, setuserflights] = useState([]);
 
-function ViewFlights() {
-    console.log("entered view flights page from top")
-    let history = useHistory();
-    //const [userflights, setuserflights] = useState([]);
-    Axios.defaults.withCredentials = true;
-    //const [isLoggedIn, setLoggedIn] = useState(false)
-    const [buttonpopup, setbuttonpopup] = useState(false);
-    const [confirmation, setconfirmation] = useState([]);
-    const [userid, setuserid] = useState([]);
-    const [dep_flight_id, setdepflightid] = useState([]);
-    const [re_flight_id, setreturnflightid] = useState([]);
-    const [Dseats_id, setseatsDID] = useState([]);
-    const [Aseats_id, setseatsAID] = useState([]);
-    const [reLad, setReLoad] = useState(false)
-    const [currentuser_id, setcurrent_user_id] = useState([]);
-    const [currentuser_flights, setcurrent_user_flights] = useState([]);
-    const ondelete = (confirm, user_id) => {
-        setbuttonpopup(true)
-        setconfirmation(confirm)
-        setuserid(user_id);
-        setdepflightid(depflightid);
-        setreturnflightid(returnflightid);
-        setseatsDID(depseat);
+ function ViewFlights( ){
+console.log("entered view flights page from top")
+const [userflights, setuserflights] = useState([]);
 
+const [buttonpopup, setbuttonpopup] = useState(false);
+const [confirmation, setconfirmation] = useState([]);
+const[userid,setuserid]= useState([]);
+const[dep_flight_id,setdepflightid]= useState([]);
+const[re_flight_id,setreturnflightid]= useState([]);
+const[Dseats_id,setseatsDID]= useState([]);
+const[Aseats_id,setseatsAID]= useState([]);
+const history =useHistory();
+const [reLad,setReLoad]=useState(false)
+const ondelete=(confirm,user_id)=>{
+    setbuttonpopup(true)
+    setconfirmation(confirm)
+    setuserid(user_id);
+}
+function goSeats(confNumber,id,classType,num,flightType){
+// history.push({
+//     path:'/ReserveSeats',
+console.log(currentuser_id+"currentuser_id")
+// })
+history.push({
+    pathname: '/ReserveSeats',
+   // search: '?update=true',  // query string
+    state: {  // location state
+        id: id, conf:confNumber,classT:classType,number:num , user:currentuser_id,flightType:flightType
+    },
+  }); 
+}
+//Axios.defaults.withCredentials = true;
+//const [isLoggedIn, setLoggedIn] = useState(false)
+const [currentuser_id, setcurrent_user_id] = useState("");
+const [currentuser_flights, setcurrent_user_flights] = useState([]);
+
+useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: true}).then(response => {
+    console.log(response.data.loggedIn)
+    console.log("entered use effect in view flights")
+    if (response.data.loggedIn){
+     setcurrent_user_id(response.data.user._id);
+     setcurrent_user_flights(response.data.user.Flights)
+     console.log(JSON.stringify(response.data.user.Flights))
     }
+  })
+    
+ }, [currentuser_id]);
 
-    const redirect = (info) => {
-        history.push({
-            pathname: '/cdf',
-            state: {
-                TotalPrice: info.Total_price,
-                conf: info.Confirmation_number,
-                olddepflight_id: info.Departure_flight.id,
-                depflightairport: info.Departure_flight.flight_Departure_Airport,
-                arrivalflightairport: info.Departure_flight.flight_Arrival_Airport,
-                returndate: info.Arrival_flight.flight_Departure_Date,
-                number_of_children: info.children_no,
-                number_of_adults: info.adult_no,
-                user_id: currentuser_id,
-                returnticketprice: info.Arrival_flight.Price
-            }
-        });
-    }
-
-    const redirect2 = (info) => {
-        history.push({
-            pathname: '/crf',
-            state: {
-                depdate: info.Departure_flight.flight_Arrival_Date,
-                user_id: currentuser_id,
-                pastflightinfo: info
-            }
-        });
-    }
-    useEffect(() => {
-        Axios.get("http://localhost:3001/login", { withCredentials: true }).then(response => {
-            console.log(response.data.loggedIn)
-            console.log("entered use effect in view flights")
-            if (response.data.loggedIn) {
-                setcurrent_user_id(response.data.user._id);
-                setcurrent_user_flights(response.data.user.Flights)
-                console.log(JSON.stringify(response.data.user.Flights))
-            }
-        })
-
-    }, [currentuser_id]);
-    function goSeats(confNumber, id, classType, num, flightType) {
-        // history.push({
-        //     path:'/ReserveSeats',
-        console.log(currentuser_id + "currentuser_id")
-        // })
-        history.push({
-            pathname: '/ReserveSeats',
-            // search: '?update=true',  // query string
-            state: {  // location state
-                id: id, conf: confNumber, classT: classType, number: num, user: currentuser_id, flightType: flightType
-            },
-        });
-    }
-
-
+ console.log(" user Flights",currentuser_id);
     return(
-        
-        <div id="styled-table" >  
-         <h1> Tricket Details:</h1>
-                    <br/>
-                    <br/>
-                    <br/>
-
-
-         <table   align="center">  
+        <div className="here">
+        <div> 
+        <br/>
+         <h1> Ticket Details:</h1>
+         <table align="center">  
            { currentuser_flights.map((info)=>
                    
             <div  >
-                 <br/> <br/>  <br/>  <br/> <br/>  <br/>
+                 <br/> 
                 {/* console.log("key:"+l);
                     console.log("value:"+info); */}
                 <div>
@@ -111,14 +73,14 @@ function ViewFlights() {
                     <tr><th className="th1">Departure Flight</th></tr>
                     
                     <tr>
-                    <th > Fligth number </th>
-                    <th >Departure Flight Date </th>
-                    <th >Departure Flight Time </th>
-                    <th >Departure Flight Airport </th>
-                    <th >Arrival Flight Date </th>
-                    <th >Arrival Flight Time </th>
-                    <th >Arrival Flight Airport </th>
-                    <th >Flight Seats </th>
+                    <th >Flight Number</th>
+                    <th >Departure Date</th>
+                    <th >Departure Time</th>
+                    <th >Departure Airport</th>
+                    <th >ArrivalDate</th>
+                    <th >Arrival Time</th>
+                    <th >Arrival Airport</th>
+                    <th >Seat Number</th>
                     <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Departure_flight.id,info.Class,( info.Departure_seats.length),"departF")}>Edit Seats</button> 
 
                     </tr>
@@ -132,8 +94,8 @@ function ViewFlights() {
                      <td>{info.Departure_flight.flight_Arrival_Time} </td>  
                      <td>{info.Departure_flight.flight_Arrival_Airport} </td> 
                     <td>{info.Departure_seats.map(seat=>
-                        <p> {seat} </p>)} </td> 
-                         <button  className="btn"onClick={()=> redirect(info)}> Change Departure Flight </button>
+                        <p className="this"> {seat} </p>)} </td> 
+                         <button className="btn"> Change Flight </button>
                     </tbody>
                     {/* <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Departure_flight.id,info.Class,( info.Departure_seats.length),"departF")}>Edit Seats</button> 
 
@@ -142,14 +104,14 @@ function ViewFlights() {
                     <br/> <br/>
                     <tr><th className="th1">Return Flight</th></tr>
                     <tr>
-                    <th > Fligth number </th>
-                    <th >Departure Flight Date </th>
-                    <th >Departure Flight Time </th>
-                    <th >Departure Flight Airport </th>
-                    <th >Arrival Flight Date </th>
-                    <th >Arrival Flight Time </th>
-                    <th >Arrival Flight Airport </th>
-                    <th >Flight Seats </th>
+                    <th >Flight Number</th>
+                    <th >Departure Date</th>
+                    <th >Departure Time</th>
+                    <th >Departure Airport</th>
+                    <th >Arrival Date</th>
+                    <th >Arrival Time</th>
+                    <th >Arrival Airport</th>
+                    <th >Seat Number</th>
                     <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Arrival_flight.id,info.Class,( info.Departure_seats.length),"returnF")}>Edit Seats</button> 
 </tr>
                     <tbody>
@@ -161,9 +123,9 @@ function ViewFlights() {
                      <td>{info.Arrival_flight.flight_Arrival_Time} </td>  
                      <td>{info.Arrival_flight.flight_Arrival_Airport} </td> 
                     <td>{info.Arrival_seats.map(seat=>
-                        <p> {seat} </p>)} </td> 
+                        <p className="this"> {seat} </p>)} </td> 
                      <button className="btn"> Change Flight </button>
-                    
+
                     </tbody>
                     {/* <button className="btn" onClick={()=>goSeats(info.Confirmation_number,info.Arrival_flight.id,info.Class,( info.Departure_seats.length),"returnF")}>Edit Seats</button>  */}
                     {/* <button className="btn"> Change Flight </button> */}
@@ -180,26 +142,14 @@ function ViewFlights() {
 
 
                     </tbody>
-
-                    {/* <button className="btn1"  onClick={() => ondelete(info.Confirmation_number, currentuser_id,
-                        info.Departure_flight.id,info.Arrival_flight.id,info.seatsAID,info.seatsDID) } >Delete Ticket</button>
- */}
-
-
-
                     </div>
-                    
-                    
-            
         </div>
-           )
-          
-           }
+           )}
          </table> 
-        
-         <Confirmdelete trigger={buttonpopup}  setTrigger={setbuttonpopup} delete_ticket={confirmation} user_id={userid}
+        <Confirmdelete trigger={buttonpopup}  setTrigger={setbuttonpopup} delete_ticket={confirmation} user_id={userid}
             departure_flight_id={dep_flight_id} return_flight_id={re_flight_id} seatsAID={Aseats_id} seatsDID={Dseats_id}
         ></Confirmdelete>
+        </div>
         </div>
     );
 }

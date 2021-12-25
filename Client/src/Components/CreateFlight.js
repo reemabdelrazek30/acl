@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from "react";
 import Axios from "axios";
-import './CreateFlight.css';
+import './createFlight.css';
 import { useHistory } from 'react-router';
 
 export default function CreateFlight()

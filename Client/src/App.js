@@ -25,7 +25,8 @@ import Viewavailablereturnflights from './Components/Viewavailablereturnflights'
 import ChangeReturnFlight from './Components/ChangeReturnFlight';
 import changePassword from './Components/ChangePassword';
 import FlightCreationSuccessful from './Components/FlightCreationSuccessful';
-
+import logout from './Components/Logout';
+import loginAdmin from './Components/LoginAdmin';
 
 // <Route exactpath = "/CreateFlight" component={CreateFlight}/>
 // if you got here that means I am crying 
@@ -35,7 +36,7 @@ function App() {
     <div className="App">
       <Router>
         <Switch>  
-        <Route exact path = "/" component={Register}/>
+        <Route exact path = "/" component={Home}/>
         <Route exact path = "/Login" component={Login}/>
          {/* <Route exact path = "/" component={Home}/> */}
          <Route exact path = "/Hpage" component={Home_page}/>
@@ -48,7 +49,6 @@ function App() {
          <Route exact path="/FlightSchedule" component={Flight_schedule}/>
          <Route exact path="/Profile" component={Profile}/>
          <Route exact path = "/Summary" component={Summary}/>
-         <Route exact path = "/ViewFlights" component={ViewFlights}/>
          <Route exact path="/ReserveSeats" component={ReserveSeats}/>
          {/* <Route exact path = "/View_FLight" component={View_FLight}/> */}
          <Route exact path = "/payment" component={Payment}/>
@@ -63,7 +63,8 @@ function App() {
          <Route exact path = "/varf" component={Viewavailablereturnflights}/>
          <Route exact path = '/ChangePassword' component={changePassword}/>
          <Route exact path = '/FlightCreationSuccessful' component={FlightCreationSuccessful}/>
-
+         <Route exact path = '/Logout' component={logout}/>
+         <Route exact path = '/loginAdmin' component={loginAdmin}/>
         
           </Switch>
         </Router>

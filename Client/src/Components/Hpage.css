@@ -14,7 +14,7 @@
 .banners {
     position: relative;
     height:1080px;
-	width:2040px;
+	  width:2040px;
     background-image: url("https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/1300/2021/12/01124045/shutterstock_1508315888-818x460.jpg");  
     background-size: cover;
     display: flex;
@@ -47,8 +47,8 @@ button:hover {
 button:active {
 	transform: scale(0.95);
 }
-.homePage {
+.homePage1 {
   color: #e4c873;
   margin-top: 50px;
-  margin-bottom: 90px;
+  margin-bottom: 30px;
 }

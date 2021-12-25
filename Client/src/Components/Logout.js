@@ -1,11 +1,12 @@
 import React, {  useContext, useState } from "react";
-import {LoginContext} from "..LoginContext"
+import {LoginContext} from "../Contexts/LoginContext"
 import { useHistory } from 'react-router-dom';
-import Axios from "axios";;
-export const Logout = () => {
+import Axios from "axios";
+import './Home.css'
+export default function Logout () {
     Axios.defaults.withCredentials = true;
     const {logoutI} = useContext(LoginContext);
-    let hisotry = useHistory();
+    let history = useHistory();
     const logout = () => {
         Axios.post("http://localhost:3001/logout").then((response) => {
             if (response.loggedOut) 
@@ -16,5 +17,5 @@ export const Logout = () => {
             
         });
     };
-    return(<div> <button onClick={logout}> Login </button></div>);
+    return(<div> <button className="buttonHome" onClick={logout}>Log Out</button></div>);
 }

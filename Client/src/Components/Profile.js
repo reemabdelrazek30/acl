@@ -70,25 +70,36 @@ export default function Profile() {
         <div>
             <div className="bannerProfile">
                 <div className="containerProfile">
-                <h1>Profile</h1>
-            <div>
+                <h1 className="profile">Profile</h1>
                     <form className="formProfile">
                         <div className="item">
                             <div>
+                                <div>
                             <label>First Name</label>
+                            </div>
                             <input type="text" className="inputProfile" name="First Name" required={true} defaultValue={First_Name} onChange={(event) => { setFirst_Name(event.target.value); setDisabled(false); }}></input>
+                            <br /> <br /> 
                             </div>
                              <div>
+                                 <div>
                             <label>Last Name</label>
+                            </div>
                             <input type="text" className="inputProfile" name="Last Name" required={true} defaultValue={Last_Name} onChange={(event) => { setLast_Name(event.target.value); setDisabled(false); }}></input>
+                            <br /> <br /> 
                             </div>
                              <div>
+                                 <div>
                             <label>Passport Number</label>
+                            </div>
                             <input type="text" className="inputProfile" name="Passport Number " required={true} defaultValue={Passport_Number} onChange={(event) => { setPassport_Number(event.target.value); setDisabled(false); }}></input>
+                            <br /> <br /> 
                             </div>
                              <div>
+                                 <div>
                             <label>Email</label>
+                            </div>
                             <input type="text" className="inputProfile" name="Email" required={true} defaultValue={Email} onChange={(event) => { setEmail(event.target.value); setDisabled(false); }}></input>
+                            <br /> <br /> 
                             </div>
                             <div>
                             <button id="discard" className="buttonDiscard" onClick={discard} disabled={disabled}>Discard Changes</button>
@@ -100,6 +111,5 @@ export default function Profile() {
             </div>
         </div>
         </div>
-            </div>
     );
 }

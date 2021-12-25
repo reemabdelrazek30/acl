@@ -1,7 +1,9 @@
-import React, {useHistory, useState} from 'react';
+import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import axios from 'axios';
-
+import './ChangePassword.css';
 export default function ChangePassword(){
+    let history = useHistory();
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     //  useEffect(() => {
@@ -21,26 +23,25 @@ export default function ChangePassword(){
     //     })
 
     // },[])
-    let history = useHistory();
-    const savePassword = () => {
+    // const savePassword = () => {
 
-    }
-    return(
-        <div>
+    // }
+    return (
+        <div> {console.log("CHANGE PASSWORD")}
             <div className="changePasswordBanner">
                 <div className="changePasswordContainer">
                         <h1>Change Your Password</h1>
                         <br /> <br /> <br />
                         <label>Username</label>
-                        <input readonly placeholder={username}></input>
+                        <input className="inputProfile" readOnly placeholder={username}></input>
                         <br />
                         <label>Password</label>
-                        <input type="password" onChange={(event) => {setPassword(event.target.value); document.getElementById("discard").disabled=false}}></input>
+                        <input className="inputProfile" type="password" onChange={(event) => {setPassword(event.target.value); document.getElementById("discard").disabled=false}}></input>
                         <div>
                             {/* <button onClick={() => {savePassword}}>Save</button> */}
                         </div>
                         <div>
-                            {/* <button id="discard" onClick={() => {discard}}>Change</button> */}
+                            <button className="buttonChangePassword" id="discard" onClick={() => {history.push('/Hpage');}}>Change</button>
                         </div>
                 </div>
             </div>

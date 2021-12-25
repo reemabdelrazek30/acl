@@ -9,11 +9,13 @@ function Hpage() {
     <div className="banners">
     <div className="container">
     <form action ="/">
-        <h1 className="homePage">Home Page</h1>
+      <br /><br />
+        <h1 className="homePage1">Home Page</h1>
       <div className="item">
         <div><button className="buttonHpage" onClick={() => {history.push('/Flight');}}>View Flights</button></div>
         <div><button className="buttonHpage" onClick={() =>{history.push('/CreateFlight');}}>Create Flight</button></div>
-        <div><button className="buttonHpage" onClick={() => {history.push('/changePassword')}}>Change Password</button></div>
+        <div><button className="buttonHpage" onClick={() =>{history.push('/loginAdmin');}}>Log In</button></div>
+        <div><button className="buttonHpage" onClick={() => {history.push('/ChangePassword')}}>Change Password</button></div>
       </div>
     </form>
     </div>

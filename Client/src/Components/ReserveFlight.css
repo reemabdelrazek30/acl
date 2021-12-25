@@ -1,7 +1,7 @@
 html, body {
     min-height: 100%;
     }
-    .bannersReserveFlight body, div, form, input, select, textarea, p { 
+    body, div, form, input, select, textarea, p { 
         padding: 0;
         margin: 0;
         outline: none;
@@ -14,10 +14,10 @@ html, body {
             background-color: greenyellow;
         }
      
-       .bannersReserveFlight form input:hover::placeholder {
+        form input:hover::placeholder {
             color:#FADF90; 
        }
-        .bannersReserveFlight form {
+         .formReserveFlights {
             box-shadow: 0 0 30px 0 #FADF90; 
             display: inline-block;
             width: 90%;
@@ -26,7 +26,7 @@ html, body {
             overflow: auto;
             padding: 30px;
           }
-          .bannersReserveFlight .h1 {
+        .h1 {
         position: absolute;
         margin: 0;
         line-height: 55px;
@@ -40,14 +40,14 @@ html, body {
         font-weight: bold;
         margin-top: 20px;
     }
-        .bannersReserveFlight .testbox {
+        .testbox {
         display: flex;
         justify-content: center;
         align-items: center;
         height: inherit;
         padding: 20px;
         }
-        .bannersReserveFlight .formReserveFlights {
+        .formReserveFlights {
         background-color: #FFFFFF;
         display: flex;
         align-items: center;
@@ -90,7 +90,7 @@ html, body {
     .reserveFlightContainer {
         background-color: rgb(255, 253, 253);
     }
-    .bannersReserveFlight .body {
+    .body {
         background: #FFFFFF;
         display: flex;
         justify-content: center;
@@ -104,8 +104,8 @@ html, body {
         position: relative;
         /* height:1080px;
         width:2040px; */
-        height:750px;
-        width:100%;
+         height:1080px;
+	     width:2040px;
         background-image: url("https://assets.weforum.org/article/image/3_AfzFP4fkZH228ctZ5GnRe3TXuBErXM-_ZXG00lyLA.jpg");  
         background-size: cover;
         display: flex;
@@ -113,14 +113,14 @@ html, body {
         align-items: center;
         text-align: center;
         }
-        .bannersReserveFlight .banner::after {
+        .banner::after {
         content: "";
         background-color: rgba(0, 0, 0, 0.4); 
         position: absolute;
         width: 100%;
         height: 100%;
         }
-       .bannersReserveFlight  input, select, textarea {
+       input, select, textarea {
         margin-bottom: 10px;
         border: 1px solid #ccc;
         border-radius: 3px;
@@ -132,22 +132,22 @@ html, body {
         width: calc(100% - 70px);
         padding: 5px;
         }
-        .bannersReserveFlight select {
+        select {
         width: 100%;
         padding: 7px 0;
         background-color: #eee;
         border:none;
         }
-       .bannersReserveFlight  textarea {
+        textarea {
         width: calc(100% - 12px);
         padding: 5px;
         }
         
-        .bannersReserveFlight .item {
+        .item {
         position: relative;
         margin: 10px 0;
         }
-        .bannersReserveFlight label {
+        label {
         position: relative;
         display: inline-block;
         margin: 5px 20px 15px 0;
@@ -160,10 +160,10 @@ html, body {
         .question span {
         margin-left: 30px;
         }
-       .bannersReserveFlight input[type=radio]:checked + label:after {
+       input[type=radio]:checked + label:after {
         opacity: 1;
         }
-       .bannersReserveFlight .btn-block {
+        .btn-block {
         margin-top: 10px;
         text-align: center;
         }
@@ -186,14 +186,14 @@ html, body {
         text-transform: uppercase;
         transition: transform 80ms ease-in;
     }
-       .bannersReserveFlight button:hover {
+       button:hover {
         box-shadow: 0 0 18px 0#FFCD12;
         }
-       .bannersReserveFlight .input:hover::placeholder {
+       .input:hover::placeholder {
         color: #e2ca80;
       }
     
-     .bannersReserveFlight.input:hover {
+     .input:hover {
         border: 1px solid transparent;
         box-shadow: 0 0 6px 0 #FADF90;
         color: #FADF90;
@@ -214,6 +214,14 @@ html, body {
         margin: 10px;
         color:black;
     }
+    .selectReserveFlight{
+        border-radius: 5px;
+        width:100px;
+        height: 40px;
+        padding: 0 7px;
+        margin: 10px;
+        color:black;
+    }
      .inputReserveFlight:hover {
         border: 1px solid transparent;
         box-shadow: 0 0 6px 0 #FADF90;
@@ -226,10 +234,10 @@ html, body {
         flex-wrap: wrap;
         justify-content: space-between;
         }
-        .bannersReserveFlight .date-item input, .city-item input {
+        .date-item input, .city-item input {
         width: calc(50% - 20px);
         }
-       .bannersReserveFlight  .city-item select {
+        .city-item select {
         width: calc(50% - 8px);
         }
         }
