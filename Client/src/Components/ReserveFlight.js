@@ -1,12 +1,14 @@
 //inport {useState} from 'react'
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import View_FLight from "./ViewFlight";
 import axios from 'axios';
 import {Login} from './Login'
 import './ReserveFlight.css';
 export default function Reserve_FLight() {
   // const [currentDate,setCurrentDate]=useState('')
-  const current = new Date();
+ const current = new Date();
+ let history=useHistory();
   let date;
   // const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
   date = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
@@ -46,20 +48,44 @@ export default function Reserve_FLight() {
     setShowComponent(true)
     setInfoS(info);
     setShow(false)
-    alert(JSON.stringify(info, '', 2));
-  };
-  axios.defaults.withCredentials = true;
+    axios.defaults.withCredentials = true;
+    // alert(JSON.stringify(info, '', 2));
+    // {showComponent ? <View_FLight user= {isLoggedIn} show={show} set={setShow} info={infoS} clicked={clicked} /> : ""}
+    history.push({
+     
+      pathname: '/ViewFlight',
+     // search: '?update=true',  // query string
+      state: {  // location state
+        user: isLoggedIn, show:show,info:info , clicked:clicked
+      },
+    },console.log("entered here")); 
+  }
+  
   const [isLoggedIn, setLoggedIn] = useState(false)
+//   useEffect(() => {   Axios.get("http://localhost:3001/login",{ withCredentials: true}).then(response => {
+//     console.log(response.data.loggedIn)
+//     console.log("entered use effect in view flights")
+//     if (response.data.loggedIn){
+//      setcurrent_user_id(response.data.user._id);
+//      setcurrent_user_flights(response.data.user.Flights)
+//      console.log(response.data.user.Flights)
+//     }
+//   })
+    
+//  }, [currentuser_id]);
+
   useEffect(() => {
-   
-    axios.get("http://localhost:3001/login").then(response => {
-      console.log("nouran_reem");
+ 
+    axios.get("http://localhost:3001/login",{ withCredentials: true}).then(response => {
+      console.log("here"+response.data.loggedIn);
       if (response.data.loggedIn)
         setLoggedIn(true);
     })
   
-},[])
+},[clicked])
+
   return (
+    // <div>
     <div className="bannersReserveFlight" >
       {show ? (
       <div className="containerReserveFlight">
@@ -144,11 +170,9 @@ export default function Reserve_FLight() {
        </div>
       ) : ""}        <br />
 
-
-      {showComponent ? <View_FLight user= {isLoggedIn} show={show} set={setShow} info={infoS} clicked={clicked} /> : null}
-      {/* {setShowComponent(false)} */}
-
+{/* </div> */}
+    
     </div>
   );
 
-}
+      }

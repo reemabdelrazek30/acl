@@ -2,6 +2,9 @@ label{
    text-align: bottom;
    font-size: xx-large;
 }
+/* #view_flight div{
+  background-color: green;
+} */
 .nStyle th {
 background-color:rgb(14, 14, 83);
 color:white;
@@ -33,12 +36,33 @@ font-size: medium;
     background-image: url("https://assets.weforum.org/article/image/3_AfzFP4fkZH228ctZ5GnRe3TXuBErXM-_ZXG00lyLA.jpg");  
     background-size: cover;
     justify-content: center;
+    z-index: -1;
     /* display: table-footer-group; */
     /* justify-content: center;
     align-items: center;
     text-align: center; */
 }
-
+#summary1 table{ 
+  /* height:fit-content;
+	width:fit-content
+  ; */
+    background-image: url("https://assets.weforum.org/article/image/3_AfzFP4fkZH228ctZ5GnRe3TXuBErXM-_ZXG00lyLA.jpg");  
+    background-size: cover;
+    justify-content: center;
+    
+    /* display: table-footer-group; */
+    /* justify-content: center;
+    align-items: center;
+    text-align: center; */
+}
+#view_flight {
+  background-image: url("https://assets.weforum.org/article/image/3_AfzFP4fkZH228ctZ5GnRe3TXuBErXM-_ZXG00lyLA.jpg");  
+  background-size: cover;
+  justify-content: center;
+  background-repeat: no-repeat; 
+  /* height: 1500px; */
+   z-index: -2;
+}
 
 /* #view_flight tbody tr:hover {
    
@@ -91,9 +115,19 @@ font-size: medium;
   /* border-color: lawngreen; */
   height:max-content;
   
+<<<<<<< HEAD
   
 }
 #view_flight .div {
+=======
+}
+
+#summary{
+  display: block;
+  margin-top: calc(20%);
+}
+#view_flight div {
+>>>>>>> origin/nouran
  display: inline-block;
  /* background-color: darkgreen; */
  display:inline-flex;
@@ -118,7 +152,7 @@ font-size: medium;
  #payment h1{
   text-align: center !important;
   width: 100%;
-  color: #fff;
+  color: rgb(214, 54, 54);
    
 
  }
@@ -252,36 +286,15 @@ font-size: medium;
   margin-left: 20px;
   /* clear:left; */
 }
-#view_flight .spicalButton button:disabled {
+#view_flight  button:disabled {
   background-color: gray !important;
   box-shadow: 0 0 1px 0 rgb(245, 245, 247) !important; 
 
   cursor: default;
 }
 
-/* #diplay_flight_info label{
-   /* position:absolute; */
-   /* padding: 10px;
-  display: block;
-  margin-left: 0px !important;
-color:navy ;
-font-size: x-large !important;
-width: fit-content;
-}  */
 
-/* .button:active{
-  box-shadow: 0 5px gray !important;
-} */
-/* nStyle tbody tr:focus-visible {
-   /* background-color:dimgray !important; */
-  /* box-shadow: 0 0 30px 0 navy; 
 
-   
-} 
-*/
-/* .nStyle tbody td {
-   height: 40px;
-} */
 .nStyle table {
    width: 100%;
    height: 80%;
@@ -428,4 +441,154 @@ width: fit-content;
    box-sizing: border-box;
    background-color: violet;;
 } */
-
+html, body {
+  min-height: 100%;
+  }
+  body, div, form, input, select, textarea, p { 
+  padding: 0;
+  margin: 0;
+  outline: none;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  color: #666;
+  line-height: 22px;
+  }
+  h1 {
+  position: absolute;
+  margin: 0;
+  line-height: 55px;
+  font-size: 55px;
+  color: #fff;
+  z-index: 2;
+  }
+  .testbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+  padding: 20px;
+  }
+  form {
+  width: 100%;
+  padding: 20px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 0 30px 0 #43d8a6; 
+  }
+  .banner {
+  position: relative;
+  height: 230px;
+  background-image: url("https://www.nasa.gov/sites/default/files/thumbnails/image/ttbw-90-aerial-forest-16x9-2-no-logo.jpg");  
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  }
+  .banner::after {
+  content: "";
+  background-color: rgba(0, 0, 0, 0.4); 
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  }
+  input, select, textarea {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  }
+  input {
+  width: calc(100% - 10px);
+  padding: 5px;
+  }
+  select {
+  width: 100%;
+  padding: 7px 0;
+  background: transparent;
+  }
+  textarea {
+  width: calc(100% - 12px);
+  padding: 5px;
+  }
+  .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
+  color: #43d8a6;
+  }
+  .item input:hover, .item select:hover, .item textarea:hover {
+  border: 1px solid transparent;
+  box-shadow: 0 0 6px 0 #43d8a6;
+  color: #43d8a6;
+  }
+  .item {
+  position: relative;
+  margin: 10px 0;
+  }
+  input[type=radio], input[type=checkbox]  {
+  display: none;
+  }
+  label.radio {
+  position: relative;
+  display: inline-block;
+  margin: 5px 20px 15px 0;
+  cursor: pointer;
+  }
+  .question span {
+  margin-left: 30px;
+  }
+  label.radio:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  }
+  /* input[type=radio]:checked + label:before, label.radio:hover:before {
+  border: 2px solid #43d8a6;
+  } */
+  label.radio:after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 5px;
+  width: 8px;
+  height: 4px;
+  /* border: 3px solid #43d8a6; */
+  border-top: none;
+  border-right: none;
+  transform: rotate(-45deg);
+  opacity: 0;
+  }
+  input[type=radio]:checked + label:after {
+  opacity: 1;
+  }
+  .btn-block {
+  margin-top: 10px;
+  text-align: center;
+  }
+  button {
+  width: 150px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px; 
+  /* background: #43d8a6; */
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  }
+  /* button:hover {
+  box-shadow: 0 0 18px 0 #32a780;
+  } */
+  @media (min-width: 568px) {
+  .name-item, .city-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  }
+  .date-item input, .city-item input {
+  width: calc(50% - 20px);
+  }
+  .city-item select {
+  width: calc(50% - 8px);
+  }
+  }

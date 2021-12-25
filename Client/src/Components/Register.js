@@ -22,6 +22,10 @@ export const Register = () => {
         }).then((response) => {
             setUserName(response.data.First_Name);
             setRegistrationSuccessful(true);
+            console.log(response);
+            // history.push({
+            //     pathname: '/Login',
+            // })
         });
     };
     const login = (event) => {
